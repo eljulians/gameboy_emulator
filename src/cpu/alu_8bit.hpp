@@ -12,6 +12,7 @@ class ALU_8bit {
         RegisterPair &hl;
         Flag &flags;
         void setAdditionFlags(uint8_t a, uint8_t b);
+        void setSubtractionFlags(uint8_t a, uint8_t b);
 
     public:
         ALU_8bit(CPU& cpu, Register_8bit &aAddress, RegisterPair &hl, Flag &flagsAddress)
@@ -19,7 +20,16 @@ class ALU_8bit {
         void add_a_r8(Register_8bit &register_);
         void add_a_hl();
         void add_a_n8();
+
         void adc_a_r8(Register_8bit &register_);
         void adc_a_hl();
         void adc_a_n8();
+
+        int8_t sub_a_r8(Register_8bit &register_);
+        int8_t sub_a_hl(Register_8bit &register_);
+        int8_t sub_a_n8(Register_8bit &register_);
+
+        int8_t sbc_a_r8(Register_8bit &register_);
+        int8_t sbc_a_hl(Register_8bit &register_);
+        int8_t sbc_a_n8(Register_8bit &register_);
 };

@@ -150,3 +150,63 @@ TEST_CASE("ADC_A", "[alu_8bit]") {
        REQUIRE(gameBoy.cpu.getPC() == 0x7001);
     }
 }
+
+TEST_CASE("SUB_A", "[alu_8bit]") {
+    GameBoy gameBoy = GameBoy();
+    Register_8bit a, b, h, l, f;
+    Flag* flags = new Flag(f);
+    RegisterPair hl = RegisterPair(gameBoy.mmu, h, l);
+    ALU_8bit* alu_8bit = new ALU_8bit(gameBoy.cpu, a, hl, *flags);
+
+    SECTION("no flags") {
+        f.set(0x00);
+        a.set(0x04);
+        b.set(0x03);
+        alu_8bit->sub_a_r8(b);
+
+        REQUIRE(a.get() == 0x01);
+        REQUIRE(flags->get_z() == 0);
+        REQUIRE(flags->get_n() == 1);
+        REQUIRE(flags->get_h() == 0);
+        REQUIRE(flags->get_c() == 0);
+    }
+
+    SECTION("zero, no other flags") {
+        f.set(0x00);
+        a.set(0x00);
+        b.set(0x00);
+        alu_8bit->sub_a_r8(b);
+
+        REQUIRE(a.get() == 0x00);
+        REQUIRE(flags->get_z() == 1);
+        REQUIRE(flags->get_n() == 1);
+        REQUIRE(flags->get_h() == 0);
+        REQUIRE(flags->get_c() == 0);
+    }
+
+    SECTION("half carry and carry flags") {
+        f.set(0x00);
+        a.set(0x9B);
+        b.set(0xAC);
+        alu_8bit->sub_a_r8(b);
+
+        REQUIRE(a.get() == 0xEF);
+        REQUIRE(flags->get_z() == 0);
+        REQUIRE(flags->get_n() == 1);
+        REQUIRE(flags->get_h() == 1);
+        REQUIRE(flags->get_c() == 1);
+    }
+
+    SECTION("half carry") {
+        f.set(0x00);
+        a.set(0xAB);
+        b.set(0x0C);
+        alu_8bit->sub_a_r8(b);
+
+        REQUIRE(a.get() == 0x9F);
+        REQUIRE(flags->get_z() == 0);
+        REQUIRE(flags->get_n() == 1);
+        REQUIRE(flags->get_h() == 1);
+        REQUIRE(flags->get_c() == 0);
+    }
+}
