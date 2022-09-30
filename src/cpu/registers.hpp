@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "../mmu/mmu.hpp"
 
 class Register_8bit {
     private:
@@ -26,15 +27,17 @@ class Register_16bit {
 
 class RegisterPair {
     private:
+        MMU& mmu;
         Register_8bit &high;
         Register_8bit &low;
 
     public:
-        RegisterPair(Register_8bit &highAddr, Register_8bit &lowAddr) : high(highAddr), low(lowAddr) {};
+        RegisterPair(MMU& mmu, Register_8bit &highAddr, Register_8bit &lowAddr) : mmu(mmu), high(highAddr), low(lowAddr) {};
         void set(uint16_t newValue);
         uint16_t get();
         void increment();
         void decrement(); 
+        uint8_t getAddressValue();
 };
 
 class Flag {

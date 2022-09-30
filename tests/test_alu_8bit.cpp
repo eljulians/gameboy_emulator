@@ -1,15 +1,20 @@
 #define CATCH_CONFIG_MAIN
 #include <iostream>
+#include <stdint.h>
 
 #include <catch2/catch.hpp>
 #include "../src/cpu/registers.hpp"
 #include "../src/cpu/alu_8bit.hpp"
+#include "../src/mmu/mmu.hpp"
+#include "../src/gameboy.hpp"
 
 
 TEST_CASE("ADD_A", "[alu_8bit]") {
-    Register_8bit a, b, f;
+    GameBoy gameBoy = GameBoy();
+    Register_8bit a, b, h, l, f;
     Flag* flags = new Flag(f);
-    ALU_8bit* alu_8bit = new ALU_8bit(a, *flags);
+    RegisterPair hl = RegisterPair(gameBoy.mmu, h, l);
+    ALU_8bit* alu_8bit = new ALU_8bit(gameBoy.cpu, a, hl, *flags);
 
     SECTION("no flags") {
         f.set(0x00);
@@ -47,16 +52,39 @@ TEST_CASE("ADD_A", "[alu_8bit]") {
         REQUIRE(flags->get_c() == 0);
     }
 
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0x43);
+        hl.set(0x7000);
+        a.set(0x42);
+        alu_8bit->add_a_hl();
+
+        REQUIRE(a.get() == 0x85);
+    }
+
+    SECTION("n8") {
+       gameBoy.mmu.write_8bit(0x7000, 0x20);
+       gameBoy.cpu.setPC(0x7000);
+       a.set(0x20);
+       alu_8bit->add_a_n8();
+
+       REQUIRE(a.get() == 0x40);
+       REQUIRE(gameBoy.cpu.getPC() == 0x7001);
+    }
 }
 
 TEST_CASE("ADC_A", "[alu_8bit]") {
-    Register_8bit a, b, f;
+    GameBoy gameBoy = GameBoy();
+    Register_8bit a, b, h, l, f;
+    RegisterPair hl = RegisterPair(gameBoy.mmu, h, l);
     Flag* flags = new Flag(f);
-    ALU_8bit* alu_8bit = new ALU_8bit(a, *flags);
+    ALU_8bit* alu_8bit = new ALU_8bit(gameBoy.cpu, a, hl, *flags);
+
 
     SECTION("unset carry") {
         f.set(0x00);
+        a.set(0x00);
         b.set(0x01);
+
         alu_8bit->adc_a_r8(b);
 
         REQUIRE(a.get() == 0x01);

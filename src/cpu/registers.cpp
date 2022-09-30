@@ -29,6 +29,10 @@ void Register_16bit::decrement() {
     value--;
 }
 
+uint8_t RegisterPair::getAddressValue() {
+    return mmu.read_8bit(get());
+}
+
 
 uint16_t Register_16bit::get() {
     return value;

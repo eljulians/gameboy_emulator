@@ -2,11 +2,15 @@
 
 #include <catch2/catch.hpp>
 #include "../src/cpu/registers.hpp"
+#include "../src/mmu/mmu.hpp"
+#include "../src/gameboy.hpp"
 
 
 TEST_CASE("Register pair operation", "[registers]") {
+    GameBoy gameBoy = GameBoy();
+    MMU mmu = MMU(gameBoy);
     Register_8bit a, b;
-    RegisterPair* registerPair = new RegisterPair(a, b);
+    RegisterPair* registerPair = new RegisterPair(mmu, a, b);
 
 
     SECTION("Setter and getter") {

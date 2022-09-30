@@ -1,5 +1,6 @@
 #pragma once
-#include "../gameboy.hpp"
+
+class GameBoy;
 
 class GPU {
     public:

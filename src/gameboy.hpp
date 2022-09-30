@@ -5,9 +5,9 @@
 
 class GameBoy {
     private:
-        CPU cpu;
         GPU gpu;
-        MMU mmu;
     public:
+        CPU cpu;
+        MMU mmu;
         GameBoy();
 };
