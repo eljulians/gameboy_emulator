@@ -36,11 +36,18 @@ void ALU_8bit::adc_a_r8(Register_8bit &register_) {
 }
 
 void ALU_8bit::adc_a_hl() {
+    uint8_t result = a.get() + hl.getAddressValue() + flags.get_c();
 
+    setAdditionFlags(a.get(), hl.getAddressValue() + flags.get_c());
+    a.set(result);
 }
 
 void ALU_8bit::adc_a_n8() {
+    uint8_t pcValue = cpu.fetchByte();
+    uint8_t result = a.get() + pcValue + flags.get_c();
 
+    setAdditionFlags(a.get(), pcValue + flags.get_c());
+    a.set(result);
 }
 
 void ALU_8bit::setAdditionFlags(uint8_t a, uint8_t b) {

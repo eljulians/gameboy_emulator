@@ -128,4 +128,25 @@ TEST_CASE("ADC_A", "[alu_8bit]") {
         REQUIRE(flags->get_h() == 1);
         REQUIRE(flags->get_c() == 0);
     }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0x43);
+        hl.set(0x7000);
+        flags->set_c(1);
+        a.set(0x42);
+        alu_8bit->adc_a_hl();
+
+        REQUIRE(a.get() == 0x86);
+    }
+
+    SECTION("n8") {
+       gameBoy.mmu.write_8bit(0x7000, 0x20);
+       gameBoy.cpu.setPC(0x7000);
+       flags->set_c(1);
+       a.set(0x20);
+       alu_8bit->adc_a_n8();
+
+       REQUIRE(a.get() == 0x41);
+       REQUIRE(gameBoy.cpu.getPC() == 0x7001);
+    }
 }
