@@ -26,10 +26,22 @@ class ALU_8bit {
         void adc_a_n8();
 
         int8_t sub_a_r8(Register_8bit &register_);
-        int8_t sub_a_hl(Register_8bit &register_);
-        int8_t sub_a_n8(Register_8bit &register_);
+        int8_t sub_a_hl();
+        int8_t sub_a_n8();
 
         int8_t sbc_a_r8(Register_8bit &register_);
-        int8_t sbc_a_hl(Register_8bit &register_);
-        int8_t sbc_a_n8(Register_8bit &register_);
+        int8_t sbc_a_hl();
+        int8_t sbc_a_n8();
+
+        int8_t and_a_r8(Register_8bit &register_);
+        int8_t and_a_hl();
+        int8_t and_a_n8();
+
+        int8_t or_a_r8(Register_8bit &register_);
+        int8_t or_a_hl();
+        int8_t or_a_n8();
+
+        int8_t xor_a_r8(Register_8bit &register_);
+        int8_t xor_a_hl();
+        int8_t xor_a_n8();
 };

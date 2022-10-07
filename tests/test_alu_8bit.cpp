@@ -209,4 +209,115 @@ TEST_CASE("SUB_A", "[alu_8bit]") {
         REQUIRE(flags->get_h() == 1);
         REQUIRE(flags->get_c() == 0);
     }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0x22);
+        hl.set(0x7000);
+        a.set(0x42);
+        alu_8bit->sub_a_hl();
+
+        REQUIRE(a.get() == 0x20);
+    }
+
+    SECTION("n8") {
+       gameBoy.mmu.write_8bit(0x7000, 0x20);
+       gameBoy.cpu.setPC(0x7000);
+       a.set(0x20);
+       alu_8bit->sub_a_n8();
+
+       REQUIRE(a.get() == 0x00);
+       REQUIRE(gameBoy.cpu.getPC() == 0x7001);
+    }
+}
+
+TEST_CASE("SBC_A", "[alu_8bit]") {
+    GameBoy gameBoy = GameBoy();
+    Register_8bit a, b, h, l, f;
+    Flag* flags = new Flag(f);
+    RegisterPair hl = RegisterPair(gameBoy.mmu, h, l);
+    ALU_8bit* alu_8bit = new ALU_8bit(gameBoy.cpu, a, hl, *flags);
+
+    SECTION("set carry") {
+        f.set(0x00);
+        flags->set_c(1);
+        a.set(0x04);
+        b.set(0x03);
+        alu_8bit->sbc_a_r8(b);
+
+        REQUIRE(a.get() == 0x00);
+        REQUIRE(flags->get_z() == 1);
+        REQUIRE(flags->get_n() == 1);
+        REQUIRE(flags->get_h() == 0);
+        REQUIRE(flags->get_c() == 0);
+    }
+
+    SECTION("unset carry") {
+        f.set(0x00);
+        a.set(0x04);
+        b.set(0x03);
+        alu_8bit->sbc_a_r8(b);
+
+        REQUIRE(a.get() == 0x01);
+    }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0x22);
+        hl.set(0x7000);
+        a.set(0x42);
+        flags->set_c(1);
+        alu_8bit->sbc_a_hl();
+
+        REQUIRE(a.get() == 0x1F);
+    }
+
+    SECTION("n8") {
+       gameBoy.mmu.write_8bit(0x7000, 0x20);
+       gameBoy.cpu.setPC(0x7000);
+       a.set(0x20);
+       flags->set_c(1);
+       alu_8bit->sbc_a_n8();
+
+       REQUIRE(a.get() == 0xFF);
+       REQUIRE(gameBoy.cpu.getPC() == 0x7001);
+    }
+}
+
+TEST_CASE("AND_A", "[alu_8bit]") {
+    GameBoy gameBoy = GameBoy();
+    Register_8bit a, b, h, l, f;
+    Flag* flags = new Flag(f);
+    RegisterPair hl = RegisterPair(gameBoy.mmu, h, l);
+    ALU_8bit* alu_8bit = new ALU_8bit(gameBoy.cpu, a, hl, *flags);
+
+    SECTION("r8") { 
+        a.set(0x45);
+        b.set(0x00);
+        f.set(0x00);
+        alu_8bit->and_a_r8(b);
+
+        REQUIRE(a.get() == 0x00);
+        REQUIRE(flags->get_z() == 1);
+        REQUIRE(flags->get_n() == 0);
+        REQUIRE(flags->get_h() == 1);
+        REQUIRE(flags->get_c() == 0);
+    }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0x22);
+        hl.set(0x7000);
+        a.set(0x42);
+        alu_8bit->and_a_hl();
+
+        REQUIRE(a.get() == 0x02);
+    }
+
+    SECTION("n8") {
+       gameBoy.mmu.write_8bit(0x7000, 0x20);
+       gameBoy.cpu.setPC(0x7000);
+       a.set(0x20);
+       alu_8bit->and_a_n8();
+
+       REQUIRE(a.get() == 0x20);
+       REQUIRE(gameBoy.cpu.getPC() == 0x7001);
+    }
 }

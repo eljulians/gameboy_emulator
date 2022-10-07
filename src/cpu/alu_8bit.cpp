@@ -65,11 +65,85 @@ int8_t ALU_8bit::sub_a_r8(Register_8bit &register_) {
     return 4;
 }
 
-int8_t ALU_8bit::sub_a_hl(Register_8bit &register_) {
+int8_t ALU_8bit::sub_a_hl() {
+    uint8_t result = static_cast<uint8_t>(a.get() - hl.getAddressValue());
+
+    setSubtractionFlags(a.get(), hl.getAddressValue());
+    a.set(result);
+
     return 8;
 }
 
-int8_t ALU_8bit::sub_a_n8(Register_8bit &register_) {
+int8_t ALU_8bit::sub_a_n8() {
+    uint8_t pcValue = cpu.fetchByte();
+    uint8_t result = static_cast<uint8_t>(a.get() - pcValue);
+
+    setSubtractionFlags(a.get(), pcValue);
+    a.set(result);
+
+    return 8;
+}
+
+
+int8_t ALU_8bit::sbc_a_r8(Register_8bit &register_) {
+    uint8_t result = static_cast<uint8_t>(a.get () - register_.get() - flags.get_c());
+
+    setSubtractionFlags(a.get(), register_.get() + flags.get_c());
+    a.set(result);
+
+    return 4;
+}
+
+int8_t ALU_8bit::sbc_a_hl() {
+    uint8_t result = static_cast<uint8_t>(a.get() - hl.getAddressValue() - flags.get_c());
+
+    setSubtractionFlags(a.get(), hl.getAddressValue() + flags.get_c());
+    a.set(result);
+
+    return 8;
+}
+
+int8_t ALU_8bit::sbc_a_n8() {
+    uint8_t pcValue = cpu.fetchByte();
+    uint8_t result = static_cast<uint8_t>(a.get() - pcValue - flags.get_c());
+
+    setSubtractionFlags(a.get(), pcValue + flags.get_c());
+    a.set(result);
+
+    return 8;
+}
+
+int8_t ALU_8bit::and_a_r8(Register_8bit &register_) {
+    a.set(a.get() & register_.get());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(1);
+    flags.set_c(0);
+
+    return 4;
+}
+
+
+int8_t ALU_8bit::and_a_hl() {
+    a.set(a.get() & hl.getAddressValue());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(1);
+    flags.set_c(0);
+
+    return 8;
+}
+
+int8_t ALU_8bit::and_a_n8() {
+    a.set(a.get() & cpu.fetchByte());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(1);
+    flags.set_c(0);
+
     return 8;
 }
 
