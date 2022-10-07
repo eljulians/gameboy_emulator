@@ -44,4 +44,14 @@ class ALU_8bit {
         int8_t xor_a_r8(Register_8bit &register_);
         int8_t xor_a_hl();
         int8_t xor_a_n8();
+
+        int8_t cp_a_r8(Register_8bit &register_);
+        int8_t cp_a_hl();
+        int8_t cp_a_n8();
+
+        int8_t inc_r8(Register_8bit &register_);
+        int8_t inc_hl();
+
+        int8_t dec_r8(Register_8bit &register_);
+        int8_t dec_hl();
 };

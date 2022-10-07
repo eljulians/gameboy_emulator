@@ -38,6 +38,7 @@ class RegisterPair {
         void increment();
         void decrement(); 
         uint8_t getAddressValue();
+        void setAddressValue(uint8_t value);
 };
 
 class Flag {

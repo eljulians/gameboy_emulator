@@ -33,6 +33,10 @@ uint8_t RegisterPair::getAddressValue() {
     return mmu.read_8bit(get());
 }
 
+void RegisterPair::setAddressValue(uint8_t value) {
+    return mmu.write_8bit(get(), value);
+}
+
 
 uint16_t Register_16bit::get() {
     return value;

@@ -153,3 +153,138 @@ void ALU_8bit::setSubtractionFlags(uint8_t a, uint8_t b) {
     flags.set_h((a & 0x0F) - (b & 0x0F) < 0);
     flags.set_c(b > a);
 }
+
+int8_t ALU_8bit::or_a_r8(Register_8bit &register_) {
+    a.set(a.get() | register_.get());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(0);
+    flags.set_c(0);
+
+    return 4;
+}
+
+int8_t ALU_8bit::or_a_hl() {
+    a.set(a.get() | hl.getAddressValue());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(0);
+    flags.set_c(0);
+
+    return 8;
+}
+
+int8_t ALU_8bit::or_a_n8() {
+    a.set(a.get() | cpu.fetchByte());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(0);
+    flags.set_c(0);
+
+    return 8;
+}
+
+int8_t ALU_8bit::xor_a_r8(Register_8bit &register_) {
+    a.set(a.get() ^ register_.get());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(0);
+    flags.set_c(0);
+
+    return 4;
+}
+int8_t ALU_8bit::xor_a_hl() {
+    a.set(a.get() ^ hl.getAddressValue());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(0);
+    flags.set_c(0);
+
+    return 8;
+}
+int8_t ALU_8bit::xor_a_n8() {
+    a.set(a.get() ^ cpu.fetchByte());
+
+    flags.set_z(a.get() == 0x00);
+    flags.set_n(0);
+    flags.set_h(0);
+    flags.set_c(0);
+
+    return 8;
+}
+
+int8_t ALU_8bit::cp_a_r8(Register_8bit &register_) {
+    uint8_t result = static_cast<uint8_t>(a.get () - register_.get());
+
+    setSubtractionFlags(a.get(), register_.get());
+
+    return 4;
+}
+
+int8_t ALU_8bit::cp_a_hl() {
+    uint8_t result = static_cast<uint8_t>(a.get() - hl.getAddressValue());
+
+    setSubtractionFlags(a.get(), hl.getAddressValue());
+
+    return 8;
+}
+
+int8_t ALU_8bit::cp_a_n8() {
+    uint8_t pcValue = cpu.fetchByte();
+    uint8_t result = static_cast<uint8_t>(a.get() - pcValue);
+
+    setSubtractionFlags(a.get(), pcValue);
+
+    return 8;
+}
+
+
+int8_t ALU_8bit::inc_r8(Register_8bit &register_) {
+    uint8_t result = a.get() + 0x01;
+    bool original_c = flags.get_c();
+
+    setAdditionFlags(a.get(), 0x01);
+    flags.set_c(original_c);
+    a.set(result);
+
+    return 4;
+}
+
+int8_t ALU_8bit::inc_hl() {
+    uint8_t result = hl.getAddressValue() + 0x01;
+    bool original_c = flags.get_c();
+
+    setAdditionFlags(hl.getAddressValue(), 0x01);
+    flags.set_c(original_c);
+    hl.setAddressValue(result);
+
+    return 12;
+}
+
+
+int8_t ALU_8bit::dec_r8(Register_8bit &register_) {
+    uint8_t result = static_cast<uint8_t>(a.get() - 0x01);
+    bool original_c = flags.get_c();
+
+    setSubtractionFlags(a.get(), 0x01);
+    flags.set_c(original_c);
+    register_.set(result);
+
+    return 4;
+}
+
+int8_t ALU_8bit::dec_hl() {
+    uint8_t result = hl.getAddressValue() - 0x01;
+    bool original_c = flags.get_c();
+
+    setSubtractionFlags(hl.getAddressValue(), 0x01);
+    flags.set_c(original_c);
+    hl.setAddressValue(result);
+
+    return 12;
+}
