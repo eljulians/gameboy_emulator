@@ -19,4 +19,6 @@ class CPU {
         Register_16bit PC, SP;
         Flag *flags;
         GameBoy& gameBoy;
+
+    friend class Loads8bit;
 };

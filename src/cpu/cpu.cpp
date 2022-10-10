@@ -39,3 +39,10 @@ uint8_t CPU::fetchByte() {
 
     return value;
 }
+
+uint16_t CPU::fetch2bytes() {
+    uint8_t highByte = fetchByte();
+    uint8_t lowByte = fetchByte();
+
+    return ((lowByte << 8) | highByte);
+}
