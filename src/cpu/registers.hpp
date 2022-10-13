@@ -35,6 +35,10 @@ class RegisterPair {
         RegisterPair(MMU& mmu, Register_8bit &highAddr, Register_8bit &lowAddr) : mmu(mmu), high(highAddr), low(lowAddr) {};
         void set(uint16_t newValue);
         uint16_t get();
+        uint8_t getLow();
+        uint8_t getHigh();
+        void setLow(uint8_t value);
+        void setHigh(uint8_t value);
         void increment();
         void decrement(); 
         uint8_t getAddressValue();

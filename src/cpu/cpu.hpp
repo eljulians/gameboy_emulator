@@ -12,6 +12,8 @@ class CPU {
         uint16_t getPC();
         void setPC(uint16_t pc);
         void incrementPC();
+        void push_onto_stack(uint8_t value);
+        uint8_t pop_from_stack();
 
     private:
         Register_8bit A, B, C, D, E, F, H, L;

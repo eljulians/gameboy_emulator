@@ -56,6 +56,24 @@ uint16_t RegisterPair::get() {
     return ((high.get() << 8) | low.get());
 }
 
+
+uint8_t RegisterPair::getLow() {
+    return low.get();
+}
+
+uint8_t RegisterPair::getHigh() {
+    return high.get();
+}
+
+
+void RegisterPair::setLow(uint8_t value) {
+    low.set(value);
+}
+
+void RegisterPair::setHigh(uint8_t value) {
+    high.set(value);
+}
+
 void RegisterPair::increment() {
     low.increment();
     

@@ -95,3 +95,40 @@ void Loads8bit::ldh_a_n() {
     uint16_t address = 0xFF + cpu.fetchByte();    
     cpu.A.set(mmu.read_8bit(address));
 }
+
+
+void Loads8bit::ld_r16_n16(RegisterPair register_) {
+    register_.set(cpu.fetch2bytes());
+}
+
+void Loads8bit::ld_sp_hl() {
+    cpu.SP.set(cpu.HL->get());
+}
+
+void Loads8bit::ld_hl_sp_n() {
+    int8_t jump = static_cast<int8_t>(cpu.fetchByte());
+    int16_t result = static_cast<int16_t>(cpu.SP.get() + jump);
+
+    // TODO: flags
+    cpu.flags->set_z(0);
+    cpu.flags->set_n(0);
+    cpu.flags->set_h(0);
+    cpu.flags->set_c(0);
+}
+
+void Loads8bit::ld_n16_sp() {
+    mmu.write_16bit(cpu.fetch2bytes(), cpu.SP.get());
+}
+
+void Loads8bit::push_r16(RegisterPair register_) {
+    cpu.push_onto_stack(register_.getHigh());
+    cpu.push_onto_stack(register_.getLow());
+}
+
+void Loads8bit::pop_r16(RegisterPair register_) {
+    uint8_t low = cpu.pop_from_stack();
+    uint8_t high = cpu.pop_from_stack();
+
+    register_.setLow(low);
+    register_.setHigh(high);
+}

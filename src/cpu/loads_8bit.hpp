@@ -37,4 +37,13 @@ class Loads8bit {
 
         void ldh_n_a();
         void ldh_a_n();
+
+        void ld_r16_n16(RegisterPair register_);
+
+        void ld_sp_hl();
+        void ld_hl_sp_n();
+        void ld_n16_sp();
+
+        void push_r16(RegisterPair register_); 
+        void pop_r16(RegisterPair register_); 
 };

@@ -46,3 +46,16 @@ uint16_t CPU::fetch2bytes() {
 
     return ((lowByte << 8) | highByte);
 }
+
+
+void CPU::push_onto_stack(uint8_t value) {
+    gameBoy.mmu.write_8bit(SP.get(), value);
+    SP.decrement();
+}
+
+uint8_t CPU::pop_from_stack() {
+    uint8_t value = gameBoy.mmu.read_8bit(SP.get());
+    SP.increment();
+
+    return value;
+}
