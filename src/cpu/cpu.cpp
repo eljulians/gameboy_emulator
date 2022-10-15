@@ -29,6 +29,15 @@ uint16_t CPU::getPC() {
     return PC.get();
 }
 
+
+void CPU::setSP(uint16_t sp) {
+    SP.set(sp);
+}
+
+uint16_t CPU::getSP() {
+    return SP.get();
+}
+
 void CPU::incrementPC() {
     PC.set(getPC() + 1);
 }
@@ -38,6 +47,10 @@ uint8_t CPU::fetchByte() {
     incrementPC();
 
     return value;
+}
+
+int8_t CPU::fetchSignedByte() {
+    return static_cast<int8_t>(fetchByte());
 }
 
 uint16_t CPU::fetch2bytes() {

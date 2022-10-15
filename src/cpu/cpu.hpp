@@ -8,12 +8,15 @@ class CPU {
     public:
         CPU(GameBoy& gameBoy);
         uint8_t fetchByte();
+        int8_t fetchSignedByte();
         uint16_t fetch2bytes();
         uint16_t getPC();
         void setPC(uint16_t pc);
         void incrementPC();
         void push_onto_stack(uint8_t value);
         uint8_t pop_from_stack();
+        void setSP(uint16_t sp);
+        uint16_t getSP();
 
     private:
         Register_8bit A, B, C, D, E, F, H, L;
@@ -23,4 +26,5 @@ class CPU {
         GameBoy& gameBoy;
 
     friend class Loads8bit;
+    friend class ALU_16bit;
 };

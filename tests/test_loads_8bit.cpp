@@ -51,3 +51,7 @@ TEST_CASE("LOAD_R8_HL", "[loads_8bit]") {
 
     REQUIRE(a.get() == 0xAE);
 }
+
+TEST_CASE("LD_HL_SP_n", "[loads]") {
+    REQUIRE(false);
+}

@@ -19,6 +19,9 @@ test_registers.o:
 alu_8bit.o:
 	$(CC) $(CFLAGS) -c src/cpu/alu_8bit.cpp
 
+alu_16bit.o:
+	$(CC) $(CFLAGS) -c src/cpu/alu_16bit.cpp
+
 loads_8bit.o:
 	$(CC) $(CFLAGS) -c src/cpu/loads_8bit.cpp
 
@@ -37,6 +40,9 @@ gameboy.o: cpu.o gpu.o mmu.o
 test_alu_8bit.o:
 	$(CC) $(CFLAGS) -c tests/test_alu_8bit.cpp
 
+test_alu_16bit.o:
+	$(CC) $(CFLAGS) -c tests/test_alu_16bit.cpp
+
 test_loads_8bit.o:
 	$(CC) $(CFLAGS) -c tests/test_loads_8bit.cpp
 
@@ -50,6 +56,10 @@ test_alu_8bit: clean alu_8bit.o gameboy.o test_alu_8bit.o
 
 test_loads_8bit: clean loads_8bit.o gameboy.o test_loads_8bit.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) loads_8bit.o registers.o gameboy.o cpu.o mmu.o gpu.o test_loads_8bit.o
+	./$(TEST_TARGET)
+
+test_alu_16bit: clean alu_16bit.o gameboy.o test_alu_16bit.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) alu_16bit.o registers.o gameboy.o cpu.o mmu.o gpu.o test_alu_16bit.o
 	./$(TEST_TARGET)
 
 test-all: clean test-registers test_alu_8bit
