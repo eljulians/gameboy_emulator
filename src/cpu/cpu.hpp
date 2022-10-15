@@ -17,14 +17,16 @@ class CPU {
         uint8_t pop_from_stack();
         void setSP(uint16_t sp);
         uint16_t getSP();
-
-    private:
+        Flag* getFlags();
         Register_8bit A, B, C, D, E, F, H, L;
         RegisterPair *AF, *BC, *DE, *HL;
         Register_16bit PC, SP;
         Flag *flags;
+
+    private:
         GameBoy& gameBoy;
 
     friend class Loads8bit;
     friend class ALU_16bit;
+    friend class Rotates;
 };

@@ -22,6 +22,9 @@ alu_8bit.o:
 alu_16bit.o:
 	$(CC) $(CFLAGS) -c src/cpu/alu_16bit.cpp
 
+rotates.o:
+	$(CC) $(CFLAGS) -c src/cpu/rotates.cpp
+
 loads_8bit.o:
 	$(CC) $(CFLAGS) -c src/cpu/loads_8bit.cpp
 
@@ -43,6 +46,9 @@ test_alu_8bit.o:
 test_alu_16bit.o:
 	$(CC) $(CFLAGS) -c tests/test_alu_16bit.cpp
 
+test_rotates.o:
+	$(CC) $(CFLAGS) -c tests/test_rotates.cpp
+
 test_loads_8bit.o:
 	$(CC) $(CFLAGS) -c tests/test_loads_8bit.cpp
 
@@ -62,7 +68,11 @@ test_alu_16bit: clean alu_16bit.o gameboy.o test_alu_16bit.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) alu_16bit.o registers.o gameboy.o cpu.o mmu.o gpu.o test_alu_16bit.o
 	./$(TEST_TARGET)
 
-test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit
+test-rotates: clean rotates.o gameboy.o test_rotates.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) rotates.o registers.o gameboy.o cpu.o mmu.o gpu.o test_rotates.o
+	./$(TEST_TARGET)
+
+test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit rotates
 
 clean:
 	$(RM) $(TARGET) $(TEST_TARGET) *.o

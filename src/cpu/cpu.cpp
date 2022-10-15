@@ -38,6 +38,10 @@ uint16_t CPU::getSP() {
     return SP.get();
 }
 
+Flag* CPU::getFlags() {
+    return flags;
+}
+
 void CPU::incrementPC() {
     PC.set(getPC() + 1);
 }
