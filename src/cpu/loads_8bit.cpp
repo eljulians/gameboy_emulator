@@ -106,14 +106,15 @@ void Loads8bit::ld_sp_hl() {
 }
 
 void Loads8bit::ld_hl_sp_n() {
-    int8_t jump = static_cast<int8_t>(cpu.fetchByte());
-    int16_t result = static_cast<int16_t>(cpu.SP.get() + jump);
+    int8_t value = cpu.fetchSignedByte();
+    int result = static_cast<int>(cpu.SP.get() + value);
 
-    // TODO: flags
     cpu.flags->set_z(0);
     cpu.flags->set_n(0);
-    cpu.flags->set_h(0);
-    cpu.flags->set_c(0);
+    cpu.flags->set_h(((cpu.getSP() ^ value ^ (result & 0xFFFF)) & 0x10) == 0x10);
+    cpu.flags->set_c(((cpu.getSP() ^ value ^ (result & 0xFFFF)) & 0x100) == 0x100);
+
+    hl.set(static_cast<uint16_t>(result));
 }
 
 void Loads8bit::ld_n16_sp() {

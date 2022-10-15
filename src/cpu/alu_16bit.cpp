@@ -30,14 +30,14 @@ void ALU_16bit::add_hl_sp(Register_16bit sp) {
 
 void ALU_16bit::add_sp_s8() {
     int8_t value = cpu.fetchSignedByte();
-    uint16_t result = cpu.getSP() + value;
+    int result = static_cast<int>(cpu.getSP() + value);
 
     flags.set_z(0);
     flags.set_n(0);
     flags.set_h(((cpu.getSP() ^ value ^ (result & 0xFFFF)) & 0x10) == 0x10);
     flags.set_c(((cpu.getSP() ^ value ^ (result & 0xFFFF)) & 0x100) == 0x100);
 
-    cpu.setSP(result);
+    cpu.setSP(static_cast<uint16_t>(result));
 }
 
 void ALU_16bit::inc_r16(RegisterPair register_) {
