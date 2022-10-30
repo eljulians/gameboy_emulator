@@ -174,3 +174,61 @@ TEST_CASE("RRA", "[rotates]") {
         REQUIRE(cpu.flags->get_c() == 1);
     }
 }
+
+TEST_CASE("RLC_R8", "[rotates]") {
+    GameBoy gameBoy = GameBoy();
+    CPU cpu = gameBoy.cpu;
+    Rotates rotates = Rotates(cpu);
+
+    SECTION("no flags") {
+        cpu.F.set(0x00);
+        cpu.D.set(0b01000000);
+
+        rotates.rlc_r8(cpu.D);
+
+        REQUIRE(cpu.D.get() == 0b10000000);
+        REQUIRE(cpu.F.get() == 0x00);
+    }
+}
+
+TEST_CASE("RLC_HL", "[rotates]") {
+    GameBoy gameBoy = GameBoy();
+    CPU cpu = gameBoy.cpu;
+    Rotates rotates = Rotates(cpu);
+
+    SECTION("no flags") {
+        cpu.F.set(0x00);
+        cpu.D.set(0b01000000);
+
+        rotates.rlc_r8(cpu.D);
+
+        REQUIRE(cpu.D.get() == 0b10000000);
+        REQUIRE(cpu.F.get() == 0x00);
+    }
+
+    SECTION("z flag") {
+        cpu.F.set(0x00);
+        cpu.D.set(0b00000000);
+
+        rotates.rlc_r8(cpu.D);
+
+        REQUIRE(cpu.D.get() == 0x00);
+        REQUIRE(cpu.flags->get_z() == 1);
+        REQUIRE(cpu.flags->get_n() == 0);
+        REQUIRE(cpu.flags->get_h() == 0);
+        REQUIRE(cpu.flags->get_c() == 0);
+    }
+
+    SECTION("z, c flags") {
+        cpu.F.set(0x00);
+        cpu.D.set(0b10000000);
+
+        rotates.rlc_r8(cpu.D);
+
+        REQUIRE(cpu.D.get() == 0x00);
+        REQUIRE(cpu.flags->get_z() == 1);
+        REQUIRE(cpu.flags->get_n() == 0);
+        REQUIRE(cpu.flags->get_h() == 0);
+        REQUIRE(cpu.flags->get_c() == 1);
+    }
+}

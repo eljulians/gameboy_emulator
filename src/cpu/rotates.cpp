@@ -3,50 +3,59 @@
 #include "cpu.hpp"
 #include "rotates.hpp"
 
-void Rotates::rlca() {
-    bool c = cpu.A.get() & 0x80;
 
-    uint8_t result = (cpu.A.get() << 1) & 0xFF;
-    cpu.A.set(result);
+void Rotates::rotateLeft(Register_8bit& register_, bool carry) {
+    bool c = register_.get() & 0x80;
 
-    cpu.flags->set_z(cpu.A.get() == 0x00);
+    uint8_t result = ((register_.get() << 1) + carry) & 0xFF;
+    register_.set(result);
+
+    cpu.flags->set_z(register_.get() == 0x00);
     cpu.flags->set_n(0);
     cpu.flags->set_h(0);
     cpu.flags->set_c(c);
+}
+
+void Rotates::rotateRight(Register_8bit& register_, bool carry) {
+    bool c = register_.get() & 0x01;
+
+    uint8_t result = ((register_.get() >> 1) + (carry << 7)) & 0xFF;
+    register_.set(result);
+
+    cpu.flags->set_z(register_.get() == 0x00);
+    cpu.flags->set_n(0);
+    cpu.flags->set_h(0);
+    cpu.flags->set_c(c);
+}
+
+void Rotates::rlca() {
+    rotateLeft(cpu.A, 0);
 }
 
 void Rotates::rla() {
-    bool c = cpu.A.get() & 0x80;
-
-    uint8_t result = ((cpu.A.get() << 1) + cpu.flags->get_c()) & 0xFF;
-    cpu.A.set(result);
-
-    cpu.flags->set_z(cpu.A.get() == 0x00);
-    cpu.flags->set_n(0);
-    cpu.flags->set_h(0);
-    cpu.flags->set_c(c);
+    rotateLeft(cpu.A, cpu.flags->get_c());
 }
 
 void Rotates::rrca() {
-    bool c = cpu.A.get() & 0x01;
-
-    uint8_t result = (cpu.A.get() >> 1) & 0xFF;
-    cpu.A.set(result);
-
-    cpu.flags->set_z(cpu.A.get() == 0x00);
-    cpu.flags->set_n(0);
-    cpu.flags->set_h(0);
-    cpu.flags->set_c(c);
+    rotateRight(cpu.A, 0);
 }
 
 void Rotates::rra() {
-    bool c = cpu.A.get() & 0x01;
+    rotateRight(cpu.A, cpu.flags->get_c());
+}
 
-    uint8_t result = ((cpu.A.get() >> 1) + (cpu.flags->get_c() << 7)) & 0xFF;
-    cpu.A.set(result);
+void Rotates::rlc_r8(Register_8bit& register_) {
+    rotateLeft(register_, 0);
+}
 
-    cpu.flags->set_z(cpu.A.get() == 0x00);
-    cpu.flags->set_n(0);
-    cpu.flags->set_h(0);
-    cpu.flags->set_c(c);
+void Rotates::rlc_hl() {
+
+}
+
+void Rotates::rl_r8(Register_8bit& register_) {
+
+}
+
+void Rotates::rl_hl() {
+
 }
