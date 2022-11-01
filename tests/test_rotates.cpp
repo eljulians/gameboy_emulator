@@ -189,46 +189,134 @@ TEST_CASE("RLC_R8", "[rotates]") {
         REQUIRE(cpu.D.get() == 0b10000000);
         REQUIRE(cpu.F.get() == 0x00);
     }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0b01000000);
+        cpu.HL->set(0x7000);
+
+        rotates.rlc_hl();
+
+        REQUIRE(gameBoy.mmu.read_8bit(0x7000) == 0b10000000);
+        REQUIRE(cpu.F.get() == 0x00);
+    }
 }
 
-TEST_CASE("RLC_HL", "[rotates]") {
+
+TEST_CASE("SLA_R8", "[rotates]") {
     GameBoy gameBoy = GameBoy();
     CPU cpu = gameBoy.cpu;
     Rotates rotates = Rotates(cpu);
 
     SECTION("no flags") {
         cpu.F.set(0x00);
-        cpu.D.set(0b01000000);
+        cpu.A.set(0b01000000);
 
-        rotates.rlc_r8(cpu.D);
+        rotates.sla_r8(cpu.A);
 
-        REQUIRE(cpu.D.get() == 0b10000000);
+        REQUIRE(cpu.A.get() == 0b10000000);
         REQUIRE(cpu.F.get() == 0x00);
     }
 
-    SECTION("z flag") {
+    SECTION("carry and zero flags") {
         cpu.F.set(0x00);
-        cpu.D.set(0b00000000);
+        cpu.A.set(0b10000000);
 
-        rotates.rlc_r8(cpu.D);
+        rotates.sla_r8(cpu.A);
 
-        REQUIRE(cpu.D.get() == 0x00);
-        REQUIRE(cpu.flags->get_z() == 1);
-        REQUIRE(cpu.flags->get_n() == 0);
-        REQUIRE(cpu.flags->get_h() == 0);
-        REQUIRE(cpu.flags->get_c() == 0);
-    }
-
-    SECTION("z, c flags") {
-        cpu.F.set(0x00);
-        cpu.D.set(0b10000000);
-
-        rotates.rlc_r8(cpu.D);
-
-        REQUIRE(cpu.D.get() == 0x00);
+        REQUIRE(cpu.A.get() == 0x00);
         REQUIRE(cpu.flags->get_z() == 1);
         REQUIRE(cpu.flags->get_n() == 0);
         REQUIRE(cpu.flags->get_h() == 0);
         REQUIRE(cpu.flags->get_c() == 1);
+    }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0b01000000);
+        cpu.HL->set(0x7000);
+
+        rotates.sla_hl();
+
+        REQUIRE(gameBoy.mmu.read_8bit(0x7000) == 0b10000000);
+        REQUIRE(cpu.F.get() == 0x00);
+    }
+}
+
+
+TEST_CASE("SRA_R8", "[rotates]") {
+    GameBoy gameBoy = GameBoy();
+    CPU cpu = gameBoy.cpu;
+    Rotates rotates = Rotates(cpu);
+
+    SECTION("no flags") {
+        cpu.F.set(0x00);
+        cpu.A.set(0b11000010);
+
+        rotates.sra_r8(cpu.A);
+
+        REQUIRE(cpu.A.get() == 0b11100001);
+        REQUIRE(cpu.F.get() == 0x00);
+    }
+
+    SECTION("carry flags") {
+        cpu.F.set(0x00);
+        cpu.A.set(0b01000001);
+
+        rotates.sra_r8(cpu.A);
+
+        REQUIRE(cpu.A.get() == 0b00100000);
+        REQUIRE(cpu.flags->get_z() == 0);
+        REQUIRE(cpu.flags->get_n() == 0);
+        REQUIRE(cpu.flags->get_h() == 0);
+        REQUIRE(cpu.flags->get_c() == 1);
+    }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0b01000000);
+        cpu.HL->set(0x7000);
+
+        rotates.sra_hl();
+
+        REQUIRE(gameBoy.mmu.read_8bit(0x7000) == 0b00100000);
+        REQUIRE(cpu.F.get() == 0x00);
+    }
+}
+
+
+TEST_CASE("SRL_R8", "[rotates]") {
+    GameBoy gameBoy = GameBoy();
+    CPU cpu = gameBoy.cpu;
+    Rotates rotates = Rotates(cpu);
+
+    SECTION("no flags") {
+        cpu.F.set(0x00);
+        cpu.A.set(0b11000010);
+
+        rotates.srl_r8(cpu.A);
+
+        REQUIRE(cpu.A.get() == 0b01100001);
+        REQUIRE(cpu.F.get() == 0x00);
+    }
+
+    SECTION("carry flags") {
+        cpu.F.set(0x00);
+        cpu.A.set(0b01000001);
+
+        rotates.srl_r8(cpu.A);
+
+        REQUIRE(cpu.A.get() == 0b00100000);
+        REQUIRE(cpu.flags->get_z() == 0);
+        REQUIRE(cpu.flags->get_n() == 0);
+        REQUIRE(cpu.flags->get_h() == 0);
+        REQUIRE(cpu.flags->get_c() == 1);
+    }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0x7000, 0b01000000);
+        cpu.HL->set(0x7000);
+
+        rotates.srl_hl();
+
+        REQUIRE(gameBoy.mmu.read_8bit(0x7000) == 0b00100000);
+        REQUIRE(cpu.F.get() == 0x00);
     }
 }
