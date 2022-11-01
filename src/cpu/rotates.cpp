@@ -31,7 +31,7 @@ uint8_t Rotates::rotateRight(uint8_t value, bool carry) {
 }
 
 void Rotates::rlca() {
-    cpu.A.set(rotateLeft(cpu.A.get(), 0));
+    cpu.A.set(rotateLeft(cpu.A.get(), cpu.A.get() & 0x80));
 }
 
 void Rotates::rla() {
@@ -39,7 +39,7 @@ void Rotates::rla() {
 }
 
 void Rotates::rrca() {
-    cpu.A.set(rotateRight(cpu.A.get(), 0));
+    cpu.A.set(rotateRight(cpu.A.get(), cpu.A.get() & 0x01));
 }
 
 void Rotates::rra() {
@@ -47,11 +47,11 @@ void Rotates::rra() {
 }
 
 void Rotates::rlc_r8(Register_8bit& register_) {
-    register_.set(rotateLeft(register_.get(), 0));
+    register_.set(rotateLeft(register_.get(), register_.get() & 0x80));
 }
 
 void Rotates::rlc_hl() {
-    cpu.HL->setAddressValue(rotateLeft(cpu.HL->getAddressValue(), 0));
+    cpu.HL->setAddressValue(rotateLeft(cpu.HL->getAddressValue(), cpu.HL->getAddressValue() & 0x80));
 }
 
 void Rotates::rl_r8(Register_8bit& register_) {
@@ -63,11 +63,11 @@ void Rotates::rl_hl() {
 }
 
 void Rotates::rrc_r8(Register_8bit& register_) {
-    register_.set(rotateRight(register_.get(), 0));
+    register_.set(rotateRight(register_.get(), register_.get() & 0x01));
 }
 
 void Rotates::rrc_hl() {
-    cpu.HL->setAddressValue(rotateRight(cpu.HL->getAddressValue(), 0));
+    cpu.HL->setAddressValue(rotateRight(cpu.HL->getAddressValue(), cpu.HL->getAddressValue() & 0x01));
 }
 
 void Rotates::rr_r8(Register_8bit& register_) {
@@ -113,30 +113,9 @@ void Rotates::sra_hl() {
 }
 
 void Rotates::srl_r8(Register_8bit& register_) {
-    uint8_t value = register_.get();
-    bool c = value & 0x01;
-    bool msc = value & 0x80;
-
-    uint8_t result = (value >> 1) & 0xFF;
-
-    cpu.flags->set_z(result == 0x00);
-    cpu.flags->set_n(0);
-    cpu.flags->set_h(0);
-    cpu.flags->set_c(c);
-
-    register_.set(result);
+    register_.set(rotateRight(register_.get(), 0));
 }
 
 void Rotates::srl_hl() {
-    uint8_t value = cpu.HL->getAddressValue();
-    bool c = value & 0x01;
-
-    uint8_t result = (value >> 1) & 0xFF;
-
-    cpu.flags->set_z(result == 0x00);
-    cpu.flags->set_n(0);
-    cpu.flags->set_h(0);
-    cpu.flags->set_c(c);
-
-    cpu.HL->setAddressValue(result);
+    cpu.HL->setAddressValue(rotateRight(cpu.HL->getAddressValue(), 0));
 }

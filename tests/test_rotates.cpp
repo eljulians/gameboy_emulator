@@ -37,14 +37,14 @@ TEST_CASE("RLCA", "[rotates]") {
         REQUIRE(cpu.flags->get_c() == 0);
     }
 
-    SECTION("z, c flags") {
+    SECTION("c flag") {
         cpu.F.set(0x00);
         cpu.A.set(0b10000000);
 
         rotates.rlca();
 
-        REQUIRE(cpu.A.get() == 0x00);
-        REQUIRE(cpu.flags->get_z() == 1);
+        REQUIRE(cpu.A.get() == 0b00000001);
+        REQUIRE(cpu.flags->get_z() == 0);
         REQUIRE(cpu.flags->get_n() == 0);
         REQUIRE(cpu.flags->get_h() == 0);
         REQUIRE(cpu.flags->get_c() == 1);
@@ -120,14 +120,14 @@ TEST_CASE("RRCA", "[rotates]") {
         REQUIRE(cpu.flags->get_c() == 0);
     }
 
-    SECTION("z, c flags") {
+    SECTION("c flags") {
         cpu.F.set(0x00);
         cpu.A.set(0x01);
 
         rotates.rrca();
 
-        REQUIRE(cpu.A.get() == 0x00);
-        REQUIRE(cpu.flags->get_z() == 1);
+        REQUIRE(cpu.A.get() == 0b10000000);
+        REQUIRE(cpu.flags->get_z() == 0);
         REQUIRE(cpu.flags->get_n() == 0);
         REQUIRE(cpu.flags->get_h() == 0);
         REQUIRE(cpu.flags->get_c() == 1);
@@ -188,6 +188,16 @@ TEST_CASE("RLC_R8", "[rotates]") {
 
         REQUIRE(cpu.D.get() == 0b10000000);
         REQUIRE(cpu.F.get() == 0x00);
+    }
+
+    SECTION("carry flag") {
+        cpu.F.set(0x00);
+        cpu.D.set(0b10000000);
+
+        rotates.rlc_r8(cpu.D);
+
+        REQUIRE(cpu.D.get() == 0x01);
+        REQUIRE(cpu.flags->get_c() == 1);
     }
 
     SECTION("HL") {
