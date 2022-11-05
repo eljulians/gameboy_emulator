@@ -18,7 +18,7 @@ CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy) {
     HL = new RegisterPair(gameBoy.mmu,H, L);
     flags = new Flag(F);
     PC.set(0x0100);
-    SP.set(0x0000);
+    SP.set(0xFFFE);
 }
 
 void CPU::setPC(uint16_t pc) {
