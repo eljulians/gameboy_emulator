@@ -6,6 +6,11 @@
 
 MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
     ram = std::vector<uint8_t>(0x8000);
+    internalRam = std::vector<uint8_t>(INTERNAL_RAM_SIZE);
+    spriteAttributes = std::vector<uint8_t>(SPRITE_ATTRIBUTES_SIZE);
+    io = std::vector<uint8_t>(IO_SIZE);
+    highRam = std::vector<uint8_t>(HIGH_RAM_SIZE);
+    interrupt = 0x00;
 }
 
 void MMU::write_8bit(uint16_t address, uint8_t value) {
@@ -18,5 +23,36 @@ void MMU::write_16bit(uint16_t address, uint16_t value) {
 }
 
 uint8_t MMU::read_8bit(uint16_t address) {
-    return ram.at(address);
+    // TODO: read from cartridge
+    if (IS_ROM_BANK_1(address)) {
+        return ram.at(address);
+    }
+    
+    if (IS_VIDEO_RAM(address)) {
+        
+    }
+
+    if (IS_SWITCHABLE_RAM(address)) {
+
+    }
+
+    if (IS_INTERNAL_RAM(address)) {
+
+    }
+
+    if (IS_SPRITE_ATTRIBUTES(address)) {
+
+    }
+
+    if (IS_IO(address)) {
+
+    }
+
+    if (IS_HIGH_RAM(address)) {
+
+    }
+
+    if (IS_INTERRUPT(address)) {
+
+    }
 }

@@ -34,6 +34,7 @@ TEST_CASE("JP_HL") {
     REQUIRE(cpu.PC.get() == 0x3050);
 }
 
+/*
 TEST_CASE("CALL_NN") {
     GameBoy gameBoy = GameBoy();
     CPU cpu = gameBoy.cpu;
@@ -49,3 +50,4 @@ TEST_CASE("CALL_NN") {
     REQUIRE(cpu.PC.get() == 0x7002);
     REQUIRE(cpu.SP.get() == 0xFFFC);
 }
+*/
