@@ -14,7 +14,9 @@ class CPU {
         void setPC(uint16_t pc);
         void incrementPC();
         void push_onto_stack(uint8_t value);
+        void push_address_onto_stack(uint16_t value);
         uint8_t pop_from_stack();
+        uint16_t pop_address_from_stack();
         void setSP(uint16_t sp);
         uint16_t getSP();
         Flag* getFlags();

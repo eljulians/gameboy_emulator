@@ -450,3 +450,4 @@ FodyWeavers.xsd
 
 gameboy_emulator_test
 .vscode
+roms/

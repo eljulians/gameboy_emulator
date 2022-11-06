@@ -26,11 +26,10 @@ void Jumps::jr_cc_nn() {
 }
 
 void Jumps::call_nn() {
-    uint16_t nextInstructionAddress = cpu.PC.get() + 2;
+    uint16_t jumpAddress = cpu.fetch2bytes();
 
-    cpu.push_onto_stack(static_cast<uint8_t>(nextInstructionAddress & 0xFF));
-    cpu.push_onto_stack(static_cast<uint8_t>(nextInstructionAddress >> 8));
-    cpu.PC.set(cpu.fetch2bytes());
+    cpu.push_address_onto_stack(cpu.PC.get());
+    cpu.PC.set(jumpAddress);
 }
 
 void Jumps::call_cc_nn() {

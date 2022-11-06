@@ -64,10 +64,14 @@ uint16_t CPU::fetch2bytes() {
     return ((lowByte << 8) | highByte);
 }
 
-
 void CPU::push_onto_stack(uint8_t value) {
-    gameBoy.mmu.write_8bit(SP.get(), value);
     SP.decrement();
+    gameBoy.mmu.write_8bit(SP.get(), value);
+}
+
+void CPU::push_address_onto_stack(uint16_t address) {
+    push_onto_stack(address >> 8); 
+    push_onto_stack(address & 0xFF); 
 }
 
 uint8_t CPU::pop_from_stack() {
@@ -75,4 +79,11 @@ uint8_t CPU::pop_from_stack() {
     SP.increment();
 
     return value;
+}
+
+uint16_t CPU::pop_address_from_stack() {
+    uint8_t lowByte = pop_from_stack();
+    uint8_t highByte = pop_from_stack();
+
+    return ((highByte << 8) | lowByte);
 }

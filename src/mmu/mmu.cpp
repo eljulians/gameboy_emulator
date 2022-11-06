@@ -14,7 +14,37 @@ MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
 }
 
 void MMU::write_8bit(uint16_t address, uint8_t value) {
-    ram.at(address) = value;
+    // TODO: ROM
+    if (IS_ROM_BANK_1(address)) {
+        ram.at(address) = value;
+    }
+    
+    if (IS_VIDEO_RAM(address)) {
+        
+    }
+
+    if (IS_SWITCHABLE_RAM(address)) {
+
+    }
+
+    if (IS_INTERNAL_RAM(address)) {
+        internalRam.at(address - INTERNAL_RAM_START) = value;
+    }
+
+    if (IS_SPRITE_ATTRIBUTES(address)) {
+
+    }
+
+    if (IS_IO(address)) {
+    }
+
+    if (IS_HIGH_RAM(address)) {
+        highRam.at(address - HIGH_RAM_START) = value;
+    }
+
+    if (IS_INTERRUPT(address)) {
+
+    }
 }
 
 void MMU::write_16bit(uint16_t address, uint16_t value) {
@@ -37,7 +67,7 @@ uint8_t MMU::read_8bit(uint16_t address) {
     }
 
     if (IS_INTERNAL_RAM(address)) {
-
+        return internalRam.at(address - INTERNAL_RAM_START);
     }
 
     if (IS_SPRITE_ATTRIBUTES(address)) {
@@ -49,7 +79,7 @@ uint8_t MMU::read_8bit(uint16_t address) {
     }
 
     if (IS_HIGH_RAM(address)) {
-
+        return highRam.at(address - HIGH_RAM_START);
     }
 
     if (IS_INTERRUPT(address)) {

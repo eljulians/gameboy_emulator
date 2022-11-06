@@ -64,6 +64,9 @@ test_jumps.o:
 test_loads_8bit.o:
 	$(CC) $(CFLAGS) -c tests/test_loads_8bit.cpp
 
+test_cpu.o:
+	$(CC) $(CFLAGS) -c tests/test_cpu.cpp
+
 test-registers: clean gameboy.o registers.o test_registers.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) registers.o test_registers.o gameboy.o cpu.o mmu.o gpu.o
 	./$(TEST_TARGET)
@@ -90,6 +93,10 @@ test-bit: clean bit.o gameboy.o test_bit.o
 
 test-jumps: clean jumps.o gameboy.o test_jumps.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) jumps.o registers.o gameboy.o cpu.o mmu.o gpu.o test_jumps.o
+	./$(TEST_TARGET)
+
+test-cpu: clean cpu.o gameboy.o mmu.o test_cpu.o registers.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) gameboy.o registers.o cpu.o mmu.o gpu.o test_cpu.o
 	./$(TEST_TARGET)
 
 test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit rotates

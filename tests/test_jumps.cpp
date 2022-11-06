@@ -34,20 +34,21 @@ TEST_CASE("JP_HL") {
     REQUIRE(cpu.PC.get() == 0x3050);
 }
 
-/*
+
 TEST_CASE("CALL_NN") {
     GameBoy gameBoy = GameBoy();
     CPU cpu = gameBoy.cpu;
     Jumps jumps = Jumps(cpu);
 
-    cpu.PC.set(0x7000);
-    gameBoy.mmu.write_8bit(0x7000, 0x40);
-    gameBoy.mmu.write_8bit(0x7001, 0x60);
+    cpu.PC.set(0xC000);
+    gameBoy.mmu.write_8bit(0xC000, 0x40);
+    gameBoy.mmu.write_8bit(0xC001, 0x60);
+    gameBoy.mmu.write_8bit(0xC002, 0x70);
+    gameBoy.mmu.write_8bit(0xC003, 0x80);
 
     jumps.call_nn();
 
-    //REQUIRE(gameBoy.mmu.read_16bit(cpu.SP.get()) == 0x6040);
-    REQUIRE(cpu.PC.get() == 0x7002);
-    REQUIRE(cpu.SP.get() == 0xFFFC);
+    REQUIRE(gameBoy.mmu.read_8bit(0xFFFD) == 0xC0);
+    REQUIRE(gameBoy.mmu.read_8bit(0xFFFC) == 0x02);
+    REQUIRE(cpu.PC.get() == 0x6040);
 }
-*/
