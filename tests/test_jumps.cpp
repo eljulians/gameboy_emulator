@@ -52,3 +52,19 @@ TEST_CASE("CALL_NN") {
     REQUIRE(gameBoy.mmu.read_8bit(0xFFFC) == 0x02);
     REQUIRE(cpu.PC.get() == 0x6040);
 }
+
+
+TEST_CASE("RET_NN") {
+    GameBoy gameBoy = GameBoy();
+    CPU cpu = gameBoy.cpu;
+    Jumps jumps = Jumps(cpu);
+
+    cpu.PC.set(0xC000);
+    gameBoy.mmu.write_8bit(0xFFFD, 0xAE);
+    gameBoy.mmu.write_8bit(0xFFFC, 0x15);
+    cpu.SP.set(0xFFFC);
+
+    jumps.ret();
+
+    REQUIRE(cpu.PC.get() == 0xAE15);
+}

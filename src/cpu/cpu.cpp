@@ -87,3 +87,16 @@ uint16_t CPU::pop_address_from_stack() {
 
     return ((highByte << 8) | lowByte);
 }
+
+bool CPU::getCondition(Condition condition) {
+    switch(condition) {
+        case Condition::Z:
+            return flags->get_z();
+        case Condition::NZ:
+            return !flags->get_z();
+        case Condition::C:
+            return flags->get_c();
+        case Condition::NC:
+            return !flags->get_c();
+    }
+}
