@@ -15,7 +15,7 @@ MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
 }
 
 void MMU::write_8bit(uint16_t address, uint8_t value) {
-    if (IS_ROM_BANK_1(address)) {
+    if (IS_ROM_BANK_0(address) || IS_ROM_BANK_1(address)) {
         gameBoy.cartridge.write(address, value);
     }
     
@@ -55,7 +55,8 @@ void MMU::write_16bit(uint16_t address, uint16_t value) {
 }
 
 uint8_t MMU::read_8bit(uint16_t address) {
-    if (IS_ROM_BANK_1(address)) {
+
+    if (IS_ROM_BANK_0(address) || IS_ROM_BANK_1(address)) {
         return gameBoy.cartridge.read(address);
     }
     
