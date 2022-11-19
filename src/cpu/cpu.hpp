@@ -1,6 +1,8 @@
 #pragma once
 #include "registers.hpp"
 #include "alu_8bit.hpp"
+#include "loads_8bit.hpp"
+#include "control_unit.hpp"
 
 #define CONDITION_NZ 0
 #define CONDITION_Z 1
@@ -8,6 +10,7 @@
 #define CONDITION_C 3
 
 class GameBoy;
+class ControlUnit;
 
 enum class Condition {
     NZ,
@@ -23,6 +26,7 @@ class CPU {
         RegisterPair *AF, *BC, *DE, *HL;
         Register_16bit PC, SP;
         Flag *flags;
+        Loads8bit *loads8bit;
 
         uint8_t fetchByte();
         int8_t fetchSignedByte();
@@ -38,6 +42,8 @@ class CPU {
         uint16_t getSP();
         Flag* getFlags();
         bool getCondition(Condition condition);
+        ControlUnit controlUnit;
+
 
     private:
         GameBoy& gameBoy;

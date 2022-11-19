@@ -1,3 +1,4 @@
+#include <iostream>
 #include "mmu.hpp"
 #include <vector>
 #include <stdint.h>
@@ -14,9 +15,8 @@ MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
 }
 
 void MMU::write_8bit(uint16_t address, uint8_t value) {
-    // TODO: ROM
     if (IS_ROM_BANK_1(address)) {
-        ram.at(address) = value;
+        gameBoy.cartridge.write(address, value);
     }
     
     if (IS_VIDEO_RAM(address)) {
@@ -36,6 +36,8 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
 
     if (IS_IO(address)) {
+        io.at(address - IO_START) = value;
+        std::cout << value + "\n";
     }
 
     if (IS_HIGH_RAM(address)) {
@@ -48,14 +50,13 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
 }
 
 void MMU::write_16bit(uint16_t address, uint16_t value) {
-    ram.at(address) = value & 0xFF;
-    ram.at(address + 0x01) = value >> 8;
+    write_8bit(address, value & 0xFF);
+    write_8bit(address + 0x01, value >> 8);
 }
 
 uint8_t MMU::read_8bit(uint16_t address) {
-    // TODO: read from cartridge
     if (IS_ROM_BANK_1(address)) {
-        return ram.at(address);
+        return gameBoy.cartridge.read(address);
     }
     
     if (IS_VIDEO_RAM(address)) {
@@ -75,7 +76,7 @@ uint8_t MMU::read_8bit(uint16_t address) {
     }
 
     if (IS_IO(address)) {
-
+        return io.at(address - IO_START);
     }
 
     if (IS_HIGH_RAM(address)) {

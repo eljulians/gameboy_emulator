@@ -1,9 +1,10 @@
 #include <iostream>
 #include "cpu.hpp"
 #include "registers.hpp"
+#include "control_unit.hpp"
 #include "../gameboy.hpp"
 
-CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy) {
+CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy), controlUnit(*this) {
     A = Register_8bit();
     B = Register_8bit();
     C = Register_8bit();
@@ -17,6 +18,7 @@ CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy) {
     DE = new RegisterPair(gameBoy.mmu,D, E);
     HL = new RegisterPair(gameBoy.mmu,H, L);
     flags = new Flag(F);
+    loads8bit = new Loads8bit(*this, gameBoy.mmu, (*HL));
     PC.set(0x0100);
     SP.set(0xFFFE);
 }
