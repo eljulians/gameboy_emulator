@@ -14,18 +14,22 @@ void ALU_16bit::setSubtractionFlags(uint16_t a, uint16_t b) {
 
 }
 
-void ALU_16bit::add_hl_r16(RegisterPair register_) {
+int8_t ALU_16bit::add_hl_r16(RegisterPair register_) {
     uint16_t result = hl.get() + register_.get();
 
     setAdditionFlags(hl.get(), register_.get());
     hl.set(result);
+
+    return 8;
 }
 
-void ALU_16bit::add_hl_sp(Register_16bit sp) {
-    uint16_t result = hl.get() + sp.get();
+int8_t ALU_16bit::add_hl_sp() {
+    uint16_t result = hl.get() + cpu.SP.get();
 
-    setAdditionFlags(hl.get(), sp.get());
+    setAdditionFlags(hl.get(), cpu.SP.get());
     hl.set(result);
+
+    return 8;
 }
 
 int8_t ALU_16bit::add_sp_s8() {
@@ -42,18 +46,26 @@ int8_t ALU_16bit::add_sp_s8() {
     return 16;
 }
 
-void ALU_16bit::inc_r16(RegisterPair register_) {
+int8_t ALU_16bit::inc_r16(RegisterPair register_) {
     register_.increment();
+
+    return 8;
 }
 
-void ALU_16bit::inc_sp(Register_16bit sp) {
-    sp.increment();
+int8_t ALU_16bit::inc_sp() {
+    cpu.SP.increment();
+
+    return 8;
 }
 
-void ALU_16bit::dec_r16(RegisterPair register_) {
+int8_t ALU_16bit::dec_r16(RegisterPair register_) {
     register_.decrement();
+
+    return 8;
 }
 
-void ALU_16bit::dec_sp(Register_16bit sp) {
-    sp.decrement(); 
+int8_t ALU_16bit::dec_sp() {
+    cpu.SP.decrement(); 
+
+    return 8;
 }
