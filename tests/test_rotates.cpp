@@ -201,12 +201,12 @@ TEST_CASE("RLC_R8", "[rotates]") {
     }
 
     SECTION("HL") {
-        gameBoy.mmu.write_8bit(0x7000, 0b01000000);
-        cpu.HL->set(0x7000);
+        gameBoy.mmu.write_8bit(0xC000, 0b01000000);
+        cpu.HL->set(0xC000);
 
         rotates.rlc_hl();
 
-        REQUIRE(gameBoy.mmu.read_8bit(0x7000) == 0b10000000);
+        REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b10000000);
         REQUIRE(cpu.F.get() == 0x00);
     }
 }
@@ -241,12 +241,12 @@ TEST_CASE("SLA_R8", "[rotates]") {
     }
 
     SECTION("HL") {
-        gameBoy.mmu.write_8bit(0x7000, 0b01000000);
-        cpu.HL->set(0x7000);
+        gameBoy.mmu.write_8bit(0xC000, 0b01000000);
+        cpu.HL->set(0xC000);
 
         rotates.sla_hl();
 
-        REQUIRE(gameBoy.mmu.read_8bit(0x7000) == 0b10000000);
+        REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b10000000);
         REQUIRE(cpu.F.get() == 0x00);
     }
 }
@@ -281,12 +281,12 @@ TEST_CASE("SRA_R8", "[rotates]") {
     }
 
     SECTION("HL") {
-        gameBoy.mmu.write_8bit(0x7000, 0b01000000);
-        cpu.HL->set(0x7000);
+        gameBoy.mmu.write_8bit(0xC000, 0b01000000);
+        cpu.HL->set(0xC000);
 
         rotates.sra_hl();
 
-        REQUIRE(gameBoy.mmu.read_8bit(0x7000) == 0b00100000);
+        REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b00100000);
         REQUIRE(cpu.F.get() == 0x00);
     }
 }
@@ -321,12 +321,12 @@ TEST_CASE("SRL_R8", "[rotates]") {
     }
 
     SECTION("HL") {
-        gameBoy.mmu.write_8bit(0x7000, 0b01000000);
-        cpu.HL->set(0x7000);
+        gameBoy.mmu.write_8bit(0xC000, 0b01000000);
+        cpu.HL->set(0xC000);
 
         rotates.srl_hl();
 
-        REQUIRE(gameBoy.mmu.read_8bit(0x7000) == 0b00100000);
+        REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b00100000);
         REQUIRE(cpu.F.get() == 0x00);
     }
 }

@@ -67,8 +67,8 @@ TEST_CASE("ADD_SP_s8", "[alu_16bit]") {
     SECTION("no flags") {
         f.set(0x00);
         gameBoy.cpu.setSP(0xFFF0);
-        gameBoy.cpu.setPC(0x7000);
-        gameBoy.mmu.write_8bit(0x7000, 0x01);
+        gameBoy.cpu.setPC(0xC000);
+        gameBoy.mmu.write_8bit(0xC000, 0x01);
 
         alu.add_sp_s8();
 
@@ -79,8 +79,8 @@ TEST_CASE("ADD_SP_s8", "[alu_16bit]") {
     SECTION("negative, carry flag") {
         f.set(0x00);
         gameBoy.cpu.setSP(0xFFF0);
-        gameBoy.cpu.setPC(0x7000);
-        gameBoy.mmu.write_8bit(0x7000, -0x01);
+        gameBoy.cpu.setPC(0xC000);
+        gameBoy.mmu.write_8bit(0xC000, -0x01);
 
         alu.add_sp_s8();
 
@@ -94,8 +94,8 @@ TEST_CASE("ADD_SP_s8", "[alu_16bit]") {
     SECTION("negative, half and carry flags") {
         f.set(0x00);
         gameBoy.cpu.setSP(0xFFFF);
-        gameBoy.cpu.setPC(0x7000);
-        gameBoy.mmu.write_8bit(0x7000, -0x01);
+        gameBoy.cpu.setPC(0xC000);
+        gameBoy.mmu.write_8bit(0xC000, -0x01);
 
         alu.add_sp_s8();
 
@@ -109,8 +109,8 @@ TEST_CASE("ADD_SP_s8", "[alu_16bit]") {
     SECTION("overflow") {
         f.set(0x00);
         gameBoy.cpu.setSP(0xFFFE);
-        gameBoy.cpu.setPC(0x7000);
-        gameBoy.mmu.write_8bit(0x7000, 0x02);
+        gameBoy.cpu.setPC(0xC000);
+        gameBoy.mmu.write_8bit(0xC000, 0x02);
 
         alu.add_sp_s8();
 
