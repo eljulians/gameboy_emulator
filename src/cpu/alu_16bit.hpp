@@ -19,7 +19,7 @@ class ALU_16bit {
             : cpu(cpu), hl(hl), sp(sp), flags(flags) {};
         void add_hl_r16(RegisterPair register_);
         void add_hl_sp(Register_16bit sp);
-        void add_sp_s8();
+        int8_t add_sp_s8();
 
         void inc_r16(RegisterPair register_);
         void inc_sp(Register_16bit sp);

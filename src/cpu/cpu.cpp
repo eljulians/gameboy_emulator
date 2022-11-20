@@ -18,9 +18,15 @@ CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy), controlUnit(*this) {
     DE = new RegisterPair(gameBoy.mmu,D, E);
     HL = new RegisterPair(gameBoy.mmu,H, L);
     flags = new Flag(F);
-    loads8bit = new Loads8bit(*this, gameBoy.mmu, (*HL));
     PC.set(0x0100);
     SP.set(0xFFFE);
+    
+    loads8bit = new Loads8bit(*this, gameBoy.mmu, (*HL));
+    alu8bit = new ALU_8bit(*this, A, *HL, *flags);
+    alu16bit = new ALU_16bit(*this, *HL, SP, *flags);
+    jumps = new Jumps(*this);
+    bit = new Bit(*this);
+    rotates = new Rotates(*this);
 }
 
 void CPU::setPC(uint16_t pc) {

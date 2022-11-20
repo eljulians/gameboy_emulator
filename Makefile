@@ -110,8 +110,8 @@ test-jumps: clean jumps.o gameboy.o test_jumps.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) jumps.o registers.o gameboy.o cpu.o mmu.o gpu.o test_jumps.o
 	./$(TEST_TARGET)
 
-test-cpu: clean gameboy.o cpu.o mmu.o test_cpu.o registers.o loads_8bit.o
-	$(CC) $(CFLAGS) -o $(TEST_TARGET) gameboy.o registers.o cpu.o mmu.o gpu.o test_cpu.o cartridge.o control_unit.o loads_8bit.o
+test-cpu: clean gameboy.o cpu.o mmu.o test_cpu.o registers.o loads_8bit.o jumps.o bit.o rotates.o alu_8bit.o alu_16bit.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) gameboy.o registers.o cpu.o mmu.o gpu.o test_cpu.o cartridge.o control_unit.o loads_8bit.o jumps.o bit.o rotates.o alu_8bit.o alu_16bit.o
 	./$(TEST_TARGET)
 
 test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit rotates

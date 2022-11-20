@@ -13,19 +13,19 @@ class Jumps {
     public:
         Jumps(CPU& cpu) : cpu(cpu) {};
 
-        void jp_nn();
-        void jp_cc_nn(Condition condition);       
-        void jp_hl();
+        int8_t jp_nn();
+        int8_t jp_cc_nn(Condition condition);       
+        int8_t jp_hl();
 
-        void jr_n();
-        void jr_cc_nn(Condition condition);
+        int8_t jr_n();
+        int8_t jr_cc_nn(Condition condition);
 
-        void call_nn();
-        void call_cc_nn(Condition condition);
+        int8_t call_nn();
+        int8_t call_cc_nn(Condition condition);
 
-        void rst(uint8_t n);
+        int8_t rst(uint8_t n);
 
-        void ret();
-        void ret_cc(Condition condition);
-        void reti();
+        int8_t ret();
+        int8_t ret_cc(Condition condition);
+        int8_t reti();
 };
