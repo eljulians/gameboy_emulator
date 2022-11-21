@@ -452,3 +452,4 @@ gameboy_emulator
 gameboy_emulator_test
 .vscode
 roms/
+*.debug

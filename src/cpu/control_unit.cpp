@@ -18,6 +18,7 @@ uint16_t ControlUnit::fetch()
 
 uint8_t ControlUnit::execute()
 {
+    std::cout << "PC " << std::hex << cpu.PC.get() << "\n";
     uint16_t opcode = fetch();
     uint8_t cycles;
 
@@ -74,7 +75,7 @@ uint8_t ControlUnit::execute()
         break;
 
     case 0x10:
-        std::cout << "Operation STOP (0x10) not implemented";
+        std::cout << "Operation STOP (0x10) not implemented\n";
         break;
     case 0x11:
         cycles = cpu.loads8bit->ld_r16_n16(*cpu.DE);
@@ -145,7 +146,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_r8_n8(cpu.H);
         break;
     case 0x27:
-        std::cout << "Operation DAA (0x27) not implemented";
+        std::cout << "Operation DAA (0x27) not implemented\n";
         cycles = 4;
         //cycles = cpu.alu8bit.daa();
         break;
@@ -171,7 +172,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_r8_n8(cpu.L);
         break;
     case 0x2F:
-        std::cout << "Operation CPL (0x2F) not implemented";
+        std::cout << "Operation CPL (0x2F) not implemented\n";
         //cycles = cpu.alu8bit->cp_a_hl()
         cycles = 4;
         break;
@@ -198,7 +199,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_r8_n8(cpu.H);
         break;
     case 0x37:
-        std::cout << "Operation SCF (0x37) not implemented";
+        std::cout << "Operation SCF (0x37) not implemented\n";
         cycles = 4;
         break;
     case 0x38:
@@ -223,7 +224,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_r8_n8(cpu.A);
         break;
     case 0x3F:
-        std::cout << "Operation CPL (0x3F) not implemented";
+        std::cout << "Operation CPL (0x3F) not implemented\n";
         //cycles = cpu.alu8bit->cp_a_hl()
         cycles = 4;
         break;
@@ -394,7 +395,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_hl_r8(cpu.L);
         break;
     case 0x76:
-        std::cout << "Instruction HALT (0x76) not implemented";
+        std::cout << "Instruction HALT (0x76) not implemented\n";
         cycles = 4;
         break;
     case 0x77:
@@ -750,7 +751,7 @@ uint8_t ControlUnit::execute()
         break;
     case 0xF3:
         // throw std::runtime_error("Operation DI (0xF3) not implemented");
-        std::cout << "Operation DI (0xF3) not implemented";
+        std::cout << "Operation DI (0xF3) not implemented\n";
         break;
     case 0xF5:
         cycles = cpu.loads8bit->push_r16(*cpu.AF);
@@ -772,7 +773,7 @@ uint8_t ControlUnit::execute()
         break;
     case 0xFB:
         // throw std::runtime_error("Operation EI (0xFB) not implemented");
-        std::cout << "Operation EI (0xFB) not implemented";
+        std::cout << "Operation EI (0xFB) not implemented\n";
         break;
     case 0xFE:
         cycles = cpu.alu8bit->cp_a_n8();

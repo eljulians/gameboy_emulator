@@ -18,6 +18,11 @@ CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy), controlUnit(*this) {
     DE = new RegisterPair(gameBoy.mmu,D, E);
     HL = new RegisterPair(gameBoy.mmu,H, L);
     flags = new Flag(F);
+
+    AF->set(0x1180);
+    BC->set(0x0000);
+    DE->set(0xFF56);
+    HL->set(0x000D);
     PC.set(0x0100);
     SP.set(0xFFFE);
     
