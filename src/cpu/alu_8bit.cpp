@@ -260,7 +260,7 @@ int8_t ALU_8bit::inc_r8(Register_8bit &register_) {
     uint8_t result = register_.get() + 0x01;
     bool original_c = flags.get_c();
 
-    setAdditionFlags(a.get(), 0x01);
+    setAdditionFlags(register_.get(), 0x01);
     flags.set_c(original_c);
     register_.set(result);
 
@@ -280,10 +280,10 @@ int8_t ALU_8bit::inc_hl() {
 
 
 int8_t ALU_8bit::dec_r8(Register_8bit &register_) {
-    uint8_t result = static_cast<uint8_t>(a.get() - 0x01);
+    uint8_t result = static_cast<uint8_t>(register_.get() - 0x01);
     bool original_c = flags.get_c();
 
-    setSubtractionFlags(a.get(), 0x01);
+    setSubtractionFlags(register_.get(), 0x01);
     flags.set_c(original_c);
     register_.set(result);
 
