@@ -14,6 +14,8 @@ int8_t Jumps::jp_nn() {
 int8_t Jumps::jp_cc_nn(Condition condition) {
     if (cpu.getCondition(condition)) {
         jp_nn();
+    } else{
+        cpu.fetch2bytes();
     }
 
     return 12;
@@ -36,6 +38,8 @@ int8_t Jumps::jr_n() {
 int8_t Jumps::jr_cc_nn(Condition condition) {
     if (cpu.getCondition(condition)) {
         jr_n();
+    } else {
+        cpu.fetchSignedByte();
     }
 
     return 12;
@@ -53,6 +57,8 @@ int8_t Jumps::call_nn() {
 int8_t Jumps::call_cc_nn(Condition condition) {
     if (cpu.getCondition(condition)) {
         call_nn();
+    } else {
+        cpu.fetch2bytes();
     }
 
     return 12;

@@ -257,12 +257,12 @@ int8_t ALU_8bit::cp_a_n8() {
 
 
 int8_t ALU_8bit::inc_r8(Register_8bit &register_) {
-    uint8_t result = a.get() + 0x01;
+    uint8_t result = register_.get() + 0x01;
     bool original_c = flags.get_c();
 
     setAdditionFlags(a.get(), 0x01);
     flags.set_c(original_c);
-    a.set(result);
+    register_.set(result);
 
     return 4;
 }

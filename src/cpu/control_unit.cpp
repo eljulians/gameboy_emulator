@@ -18,11 +18,15 @@ uint16_t ControlUnit::fetch()
 
 uint8_t ControlUnit::execute()
 {
-    std::cout << "PC " << std::hex << cpu.PC.get() << "\n";
+    std::cout << "PC 0x" << std::hex << cpu.PC.get() << "\n";
     uint16_t opcode = fetch();
     uint8_t cycles;
 
-    std::cout << "Fetched opcode " << std::hex << opcode << "\n";
+    std::cout << "Fetched opcode 0x" << std::hex << opcode << "\n";
+    std::cout << "AF 0x" << std::hex << cpu.AF->get() << "\n";
+    std::cout << "BC 0x" << std::hex << cpu.BC->get() << "\n";
+    std::cout << "DE 0x" << std::hex << cpu.DE->get() << "\n";
+    std::cout << "HL 0x" << std::hex << cpu.HL->get() << "\n";
 
     switch (opcode)
     {
