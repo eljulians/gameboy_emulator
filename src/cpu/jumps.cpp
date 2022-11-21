@@ -26,7 +26,8 @@ int8_t Jumps::jp_hl() {
 }
 
 int8_t Jumps::jr_n() {
-    uint16_t result = static_cast<uint16_t>(cpu.PC.get() + cpu.fetchSignedByte());
+    int8_t offset = cpu.fetchSignedByte(); 
+    uint16_t result = static_cast<uint16_t>(cpu.PC.get() + offset);
     cpu.PC.set(result);
 
     return 8;
