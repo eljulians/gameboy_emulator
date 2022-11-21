@@ -27,6 +27,8 @@ uint8_t ControlUnit::execute()
     std::cout << "BC 0x" << std::hex << cpu.BC->get() << "\n";
     std::cout << "DE 0x" << std::hex << cpu.DE->get() << "\n";
     std::cout << "HL 0x" << std::hex << cpu.HL->get() << "\n";
+    std::cout << "SP 0x" << std::hex << cpu.SP.get() << "\n";
+    std::cout << "#########################################\n";
 
     switch (opcode)
     {

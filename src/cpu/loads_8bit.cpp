@@ -96,7 +96,7 @@ int8_t Loads8bit::ldh_n_a() {
 }
 
 int8_t Loads8bit::ldh_a_n() {
-    uint16_t address = 0xFF + cpu.fetchByte();    
+    uint16_t address = 0xFF00 + cpu.fetchByte();    
     cpu.A.set(mmu.read_8bit(address));
 
     return 12;
