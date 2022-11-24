@@ -448,6 +448,8 @@ FodyWeavers.xsd
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudio
 
+gameboy_emulator
 gameboy_emulator_test
 .vscode
 roms/
+*.debug

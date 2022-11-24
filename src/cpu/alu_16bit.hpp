@@ -17,13 +17,13 @@ class ALU_16bit {
     public:
         ALU_16bit(CPU& cpu, RegisterPair& hl, Register_16bit& sp, Flag& flags)
             : cpu(cpu), hl(hl), sp(sp), flags(flags) {};
-        void add_hl_r16(RegisterPair register_);
-        void add_hl_sp(Register_16bit sp);
-        void add_sp_s8();
+        int8_t add_hl_r16(RegisterPair register_);
+        int8_t add_hl_sp();
+        int8_t add_sp_s8();
 
-        void inc_r16(RegisterPair register_);
-        void inc_sp(Register_16bit sp);
+        int8_t inc_r16(RegisterPair register_);
+        int8_t inc_sp();
 
-        void dec_r16(RegisterPair register_);
-        void dec_sp(Register_16bit sp);
+        int8_t dec_r16(RegisterPair register_);
+        int8_t dec_sp();
 };

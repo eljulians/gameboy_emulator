@@ -3,9 +3,12 @@
 #include "gpu/gpu.hpp"
 #include "mmu/mmu.hpp"
 
-GameBoy::GameBoy() : 
-    cpu(*this),
-    gpu(*this),
-    mmu(*this)
-{
+
+void GameBoy::mainLoop() {
+    cartridge.loadRom();
+
+    while(true) {
+        cpu.controlUnit.execute();
+    }
+
 }

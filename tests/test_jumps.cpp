@@ -13,9 +13,9 @@ TEST_CASE("JP_NN") {
     CPU cpu = gameBoy.cpu;
     Jumps jumps = Jumps(cpu);
 
-    cpu.PC.set(0x7000);
-    gameBoy.mmu.write_8bit(0x7000, 0x20);
-    gameBoy.mmu.write_8bit(0x7001, 0x40);
+    cpu.PC.set(0xC000);
+    gameBoy.mmu.write_8bit(0xC000, 0x20);
+    gameBoy.mmu.write_8bit(0xC001, 0x40);
 
     jumps.jp_nn();
 
@@ -27,11 +27,11 @@ TEST_CASE("JP_HL") {
     CPU cpu = gameBoy.cpu;
     Jumps jumps = Jumps(cpu);
 
-    cpu.HL->set(0x3050);
+    cpu.HL->set(0xC050);
 
     jumps.jp_hl();
 
-    REQUIRE(cpu.PC.get() == 0x3050);
+    REQUIRE(cpu.PC.get() == 0xC050);
 }
 
 

@@ -4,48 +4,60 @@
 #include "cpu.hpp"
 
 
-void ALU_8bit::add_a_r8(Register_8bit &register_) {
+int8_t ALU_8bit::add_a_r8(Register_8bit &register_) {
     uint8_t result = a.get() + register_.get();
 
     setAdditionFlags(a.get(), register_.get());
     a.set(result);
+
+    return 4;
 }
 
-void ALU_8bit::add_a_hl() {
+int8_t ALU_8bit::add_a_hl() {
     uint8_t result = a.get() + hl.getAddressValue();
 
     setAdditionFlags(a.get(), hl.getAddressValue());
     a.set(result);
+
+    return 8;
 }
 
-void ALU_8bit::add_a_n8() {
+int8_t ALU_8bit::add_a_n8() {
     uint8_t pcValue = cpu.fetchByte();
     uint8_t result = a.get() + pcValue;
 
     setAdditionFlags(a.get(), pcValue);
     a.set(result);
+
+    return 8;
 }
 
-void ALU_8bit::adc_a_r8(Register_8bit &register_) {
+int8_t ALU_8bit::adc_a_r8(Register_8bit &register_) {
     uint8_t result = a.get() + register_.get() + flags.get_c();
 
     setAdditionFlags(a.get(), register_.get() + flags.get_c());
     a.set(result);
+
+    return 4;
 }
 
-void ALU_8bit::adc_a_hl() {
+int8_t ALU_8bit::adc_a_hl() {
     uint8_t result = a.get() + hl.getAddressValue() + flags.get_c();
 
     setAdditionFlags(a.get(), hl.getAddressValue() + flags.get_c());
     a.set(result);
+
+    return 8;
 }
 
-void ALU_8bit::adc_a_n8() {
+int8_t ALU_8bit::adc_a_n8() {
     uint8_t pcValue = cpu.fetchByte();
     uint8_t result = a.get() + pcValue + flags.get_c();
 
     setAdditionFlags(a.get(), pcValue + flags.get_c());
     a.set(result);
+
+    return 8;
 }
 
 void ALU_8bit::setAdditionFlags(uint8_t a, uint8_t b) {
@@ -245,12 +257,12 @@ int8_t ALU_8bit::cp_a_n8() {
 
 
 int8_t ALU_8bit::inc_r8(Register_8bit &register_) {
-    uint8_t result = a.get() + 0x01;
+    uint8_t result = register_.get() + 0x01;
     bool original_c = flags.get_c();
 
-    setAdditionFlags(a.get(), 0x01);
+    setAdditionFlags(register_.get(), 0x01);
     flags.set_c(original_c);
-    a.set(result);
+    register_.set(result);
 
     return 4;
 }
@@ -268,10 +280,10 @@ int8_t ALU_8bit::inc_hl() {
 
 
 int8_t ALU_8bit::dec_r8(Register_8bit &register_) {
-    uint8_t result = static_cast<uint8_t>(a.get() - 0x01);
+    uint8_t result = static_cast<uint8_t>(register_.get() - 0x01);
     bool original_c = flags.get_c();
 
-    setSubtractionFlags(a.get(), 0x01);
+    setSubtractionFlags(register_.get(), 0x01);
     flags.set_c(original_c);
     register_.set(result);
 

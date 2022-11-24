@@ -23,37 +23,38 @@ uint8_t Loads8bit::load_r8_hl(Register_8bit& to) {
     return 8;
 }
 
+uint8_t Loads8bit::load_hl_r8(Register_8bit& from) {
+    hl.setAddressValue(from.get());
 
-void Loads8bit::load_a_r8(Register_8bit& register_) {
-    cpu.A.set(register_.get());
+    return 8;
 }
 
-void Loads8bit::load_a_r16(RegisterPair& register_) {
+
+int8_t Loads8bit::load_a_r16(RegisterPair& register_) {
     cpu.A.set(register_.getAddressValue());
+
+    return 8;
 }
 
-void Loads8bit::load_a_n8() {
-    cpu.A.set(cpu.fetchByte());
-}
-
-void Loads8bit::load_a_address() {
+int8_t Loads8bit::load_a_address() {
     uint16_t address = cpu.fetch2bytes();
     cpu.A.set(mmu.read_8bit(address));
+
+    return 16;
 }
 
 
-void Loads8bit::load_r8_a(Register_8bit& register_) {
-    register_.set(cpu.A.get());
-}
-
-void Loads8bit::load_r16_a(RegisterPair& register_) {
+int8_t Loads8bit::load_r16_a(RegisterPair& register_) {
     mmu.write_8bit(register_.get(), cpu.A.get());
 
+    return 8;
 }
 
-void Loads8bit::load_a16_a() {
+int8_t Loads8bit::load_a16_a() {
     uint16_t address = cpu.fetch2bytes();
-    mmu.write_16bit(address, cpu.A.get());
+    mmu.write_8bit(address, cpu.A.get());
+
+    return 16;
 }
 
 void Loads8bit::load_a_c() {
@@ -66,46 +67,55 @@ void Loads8bit::load_c_a() {
     mmu.write_8bit(address, cpu.A.get());
 }
 
-void Loads8bit::ld_a_hl_decrement() {
-    cpu.A.set(cpu.HL->getAddressValue());
-    cpu.HL->decrement();
-}
-
-void Loads8bit::ld_hl_a_decrement() {
+int8_t Loads8bit::ld_hl_a_decrement() {
     cpu.HL->setAddressValue(cpu.A.get());
     cpu.HL->decrement();
+
+    return 8;
 }
 
-void Loads8bit::ld_a_hl_increment() {
+int8_t Loads8bit::ld_a_hl_increment() {
     cpu.A.set(cpu.HL->getAddressValue());
     cpu.HL->increment();
+
+    return 8;
 }
 
-void Loads8bit::ld_hl_a_increment() {
+int8_t Loads8bit::ld_hl_a_increment() {
     cpu.HL->setAddressValue(cpu.A.get());
     cpu.HL->increment();
+
+    return 8;
 }
 
-void Loads8bit::ldh_n_a() {
+int8_t Loads8bit::ldh_n_a() {
     uint16_t address = 0xFF + cpu.fetchByte();    
     mmu.write_8bit(address, cpu.A.get());
+
+    return 12;
 }
 
-void Loads8bit::ldh_a_n() {
-    uint16_t address = 0xFF + cpu.fetchByte();    
+int8_t Loads8bit::ldh_a_n() {
+    uint16_t address = 0xFF00 + cpu.fetchByte();    
     cpu.A.set(mmu.read_8bit(address));
+
+    return 12;
 }
 
 
-void Loads8bit::ld_r16_n16(RegisterPair register_) {
+int8_t Loads8bit::ld_r16_n16(RegisterPair register_) {
     register_.set(cpu.fetch2bytes());
+
+    return 12;
 }
 
-void Loads8bit::ld_sp_hl() {
+int8_t Loads8bit::ld_sp_hl() {
     cpu.SP.set(cpu.HL->get());
+
+    return 12;
 }
 
-void Loads8bit::ld_hl_sp_n() {
+int8_t Loads8bit::ld_hl_sp_n() {
     int8_t value = cpu.fetchSignedByte();
     int result = static_cast<int>(cpu.SP.get() + value);
 
@@ -115,21 +125,49 @@ void Loads8bit::ld_hl_sp_n() {
     cpu.flags->set_c(((cpu.getSP() ^ value ^ (result & 0xFFFF)) & 0x100) == 0x100);
 
     hl.set(static_cast<uint16_t>(result));
+
+    return 12;
 }
 
-void Loads8bit::ld_n16_sp() {
+int8_t Loads8bit::ld_n16_sp() {
     mmu.write_16bit(cpu.fetch2bytes(), cpu.SP.get());
+
+    return 20;
 }
 
-void Loads8bit::push_r16(RegisterPair register_) {
+int8_t Loads8bit::ld_sp_n16() {
+    cpu.SP.set(cpu.fetch2bytes());
+
+    return 12;
+}
+
+uint8_t Loads8bit::push_r16(RegisterPair register_) {
     cpu.push_onto_stack(register_.getHigh());
     cpu.push_onto_stack(register_.getLow());
+
+    return 16;
 }
 
-void Loads8bit::pop_r16(RegisterPair register_) {
+uint8_t Loads8bit::pop_r16(RegisterPair register_) {
     uint8_t low = cpu.pop_from_stack();
     uint8_t high = cpu.pop_from_stack();
 
     register_.setLow(low);
     register_.setHigh(high);
+
+    return 12;
+}
+
+int8_t Loads8bit::ld_a_c() {
+    uint16_t address = 0xFF00 + cpu.C.get();
+    cpu.A.set(mmu.read_8bit(address));
+
+    return 8;
+}
+
+int8_t Loads8bit::ld_c_a() {
+    uint16_t address = 0xFF00 + cpu.C.get();
+    mmu.write_8bit(address, cpu.A.get());
+
+    return 8;
 }

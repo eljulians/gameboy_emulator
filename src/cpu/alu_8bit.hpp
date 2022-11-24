@@ -17,13 +17,13 @@ class ALU_8bit {
     public:
         ALU_8bit(CPU& cpu, Register_8bit &aAddress, RegisterPair &hl, Flag &flagsAddress)
             : cpu(cpu), a(aAddress), hl(hl), flags(flagsAddress) {};
-        void add_a_r8(Register_8bit &register_);
-        void add_a_hl();
-        void add_a_n8();
+        int8_t add_a_r8(Register_8bit &register_);
+        int8_t add_a_hl();
+        int8_t add_a_n8();
 
-        void adc_a_r8(Register_8bit &register_);
-        void adc_a_hl();
-        void adc_a_n8();
+        int8_t adc_a_r8(Register_8bit &register_);
+        int8_t adc_a_hl();
+        int8_t adc_a_n8();
 
         int8_t sub_a_r8(Register_8bit &register_);
         int8_t sub_a_hl();

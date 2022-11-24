@@ -30,20 +30,28 @@ uint8_t Rotates::rotateRight(uint8_t value, bool carry) {
     return result;
 }
 
-void Rotates::rlca() {
+int8_t Rotates::rlca() {
     cpu.A.set(rotateLeft(cpu.A.get(), cpu.A.get() & 0x80));
+
+    return 4;
 }
 
-void Rotates::rla() {
+int8_t Rotates::rla() {
     cpu.A.set(rotateLeft(cpu.A.get(), cpu.flags->get_c()));
+
+    return 4;
 }
 
-void Rotates::rrca() {
+int8_t Rotates::rrca() {
     cpu.A.set(rotateRight(cpu.A.get(), cpu.A.get() & 0x01));
+
+    return 4;
 }
 
-void Rotates::rra() {
+int8_t Rotates::rra() {
     cpu.A.set(rotateRight(cpu.A.get(), cpu.flags->get_c()));
+    
+    return 4;
 }
 
 void Rotates::rlc_r8(Register_8bit& register_) {

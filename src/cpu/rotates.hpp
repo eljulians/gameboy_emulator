@@ -13,11 +13,11 @@ class Rotates {
 
     public:
         Rotates(CPU& cpu) : cpu(cpu) {};
-        void rlca();
-        void rla();
+        int8_t rlca();
+        int8_t rla();
 
-        void rrca();
-        void rra();
+        int8_t rrca();
+        int8_t rra();
 
         void rlc_r8(Register_8bit& register_);
         void rlc_hl();
