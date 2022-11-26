@@ -52,6 +52,9 @@ gameboy.o: cpu.o gpu.o mmu.o cartridge.o control_unit.o
 cartridge.o:
 	$(CC) $(CFLAGS) -c src/mmu/cartridge.cpp
 
+interrupts.o: gameboy.o
+	$(CC) $(CFLAGS) -c src/interrupts/interrupts.cpp
+
 #gameboy: clean gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o
 	#$(CC) $(CFLAGS) -o $(TARGET) gameboy.o cpu.o gpu.o mmu.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o
 
@@ -81,6 +84,9 @@ test_loads_8bit.o:
 
 test_cpu.o:
 	$(CC) $(CFLAGS) -c tests/test_cpu.cpp
+
+test_interrupts.o:
+	$(CC) $(CFLAGS) -c tests/test_interrupts.cpp
 
 test-registers: clean gameboy.o registers.o test_registers.o cartridge.o control_unit.o alu_8bit.o alu_16bit.o jumps.o bit.o rotates.o loads_8bit.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) registers.o test_registers.o gameboy.o cpu.o mmu.o gpu.o cartridge.o control_unit.o alu_8bit.o alu_16bit.o jumps.o bit.o rotates.o loads_8bit.o
@@ -114,7 +120,11 @@ test-cpu: clean gameboy.o cpu.o mmu.o test_cpu.o registers.o loads_8bit.o jumps.
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) gameboy.o registers.o cpu.o mmu.o gpu.o test_cpu.o cartridge.o control_unit.o loads_8bit.o jumps.o bit.o rotates.o alu_8bit.o alu_16bit.o
 	./$(TEST_TARGET)
 
-test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit test-rotates test-jumps
+test-interrupts: clean interrupts.o test_interrupts.o gameboy.o cpu.o mmu.o registers.o loads_8bit.o jumps.o bit.o rotates.o alu_8bit.o alu_16bit.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) gameboy.o interrupts.o registers.o cpu.o mmu.o gpu.o test_interrupts.o cartridge.o control_unit.o loads_8bit.o jumps.o bit.o rotates.o alu_8bit.o alu_16bit.o
+	./$(TEST_TARGET)
+
+test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit test-rotates test-jumps test-interrupts
 
 clean:
 	$(RM) $(TARGET) $(TEST_TARGET) *.o
