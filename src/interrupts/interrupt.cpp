@@ -1,4 +1,3 @@
-#include <iostream>
 #include <stdint.h>
 #include "interrupt.hpp"
 #include "../mmu/mmu.hpp"
@@ -46,4 +45,8 @@ void Interrupt::disable() {
 
 bool Interrupt::isEnabled() {
     return getIE() & getInterruptMask(interruptEnum);
+}
+
+int8_t Interrupt::getAddress() {
+    return INTERRUPT_ADDRESS_MAP.at(interruptEnum);
 }

@@ -53,7 +53,9 @@ class Interrupt {
         void disable();
         bool isEnabled();
 
-    protected:
+        int8_t getAddress(); 
+
+    private:
         MMU& mmu;
         InterruptEnum interruptEnum;
 
@@ -61,32 +63,4 @@ class Interrupt {
         uint8_t getIE();
         void setIF(uint8_t value);
         void setIE(uint8_t value);
-};
-
-
-class InterruptHandler {
-    public:
-        InterruptHandler(MMU& mmu) : 
-            mmu(mmu),
-            vblank(mmu, InterruptEnum::VBlank),
-            lcdc(mmu, InterruptEnum::LCDC),
-            timer(mmu, InterruptEnum::Timer),
-            serial(mmu, InterruptEnum::SerialTransfer),
-            keypad(mmu, InterruptEnum::Keypad)
-        {};
-        Interrupt vblank;
-        Interrupt lcdc;
-        Interrupt timer;
-        Interrupt serial;
-        Interrupt keypad;
-
-    private:
-        MMU& mmu;
-        void flagInterrupt(InterruptEnum interrupt);
-        void unflagInterrupt(InterruptEnum interrupt);
-        bool isInterruptFlagged(InterruptEnum interrupt);
-
-        void enableInterrupt(InterruptEnum interrupt);
-        void disableInterrupt(InterruptEnum interrupt);
-        bool isInterruptEnabled(InterruptEnum interrupt);
 };
