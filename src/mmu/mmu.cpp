@@ -37,17 +37,15 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
 
     if (IS_IO(address)) {
         io.at(address - IO_START) = value;
-        std::cout << value + "\n";
     }
 
     if (IS_HIGH_RAM(address)) {
         highRam.at(address - HIGH_RAM_START) = value;
     }
-    /*
+    
     if (IS_INTERRUPT(address)) {
-
+        interrupt = value;
     }
-    */
 }
 
 void MMU::write_16bit(uint16_t address, uint16_t value) {
@@ -85,9 +83,7 @@ uint8_t MMU::read_8bit(uint16_t address) {
         return highRam.at(address - HIGH_RAM_START);
     }
 
-    /*
     if (IS_INTERRUPT(address)) {
-
+        return interrupt;
     }
-    */
 }

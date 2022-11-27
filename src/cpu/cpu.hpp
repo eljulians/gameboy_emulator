@@ -52,10 +52,13 @@ class CPU {
         uint16_t getSP();
         Flag* getFlags();
         bool getCondition(Condition condition);
-
+        void enableInterrupts();
+        void disableInterrupts();
+        bool areInterruptsEnabled();
 
     private:
         GameBoy& gameBoy;
+        bool interruptEnabled;
 
     friend class Loads8bit;
     friend class ALU_16bit;
