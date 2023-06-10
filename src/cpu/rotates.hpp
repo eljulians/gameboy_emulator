@@ -19,22 +19,22 @@ class Rotates {
         int8_t rrca();
         int8_t rra();
 
-        void rlc_r8(Register_8bit& register_);
-        void rlc_hl();
-        void rl_r8(Register_8bit& register_);
-        void rl_hl();
+        int8_t rlc_r8(Register_8bit& register_);
+        int8_t rlc_hl();
+        int8_t rl_r8(Register_8bit& register_);
+        int8_t rl_hl();
 
-        void rrc_r8(Register_8bit& register_);
-        void rrc_hl();
-        void rr_r8(Register_8bit& register_);
-        void rr_hl();
+        int8_t rrc_r8(Register_8bit& register_);
+        int8_t rrc_hl();
+        int8_t rr_r8(Register_8bit& register_);
+        int8_t rr_hl();
 
-        void sla_r8(Register_8bit& register_);
-        void sla_hl();
+        int8_t sla_r8(Register_8bit& register_);
+        int8_t sla_hl();
 
-        void sra_r8(Register_8bit& register_);
-        void sra_hl();
+        int8_t sra_r8(Register_8bit& register_);
+        int8_t sra_hl();
 
-        void srl_r8(Register_8bit& register_);
-        void srl_hl();
+        int8_t srl_r8(Register_8bit& register_);
+        int8_t srl_hl();
 };
