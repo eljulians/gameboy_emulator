@@ -11,12 +11,12 @@ class Bit {
 
     public:
         Bit(CPU& cpu) : cpu(cpu) {};
-        void bit(Register_8bit register_, uint8_t bit);
-        void bit_hl(uint8_t bit);
+        int8_t bit(Register_8bit register_, uint8_t bit);
+        int8_t bit_hl(uint8_t bit);
 
-        void set(Register_8bit& register_, uint8_t bit);
-        void set_hl(uint8_t bit);
+        int8_t set(Register_8bit& register_, uint8_t bit);
+        int8_t set_hl(uint8_t bit);
 
-        void res(Register_8bit& register_, uint8_t bit);
-        void res_hl(uint8_t bit);
+        int8_t res(Register_8bit& register_, uint8_t bit);
+        int8_t res_hl(uint8_t bit);
 };

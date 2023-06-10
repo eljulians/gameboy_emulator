@@ -786,6 +786,807 @@ uint8_t ControlUnit::execute()
         break;
     case 0xFF:
         cycles = cpu.jumps->rst(0x38);
+        break;
+
+    case 0xCB00:
+        cycles = cpu.rotates->rlc_r8(cpu.B);
+        break;
+    case 0xCB01:
+        cycles = cpu.rotates->rlc_r8(cpu.C);
+        break;
+    case 0xCB02:
+        cycles = cpu.rotates->rlc_r8(cpu.D);
+        break;
+    case 0xCB03:
+        cycles = cpu.rotates->rlc_r8(cpu.E);
+        break;
+    case 0xCB04:
+        cycles = cpu.rotates->rlc_r8(cpu.H);
+        break;
+    case 0xCB05:
+        cycles = cpu.rotates->rlc_r8(cpu.L);
+        break;
+    case 0xCB06:
+        cycles = cpu.rotates->rlc_hl();
+        break;
+    case 0xCB07:
+        cycles = cpu.rotates->rlc_r8(cpu.A);
+        break;
+
+    case 0xCB08:
+        cycles = cpu.rotates->rrc_r8(cpu.B);
+        break;
+    case 0xCB09:
+        cycles = cpu.rotates->rrc_r8(cpu.C);
+        break;
+    case 0xCB0A:
+        cycles = cpu.rotates->rrc_r8(cpu.D);
+        break;
+    case 0xCB0B:
+        cycles = cpu.rotates->rrc_r8(cpu.E);
+        break;
+    case 0xCB0C:
+        cycles = cpu.rotates->rrc_r8(cpu.H);
+        break;
+    case 0xCB0D:
+        cycles = cpu.rotates->rrc_r8(cpu.L);
+        break;
+    case 0xCB0E:
+        cycles = cpu.rotates->rrc_hl();
+        break;
+    case 0xCB0F:
+        cycles = cpu.rotates->rrc_r8(cpu.A);
+        break;
+
+    case 0xCB10:
+        cycles = cpu.rotates->rl_r8(cpu.B);
+        break;
+    case 0xCB11:
+        cycles = cpu.rotates->rl_r8(cpu.C);
+        break;
+    case 0xCB12:
+        cycles = cpu.rotates->rl_r8(cpu.D);
+        break;
+    case 0xCB13:
+        cycles = cpu.rotates->rl_r8(cpu.E);
+        break;
+    case 0xCB14:
+        cycles = cpu.rotates->rl_r8(cpu.H);
+        break;
+    case 0xCB15:
+        cycles = cpu.rotates->rl_r8(cpu.L);
+        break;
+    case 0xCB16:
+        cycles = cpu.rotates->rl_hl();
+        break;
+    case 0xCB17:
+        cycles = cpu.rotates->rl_r8(cpu.A);
+        break;
+
+    case 0xCB18:
+        cycles = cpu.rotates->rr_r8(cpu.B);
+        break;
+    case 0xCB19:
+        cycles = cpu.rotates->rr_r8(cpu.C);
+        break;
+    case 0xCB1A:
+        cycles = cpu.rotates->rr_r8(cpu.D);
+        break;
+    case 0xCB1B:
+        cycles = cpu.rotates->rr_r8(cpu.E);
+        break;
+    case 0xCB1C:
+        cycles = cpu.rotates->rr_r8(cpu.H);
+        break;
+    case 0xCB1D:
+        cycles = cpu.rotates->rr_r8(cpu.L);
+        break;
+    case 0xCB1E:
+        cycles = cpu.rotates->rr_hl();
+        break;
+    case 0xCB1F:
+        cycles = cpu.rotates->rr_r8(cpu.A);
+        break;
+
+    case 0xCB20:
+        cycles = cpu.rotates->sla_r8(cpu.B);
+        break;
+    case 0xCB21:
+        cycles = cpu.rotates->sla_r8(cpu.C);
+        break;
+    case 0xCB22:
+        cycles = cpu.rotates->sla_r8(cpu.D);
+        break;
+    case 0xCB23:
+        cycles = cpu.rotates->sla_r8(cpu.E);
+        break;
+    case 0xCB24:
+        cycles = cpu.rotates->sla_r8(cpu.H);
+        break;
+    case 0xCB25:
+        cycles = cpu.rotates->sla_r8(cpu.L);
+        break;
+    case 0xCB26:
+        cycles = cpu.rotates->sla_hl();
+        break;
+    case 0xCB27:
+        cycles = cpu.rotates->sla_r8(cpu.A);
+        break;
+
+    case 0xCB28:
+        cycles = cpu.rotates->sra_r8(cpu.B);
+        break;
+    case 0xCB29:
+        cycles = cpu.rotates->sra_r8(cpu.C);
+        break;
+    case 0xCB2A:
+        cycles = cpu.rotates->sra_r8(cpu.D);
+        break;
+    case 0xCB2B:
+        cycles = cpu.rotates->sra_r8(cpu.E);
+        break;
+    case 0xCB2C:
+        cycles = cpu.rotates->sra_r8(cpu.H);
+        break;
+    case 0xCB2D:
+        cycles = cpu.rotates->sra_r8(cpu.L);
+        break;
+    case 0xCB2E:
+        cycles = cpu.rotates->sra_hl();
+        break;
+    case 0xCB2F:
+        cycles = cpu.rotates->sra_r8(cpu.A);
+        break;
+
+    case 0xCB30:
+        cycles = cpu.rotates->swap_r8(cpu.B);
+        break;
+    case 0xCB31:
+        cycles = cpu.rotates->swap_r8(cpu.C);
+        break;
+    case 0xCB32:
+        cycles = cpu.rotates->swap_r8(cpu.D);
+        break;
+    case 0xCB33:
+        cycles = cpu.rotates->swap_r8(cpu.E);
+        break;
+    case 0xCB34:
+        cycles = cpu.rotates->swap_r8(cpu.H);
+        break;
+    case 0xCB35:
+        cycles = cpu.rotates->swap_r8(cpu.L);
+        break;
+    case 0xCB36:
+        cycles = cpu.rotates->swap_hl();
+        break;
+    case 0xCB37:
+        cycles = cpu.rotates->swap_r8(cpu.A);
+        break;
+
+    case 0xCB38:
+        cycles = cpu.rotates->srl_r8(cpu.B);
+        break;
+    case 0xCB39:
+        cycles = cpu.rotates->srl_r8(cpu.C);
+        break;
+    case 0xCB3A:
+        cycles = cpu.rotates->srl_r8(cpu.D);
+        break;
+    case 0xCB3B:
+        cycles = cpu.rotates->srl_r8(cpu.E);
+        break;
+    case 0xCB3C:
+        cycles = cpu.rotates->srl_r8(cpu.H);
+        break;
+    case 0xCB3D:
+        cycles = cpu.rotates->srl_r8(cpu.L);
+        break;
+    case 0xCB3E:
+        cycles = cpu.rotates->srl_hl();
+        break;
+    case 0xCB3F:
+        cycles = cpu.rotates->srl_r8(cpu.A);
+        break;
+
+    case 0xCB40:
+        cycles = cpu.bit->bit(cpu.B, 0);
+        break;
+    case 0xCB41:
+        cycles = cpu.bit->bit(cpu.C, 0);
+        break;
+    case 0xCB42:
+        cycles = cpu.bit->bit(cpu.D, 0);
+        break;
+    case 0xCB43:
+        cycles = cpu.bit->bit(cpu.E, 0);
+        break;
+    case 0xCB44:
+        cycles = cpu.bit->bit(cpu.H, 0);
+        break;
+    case 0xCB45:
+        cycles = cpu.bit->bit(cpu.L, 0);
+        break;
+    case 0xCB46:
+        cycles = cpu.bit->bit_hl(0);
+        break;
+    case 0xCB47:
+        cycles = cpu.bit->bit(cpu.A, 0);
+        break;
+
+    case 0xCB48:
+        cycles = cpu.bit->bit(cpu.B, 1);
+        break;
+    case 0xCB49:
+        cycles = cpu.bit->bit(cpu.C, 1);
+        break;
+    case 0xCB4A:
+        cycles = cpu.bit->bit(cpu.D, 1);
+        break;
+    case 0xCB4B:
+        cycles = cpu.bit->bit(cpu.E, 1);
+        break;
+    case 0xCB4C:
+        cycles = cpu.bit->bit(cpu.H, 1);
+        break;
+    case 0xCB4D:
+        cycles = cpu.bit->bit(cpu.L, 1);
+        break;
+    case 0xCB4E:
+        cycles = cpu.bit->bit_hl(1);
+        break;
+    case 0xCB4F:
+        cycles = cpu.bit->bit(cpu.A, 1);
+        break;
+
+    case 0xCB50:
+        cycles = cpu.bit->bit(cpu.B, 2);
+        break;
+    case 0xCB51:
+        cycles = cpu.bit->bit(cpu.C, 2);
+        break;
+    case 0xCB52:
+        cycles = cpu.bit->bit(cpu.D, 2);
+        break;
+    case 0xCB53:
+        cycles = cpu.bit->bit(cpu.E, 2);
+        break;
+    case 0xCB54:
+        cycles = cpu.bit->bit(cpu.H, 2);
+        break;
+    case 0xCB55:
+        cycles = cpu.bit->bit(cpu.L, 2);
+        break;
+    case 0xCB56:
+        cycles = cpu.bit->bit_hl(2);
+        break;
+    case 0xCB57:
+        cycles = cpu.bit->bit(cpu.A, 2);
+        break;
+
+    case 0xCB58:
+        cycles = cpu.bit->bit(cpu.B, 3);
+        break;
+    case 0xCB59:
+        cycles = cpu.bit->bit(cpu.C, 3);
+        break;
+    case 0xCB5A:
+        cycles = cpu.bit->bit(cpu.D, 3);
+        break;
+    case 0xCB5B:
+        cycles = cpu.bit->bit(cpu.E, 3);
+        break;
+    case 0xCB5C:
+        cycles = cpu.bit->bit(cpu.H, 3);
+        break;
+    case 0xCB5D:
+        cycles = cpu.bit->bit(cpu.L, 3);
+        break;
+    case 0xCB5E:
+        cycles = cpu.bit->bit_hl(3);
+        break;
+    case 0xCB5F:
+        cycles = cpu.bit->bit(cpu.A, 3);
+        break;
+
+    case 0xCB60:
+        cycles = cpu.bit->bit(cpu.B, 4);
+        break;
+    case 0xCB61:
+        cycles = cpu.bit->bit(cpu.C, 4);
+        break;
+    case 0xCB62:
+        cycles = cpu.bit->bit(cpu.D, 4);
+        break;
+    case 0xCB63:
+        cycles = cpu.bit->bit(cpu.E, 4);
+        break;
+    case 0xCB64:
+        cycles = cpu.bit->bit(cpu.H, 4);
+        break;
+    case 0xCB65:
+        cycles = cpu.bit->bit(cpu.L, 4);
+        break;
+    case 0xCB66:
+        cycles = cpu.bit->bit_hl(4);
+        break;
+    case 0xCB67:
+        cycles = cpu.bit->bit(cpu.A, 4);
+        break;
+
+    case 0xCB68:
+        cycles = cpu.bit->bit(cpu.B, 5);
+        break;
+    case 0xCB69:
+        cycles = cpu.bit->bit(cpu.C, 5);
+        break;
+    case 0xCB6A:
+        cycles = cpu.bit->bit(cpu.D, 5);
+        break;
+    case 0xCB6B:
+        cycles = cpu.bit->bit(cpu.E, 5);
+        break;
+    case 0xCB6C:
+        cycles = cpu.bit->bit(cpu.H, 5);
+        break;
+    case 0xCB6D:
+        cycles = cpu.bit->bit(cpu.L, 5);
+        break;
+    case 0xCB6E:
+        cycles = cpu.bit->bit_hl(5);
+        break;
+    case 0xCB6F:
+        cycles = cpu.bit->bit(cpu.A, 5);
+        break;
+
+    case 0xCB70:
+        cycles = cpu.bit->bit(cpu.B, 6);
+        break;
+    case 0xCB71:
+        cycles = cpu.bit->bit(cpu.C, 6);
+        break;
+    case 0xCB72:
+        cycles = cpu.bit->bit(cpu.D, 6);
+        break;
+    case 0xCB73:
+        cycles = cpu.bit->bit(cpu.E, 6);
+        break;
+    case 0xCB74:
+        cycles = cpu.bit->bit(cpu.H, 6);
+        break;
+    case 0xCB75:
+        cycles = cpu.bit->bit(cpu.L, 6);
+        break;
+    case 0xCB76:
+        cycles = cpu.bit->bit_hl(6);
+        break;
+    case 0xCB77:
+        cycles = cpu.bit->bit(cpu.A, 6);
+        break;
+
+    case 0xCB78:
+        cycles = cpu.bit->bit(cpu.B, 7);
+        break;
+    case 0xCB79:
+        cycles = cpu.bit->bit(cpu.C, 7);
+        break;
+    case 0xCB7A:
+        cycles = cpu.bit->bit(cpu.D, 7);
+        break;
+    case 0xCB7B:
+        cycles = cpu.bit->bit(cpu.E, 7);
+        break;
+    case 0xCB7C:
+        cycles = cpu.bit->bit(cpu.H, 7);
+        break;
+    case 0xCB7D:
+        cycles = cpu.bit->bit(cpu.L, 7);
+        break;
+    case 0xCB7E:
+        cycles = cpu.bit->bit_hl(7);
+        break;
+    case 0xCB7F:
+        cycles = cpu.bit->bit(cpu.A, 7);
+        break;
+
+    case 0xCB80:
+        cycles = cpu.bit->res(cpu.B, 0);
+        break;
+    case 0xCB81:
+        cycles = cpu.bit->res(cpu.C, 0);
+        break;
+    case 0xCB82:
+        cycles = cpu.bit->res(cpu.D, 0);
+        break;
+    case 0xCB83:
+        cycles = cpu.bit->res(cpu.E, 0);
+        break;
+    case 0xCB84:
+        cycles = cpu.bit->res(cpu.H, 0);
+        break;
+    case 0xCB85:
+        cycles = cpu.bit->res(cpu.L, 0);
+        break;
+    case 0xCB86:
+        cycles = cpu.bit->res_hl(0);
+        break;
+    case 0xCB87:
+        cycles = cpu.bit->res(cpu.A, 0);
+        break;
+
+    case 0xCB88:
+        cycles = cpu.bit->res(cpu.B, 1);
+        break;
+    case 0xCB89:
+        cycles = cpu.bit->res(cpu.C, 1);
+        break;
+    case 0xCB8A:
+        cycles = cpu.bit->res(cpu.D, 1);
+        break;
+    case 0xCB8B:
+        cycles = cpu.bit->res(cpu.E, 1);
+        break;
+    case 0xCB8C:
+        cycles = cpu.bit->res(cpu.H, 1);
+        break;
+    case 0xCB8D:
+        cycles = cpu.bit->res(cpu.L, 1);
+        break;
+    case 0xCB8E:
+        cycles = cpu.bit->res_hl(1);
+        break;
+    case 0xCB8F:
+        cycles = cpu.bit->res(cpu.A, 1);
+        break;
+
+    case 0xCB90:
+        cycles = cpu.bit->res(cpu.B, 2);
+        break;
+    case 0xCB91:
+        cycles = cpu.bit->res(cpu.C, 2);
+        break;
+    case 0xCB92:
+        cycles = cpu.bit->res(cpu.D, 2);
+        break;
+    case 0xCB93:
+        cycles = cpu.bit->res(cpu.E, 2);
+        break;
+    case 0xCB94:
+        cycles = cpu.bit->res(cpu.H, 2);
+        break;
+    case 0xCB95:
+        cycles = cpu.bit->res(cpu.L, 2);
+        break;
+    case 0xCB96:
+        cycles = cpu.bit->res_hl(2);
+        break;
+    case 0xCB97:
+        cycles = cpu.bit->res(cpu.A, 2);
+        break;
+
+    case 0xCB98:
+        cycles = cpu.bit->res(cpu.B, 3);
+        break;
+    case 0xCB99:
+        cycles = cpu.bit->res(cpu.C, 3);
+        break;
+    case 0xCB9A:
+        cycles = cpu.bit->res(cpu.D, 3);
+        break;
+    case 0xCB9B:
+        cycles = cpu.bit->res(cpu.E, 3);
+        break;
+    case 0xCB9C:
+        cycles = cpu.bit->res(cpu.H, 3);
+        break;
+    case 0xCB9D:
+        cycles = cpu.bit->res(cpu.L, 3);
+        break;
+    case 0xCB9E:
+        cycles = cpu.bit->res_hl(3);
+        break;
+    case 0xCB9F:
+        cycles = cpu.bit->res(cpu.A, 3);
+        break;
+
+    case 0xCBA0:
+        cycles = cpu.bit->res(cpu.B, 4);
+        break;
+    case 0xCBA1:
+        cycles = cpu.bit->res(cpu.C, 4);
+        break;
+    case 0xCBA2:
+        cycles = cpu.bit->res(cpu.D, 4);
+        break;
+    case 0xCBA3:
+        cycles = cpu.bit->res(cpu.E, 4);
+        break;
+    case 0xCBA4:
+        cycles = cpu.bit->res(cpu.H, 4);
+        break;
+    case 0xCBA5:
+        cycles = cpu.bit->res(cpu.L, 4);
+        break;
+    case 0xCBA6:
+        cycles = cpu.bit->res_hl(4);
+        break;
+    case 0xCBA7:
+        cycles = cpu.bit->res(cpu.A, 4);
+        break;
+
+    case 0xCBA8:
+        cycles = cpu.bit->res(cpu.B, 5);
+        break;
+    case 0xCBA9:
+        cycles = cpu.bit->res(cpu.C, 5);
+        break;
+    case 0xCBAA:
+        cycles = cpu.bit->res(cpu.D, 5);
+        break;
+    case 0xCBAB:
+        cycles = cpu.bit->res(cpu.E, 5);
+        break;
+    case 0xCBAC:
+        cycles = cpu.bit->res(cpu.H, 5);
+        break;
+    case 0xCBAD:
+        cycles = cpu.bit->res(cpu.L, 5);
+        break;
+    case 0xCBAE:
+        cycles = cpu.bit->res_hl(5);
+        break;
+    case 0xCBAF:
+        cycles = cpu.bit->res(cpu.A, 5);
+        break;
+
+    case 0xCBB0:
+        cycles = cpu.bit->res(cpu.B, 6);
+        break;
+    case 0xCBB1:
+        cycles = cpu.bit->res(cpu.C, 6);
+        break;
+    case 0xCBB2:
+        cycles = cpu.bit->res(cpu.D, 6);
+        break;
+    case 0xCBB3:
+        cycles = cpu.bit->res(cpu.E, 6);
+        break;
+    case 0xCBB4:
+        cycles = cpu.bit->res(cpu.H, 6);
+        break;
+    case 0xCBB5:
+        cycles = cpu.bit->res(cpu.L, 6);
+        break;
+    case 0xCBB6:
+        cycles = cpu.bit->res_hl(6);
+        break;
+    case 0xCBB7:
+        cycles = cpu.bit->res(cpu.A, 6);
+        break;
+
+    case 0xCBB8:
+        cycles = cpu.bit->res(cpu.B, 7);
+        break;
+    case 0xCBB9:
+        cycles = cpu.bit->res(cpu.C, 7);
+        break;
+    case 0xCBBA:
+        cycles = cpu.bit->res(cpu.D, 7);
+        break;
+    case 0xCBBB:
+        cycles = cpu.bit->res(cpu.E, 7);
+        break;
+    case 0xCBBC:
+        cycles = cpu.bit->res(cpu.H, 7);
+        break;
+    case 0xCBBD:
+        cycles = cpu.bit->res(cpu.L, 7);
+        break;
+    case 0xCBBE:
+        cycles = cpu.bit->res_hl(7);
+        break;
+    case 0xCBBF:
+        cycles = cpu.bit->res(cpu.A, 7);
+        break;
+
+    case 0xCBC0:
+        cycles = cpu.bit->set(cpu.B, 0);
+        break;
+    case 0xCBC1:
+        cycles = cpu.bit->set(cpu.C, 0);
+        break;
+    case 0xCBC2:
+        cycles = cpu.bit->set(cpu.D, 0);
+        break;
+    case 0xCBC3:
+        cycles = cpu.bit->set(cpu.E, 0);
+        break;
+    case 0xCBC4:
+        cycles = cpu.bit->set(cpu.H, 0);
+        break;
+    case 0xCBC5:
+        cycles = cpu.bit->set(cpu.L, 0);
+        break;
+    case 0xCBC6:
+        cycles = cpu.bit->set_hl(0);
+        break;
+    case 0xCBC7:
+        cycles = cpu.bit->set(cpu.A, 0);
+        break;
+
+    case 0xCBC8:
+        cycles = cpu.bit->set(cpu.B, 1);
+        break;
+    case 0xCBC9:
+        cycles = cpu.bit->set(cpu.C, 1);
+        break;
+    case 0xCBCA:
+        cycles = cpu.bit->set(cpu.D, 1);
+        break;
+    case 0xCBCB:
+        cycles = cpu.bit->set(cpu.E, 1);
+        break;
+    case 0xCBCC:
+        cycles = cpu.bit->set(cpu.H, 1);
+        break;
+    case 0xCBCD:
+        cycles = cpu.bit->set(cpu.L, 1);
+        break;
+    case 0xCBCE:
+        cycles = cpu.bit->set_hl(1);
+        break;
+    case 0xCBCF:
+        cycles = cpu.bit->set(cpu.A, 1);
+        break;
+
+    case 0xCBD0:
+        cycles = cpu.bit->set(cpu.B, 2);
+        break;
+    case 0xCBD1:
+        cycles = cpu.bit->set(cpu.C, 2);
+        break;
+    case 0xCBD2:
+        cycles = cpu.bit->set(cpu.D, 2);
+        break;
+    case 0xCBD3:
+        cycles = cpu.bit->set(cpu.E, 2);
+        break;
+    case 0xCBD4:
+        cycles = cpu.bit->set(cpu.H, 2);
+        break;
+    case 0xCBD5:
+        cycles = cpu.bit->set(cpu.L, 2);
+        break;
+    case 0xCBD6:
+        cycles = cpu.bit->set_hl(2);
+        break;
+    case 0xCBD7:
+        cycles = cpu.bit->set(cpu.A, 2);
+        break;
+
+    case 0xCBD8:
+        cycles = cpu.bit->set(cpu.B, 3);
+        break;
+    case 0xCBD9:
+        cycles = cpu.bit->set(cpu.C, 3);
+        break;
+    case 0xCBDA:
+        cycles = cpu.bit->set(cpu.D, 3);
+        break;
+    case 0xCBDB:
+        cycles = cpu.bit->set(cpu.E, 3);
+        break;
+    case 0xCBDC:
+        cycles = cpu.bit->set(cpu.H, 3);
+        break;
+    case 0xCBDD:
+        cycles = cpu.bit->set(cpu.L, 3);
+        break;
+    case 0xCBDE:
+        cycles = cpu.bit->set_hl(3);
+        break;
+    case 0xCBDF:
+        cycles = cpu.bit->set(cpu.A, 3);
+        break;
+
+    case 0xCBE0:
+        cycles = cpu.bit->set(cpu.B, 4);
+        break;
+    case 0xCBE1:
+        cycles = cpu.bit->set(cpu.C, 4);
+        break;
+    case 0xCBE2:
+        cycles = cpu.bit->set(cpu.D, 4);
+        break;
+    case 0xCBE3:
+        cycles = cpu.bit->set(cpu.E, 4);
+        break;
+    case 0xCBE4:
+        cycles = cpu.bit->set(cpu.H, 4);
+        break;
+    case 0xCBE5:
+        cycles = cpu.bit->set(cpu.L, 4);
+        break;
+    case 0xCBE6:
+        cycles = cpu.bit->set_hl(4);
+        break;
+    case 0xCBE7:
+        cycles = cpu.bit->set(cpu.A, 4);
+        break;
+
+    case 0xCBE8:
+        cycles = cpu.bit->set(cpu.B, 5);
+        break;
+    case 0xCBE9:
+        cycles = cpu.bit->set(cpu.C, 5);
+        break;
+    case 0xCBEA:
+        cycles = cpu.bit->set(cpu.D, 5);
+        break;
+    case 0xCBEB:
+        cycles = cpu.bit->set(cpu.E, 5);
+        break;
+    case 0xCBEC:
+        cycles = cpu.bit->set(cpu.H, 5);
+        break;
+    case 0xCBED:
+        cycles = cpu.bit->set(cpu.L, 5);
+        break;
+    case 0xCBEE:
+        cycles = cpu.bit->set_hl(5);
+        break;
+    case 0xCBEF:
+        cycles = cpu.bit->set(cpu.A, 5);
+        break;
+
+    case 0xCBF0:
+        cycles = cpu.bit->set(cpu.B, 6);
+        break;
+    case 0xCBF1:
+        cycles = cpu.bit->set(cpu.C, 6);
+        break;
+    case 0xCBF2:
+        cycles = cpu.bit->set(cpu.D, 6);
+        break;
+    case 0xCBF3:
+        cycles = cpu.bit->set(cpu.E, 6);
+        break;
+    case 0xCBF4:
+        cycles = cpu.bit->set(cpu.H, 6);
+        break;
+    case 0xCBF5:
+        cycles = cpu.bit->set(cpu.L, 6);
+        break;
+    case 0xCBF6:
+        cycles = cpu.bit->set_hl(6);
+        break;
+    case 0xCBF7:
+        cycles = cpu.bit->set(cpu.A, 6);
+        break;
+
+    case 0xCBF8:
+        cycles = cpu.bit->set(cpu.B, 7);
+        break;
+    case 0xCBF9:
+        cycles = cpu.bit->set(cpu.C, 7);
+        break;
+    case 0xCBFA:
+        cycles = cpu.bit->set(cpu.D, 7);
+        break;
+    case 0xCBFB:
+        cycles = cpu.bit->set(cpu.E, 7);
+        break;
+    case 0xCBFC:
+        cycles = cpu.bit->set(cpu.H, 7);
+        break;
+    case 0xCBFD:
+        cycles = cpu.bit->set(cpu.L, 7);
+        break;
+    case 0xCBFE:
+        cycles = cpu.bit->set_hl(7);
+        break;
+    case 0xCBFF:
+        cycles = cpu.bit->set(cpu.A, 7);
+        break;
 
     default:
         std::cout << "Illegal opcode " << std::hex << opcode << "\n";
