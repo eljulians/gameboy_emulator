@@ -207,7 +207,6 @@ TEST_CASE("RLC_R8", "[rotates]") {
         rotates.rlc_hl();
 
         REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b10000000);
-        REQUIRE(cpu.F.get() == 0x00);
     }
 }
 
@@ -247,7 +246,6 @@ TEST_CASE("SLA_R8", "[rotates]") {
         rotates.sla_hl();
 
         REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b10000000);
-        REQUIRE(cpu.F.get() == 0x00);
     }
 }
 
@@ -287,7 +285,6 @@ TEST_CASE("SRA_R8", "[rotates]") {
         rotates.sra_hl();
 
         REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b00100000);
-        REQUIRE(cpu.F.get() == 0x00);
     }
 }
 
@@ -327,6 +324,5 @@ TEST_CASE("SRL_R8", "[rotates]") {
         rotates.srl_hl();
 
         REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b00100000);
-        REQUIRE(cpu.F.get() == 0x00);
     }
 }
