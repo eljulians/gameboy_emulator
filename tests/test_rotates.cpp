@@ -326,3 +326,28 @@ TEST_CASE("SRL_R8", "[rotates]") {
         REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b00100000);
     }
 }
+
+
+TEST_CASE("SWAP", "[rotates]") {
+    GameBoy gameBoy = GameBoy();
+    CPU cpu = gameBoy.cpu;
+    Rotates rotates = Rotates(cpu);
+
+    SECTION("R8") {
+        cpu.F.set(0x00);
+        cpu.A.set(0b01100001);
+
+        rotates.swap_r8(cpu.A);
+
+        REQUIRE(cpu.A.get() == 0b00010110);
+    }
+
+    SECTION("HL") {
+        gameBoy.mmu.write_8bit(0xC000, 0b11011011);
+        cpu.HL->set(0xC000);
+
+        rotates.swap_hl();
+
+        REQUIRE(gameBoy.mmu.read_8bit(0xC000) == 0b10111101);
+    }
+}

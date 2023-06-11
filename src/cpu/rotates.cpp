@@ -160,3 +160,28 @@ int8_t Rotates::srl_hl() {
 
     return 16;
 }
+
+int8_t Rotates::swap_r8(Register_8bit& register_) {
+    uint8_t result = (register_.get() << 4) | (register_.get() >> 4);
+
+    register_.set(result);
+    cpu.flags->set_z(result == 0x00);
+    cpu.flags->set_n(0);
+    cpu.flags->set_h(0);
+    cpu.flags->set_c(0);
+
+    return 8;
+}
+
+int8_t Rotates::swap_hl() {
+    uint8_t value = cpu.HL->getAddressValue();
+    uint8_t result = (value << 4) | (value >> 4);
+
+    cpu.HL->setAddressValue(result);
+    cpu.flags->set_z(result == 0x00);
+    cpu.flags->set_n(0);
+    cpu.flags->set_h(0);
+    cpu.flags->set_c(0);
+
+    return 16;
+}

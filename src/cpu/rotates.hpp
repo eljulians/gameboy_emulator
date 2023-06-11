@@ -37,4 +37,7 @@ class Rotates {
 
         int8_t srl_r8(Register_8bit& register_);
         int8_t srl_hl();
+
+        int8_t swap_r8(Register_8bit& register_);
+        int8_t swap_hl();
 };
