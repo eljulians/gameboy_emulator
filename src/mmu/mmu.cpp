@@ -2,6 +2,7 @@
 #include "mmu.hpp"
 #include <vector>
 #include <stdint.h>
+#include <iostream>
 #include "../gameboy.hpp"
 
 

@@ -5,7 +5,7 @@
 
 int main(int argc, char *argv[]) {
     //std::string romPath = argv[1];
-    std::string romPath = "roms/03-op_sp,hl.gb";
+    std::string romPath = "roms/cpu_instrs.gb";
     GameBoy gameBoy = GameBoy(romPath);
     gameBoy.mainLoop();
 }

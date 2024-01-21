@@ -5,10 +5,12 @@
 
 
 void GameBoy::mainLoop() {
+    uint8_t cycles;
+
     cartridge.loadRom();
 
     while(true) {
-        cpu.controlUnit.execute();
+        cycles = cpu.controlUnit.execute();
     }
 
 }

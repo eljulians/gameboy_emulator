@@ -23,7 +23,7 @@ CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy), controlUnit(*this) {
     BC->set(0x0000);
     DE->set(0xFF56);
     HL->set(0x000D);
-    PC.set(0x0000);
+    PC.set(0x0100);
     SP.set(0xFFFE);
     
     loads8bit = new Loads8bit(*this, gameBoy.mmu, (*HL));

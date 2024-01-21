@@ -1594,5 +1594,5 @@ uint8_t ControlUnit::execute()
         break;
     }
 
-    return 0;
+    return cycles;
 }
