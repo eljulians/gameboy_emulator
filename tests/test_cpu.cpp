@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include <stdint.h>
 
-#include <catch2/catch.hpp>
+#include "../lib/catch.hpp"
 #include "../src/cpu/registers.hpp"
 #include "../src/cpu/jumps.hpp"
 #include "../src/cpu/cpu.hpp"

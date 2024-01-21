@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 
-#include <catch2/catch.hpp>
+#include "../lib/catch.hpp"
 #include "../src/cpu/registers.hpp"
 #include "../src/mmu/mmu.hpp"
 #include "../src/gameboy.hpp"

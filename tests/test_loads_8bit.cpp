@@ -2,7 +2,7 @@
 #include <iostream>
 #include <stdint.h>
 
-#include <catch2/catch.hpp>
+#include "../lib/catch.hpp"
 #include "../src/cpu/registers.hpp"
 #include "../src/cpu/loads_8bit.hpp"
 #include "../src/mmu/mmu.hpp"
