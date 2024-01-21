@@ -56,6 +56,9 @@ private:
     std::vector<uint8_t> spriteAttributes;
     std::vector<uint8_t> io;
     std::vector<uint8_t> highRam;
+    std::vector<uint8_t> videoRam;
+    // TODO: implement switchable RAM banking
+    std::vector<uint8_t> switchableRam;
     uint8_t interrupt;
 
 public:

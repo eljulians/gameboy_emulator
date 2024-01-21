@@ -6,7 +6,7 @@ class GameBoy;
 
 class GPU {
     public:
-        GPU(GameBoy& gameBoy) : gameBoy(gameBoy), lcdControl(lcdControl) {};
+        GPU(GameBoy& gameBoy, LCDControl& lcdControl) : gameBoy(gameBoy), lcdControl(lcdControl) {};
         void update(uint8_t cycles);
     
     private:

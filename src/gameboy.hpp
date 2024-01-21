@@ -11,16 +11,16 @@ class GameBoy {
     public:
         GameBoy() : 
             cpu(*this),
-            gpu(*this),
             mmu(*this),
             cartridge(""),
             interruptManager(this->mmu, this->cpu),
-            lcdControl(this->mmu, this->interruptManager)
+            lcdControl(this->mmu, this->interruptManager),
+            gpu(*this, this->lcdControl)
         {
         };
         GameBoy(std::string romPath) :
             cpu(*this),
-            gpu(*this),
+            gpu(*this, this->lcdControl),
             mmu(*this),
             cartridge(romPath),
             interruptManager(this->mmu, this->cpu),

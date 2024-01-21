@@ -12,7 +12,10 @@ MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
     spriteAttributes = std::vector<uint8_t>(SPRITE_ATTRIBUTES_SIZE);
     io = std::vector<uint8_t>(IO_SIZE);
     highRam = std::vector<uint8_t>(HIGH_RAM_SIZE);
+    videoRam = std::vector<uint8_t>(VIDEO_RAM_SIZE);
     interrupt = 0x00;
+    // TODO: implement switchable RAM banking
+    switchableRam = std::vector<uint8_t>(SWITCHABLE_RAM_SIZE);
 }
 
 void MMU::write_8bit(uint16_t address, uint8_t value) {
@@ -21,11 +24,12 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
     
     if (IS_VIDEO_RAM(address)) {
-        
+        videoRam.at(address - VIDEO_RAM_START) = value;
     }
 
     if (IS_SWITCHABLE_RAM(address)) {
-
+        // TODO: implement switchable RAM banking
+        switchableRam.at(address - SWITCHABLE_RAM_BANK_START) = value;
     }
 
     if (IS_INTERNAL_RAM(address)) {
@@ -33,7 +37,7 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
 
     if (IS_SPRITE_ATTRIBUTES(address)) {
-
+        internalRam.at(address - SPRITE_ATTRIBUTES_START) = value;
     }
 
     if (IS_IO(address)) {
@@ -61,11 +65,12 @@ uint8_t MMU::read_8bit(uint16_t address) {
     }
     
     if (IS_VIDEO_RAM(address)) {
-        
+        return videoRam.at(address - VIDEO_RAM_START);
     }
 
     if (IS_SWITCHABLE_RAM(address)) {
-
+        // TODO: implement switchable RAM banking
+        return switchableRam.at(address - SWITCHABLE_RAM_BANK_START);
     }
 
     if (IS_INTERNAL_RAM(address)) {
@@ -73,7 +78,7 @@ uint8_t MMU::read_8bit(uint16_t address) {
     }
 
     if (IS_SPRITE_ATTRIBUTES(address)) {
-
+        return spriteAttributes.at(address - SPRITE_ATTRIBUTES_START);
     }
 
     if (IS_IO(address)) {
