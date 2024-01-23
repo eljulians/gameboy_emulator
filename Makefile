@@ -52,6 +52,9 @@ gameboy.o: cpu.o gpu.o mmu.o cartridge.o control_unit.o
 cartridge.o:
 	$(CC) $(CFLAGS) -c src/mmu/cartridge.cpp
 
+tile.o:
+	$(CC) $(CFLAGS) -c src/gpu/tile.cpp
+
 interrupt.o: gameboy.o
 	$(CC) $(CFLAGS) -c src/interrupts/interrupt.cpp
 
@@ -62,7 +65,7 @@ gameboy_main.o: gameboy.o
 	$(CC) $(CFLAGS) -c src/gameboy_main.cpp
 
 gameboy_emulator: clean gameboy_main.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o
-	$(CC) $(CFLAGS) -o $(TARGET) gameboy_main.o gameboy.o cpu.o gpu.o mmu.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o
+	$(CC) $(CFLAGS) -o $(TARGET) gameboy_main.o gameboy.o cpu.o gpu.o mmu.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o -Llibraries/ -lSDL2
 
 test_alu_8bit.o:
 	$(CC) $(CFLAGS) -c tests/test_alu_8bit.cpp
@@ -123,6 +126,14 @@ test-cpu: clean gameboy.o cpu.o mmu.o test_cpu.o registers.o loads_8bit.o jumps.
 test-interrupt: clean interrupt.o test_interrupt.o gameboy.o cpu.o mmu.o registers.o loads_8bit.o jumps.o bit.o rotates.o alu_8bit.o alu_16bit.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) gameboy.o interrupt.o registers.o cpu.o mmu.o gpu.o test_interrupt.o cartridge.o control_unit.o loads_8bit.o jumps.o bit.o rotates.o alu_8bit.o alu_16bit.o
 	./$(TEST_TARGET)
+
+test-tile.o:
+	$(CC) $(CFLAGS) -c tests/gpu/test_tile.cpp
+
+test-tile: clean test-tile.o tile.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) tile.o test_tile.o
+	./$(TEST_TARGET)
+
 
 test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit test-rotates test-jumps test-interrupt
 

@@ -18,7 +18,8 @@ uint16_t ControlUnit::fetch()
 
 uint8_t ControlUnit::execute()
 {
-    std::cout << "PC 0x" << std::hex << cpu.PC.get() << "\n";
+    uint16_t pc = cpu.PC.get();
+    std::cout << "PC 0x" << std::hex << pc << "\n";
     uint16_t opcode = fetch();
     uint8_t cycles;
 
