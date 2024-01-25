@@ -61,6 +61,10 @@ interrupt.o: gameboy.o
 #gameboy: clean gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o
 	#$(CC) $(CFLAGS) -o $(TARGET) gameboy.o cpu.o gpu.o mmu.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o
 
+bit_operations.o:
+	$(CC) $(CFLAGS) -c src/common/bit_operations.cpp
+
+
 gameboy_main.o: gameboy.o
 	$(CC) $(CFLAGS) -c src/gameboy_main.cpp
 
@@ -133,6 +137,13 @@ test-tile.o:
 test-tile: clean test-tile.o tile.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) tile.o test_tile.o
 	./$(TEST_TARGET)
+
+test_bit_operations.o: bit_operations.o
+	$(CC) $(CFLAGS) -c tests/common/test_bit_operations.cpp
+test_bit_operations: clean bit_operations.o test_bit_operations.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) bit_operations.o test_bit_operations.o
+	./$(TEST_TARGET)
+
 
 
 test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit test-rotates test-jumps test-interrupt

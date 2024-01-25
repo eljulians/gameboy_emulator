@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 #include "lcd_control.hpp"
+#include "tile.hpp"
 
 class GameBoy;
 
@@ -11,9 +12,7 @@ class GPU {
         GPU(GameBoy& gameBoy, LCDControl& lcdControl) : gameBoy(gameBoy), lcdControl(lcdControl) {};
         void init_sdl();
         void update(uint8_t cycles);
-        void getFirstTileSet();
-        void getSecondTileSet();
-
+        TileVector getTiles();
     
     private:
         GameBoy& gameBoy;

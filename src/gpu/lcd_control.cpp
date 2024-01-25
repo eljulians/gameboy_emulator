@@ -4,6 +4,7 @@
 #include "../mmu/mmu.hpp"
 #include "../interrupts/interrupt_manager.hpp"
 
+
 uint8_t LCDControl::getCurrentScanline() {
     return mmu.read_8bit(CURRENT_SCANLINE_ADDRESS);
 }
@@ -85,4 +86,41 @@ void LCDControl::update(uint8_t cycles) {
         resetScanline();
         currentCycles = 0;
     }
+}
+
+
+uint8_t LCDControl::getLCDControlValue() {
+    return mmu.read_8bit(LCD_CONTROL_ADDRESS);
+}
+
+bool LCDControl::isScreenOn() {
+    return testBit(getLCDControlValue(), 7);
+}
+
+WindowTileMapDisplaySelect LCDControl::getWindowTileMapDisplaySelect() {
+    return static_cast<WindowTileMapDisplaySelect>(testBit(getLCDControlValue(), 6));
+}
+
+bool LCDControl::getWindowDisplay() {
+    return testBit(getLCDControlValue(), 5);
+}
+
+BackgroundAndWindowTileDataSelect LCDControl::getBackgroundAndWindowTileDataSelect() {
+    return static_cast<BackgroundAndWindowTileDataSelect>(testBit(getLCDControlValue(), 4));
+}
+
+BackgroundTileMapDisplaySelect LCDControl::getBackgroundTileMapDisplaySelect() {
+    return static_cast<BackgroundTileMapDisplaySelect>(testBit(getLCDControlValue(), 3));
+}
+
+SpriteSize LCDControl::getSpriteSize() {
+    return static_cast<SpriteSize>(testBit(getLCDControlValue(), 2));
+}
+
+bool LCDControl::getSpriteDisplay() {
+    return testBit(getLCDControlValue(), 1);
+}
+
+bool LCDControl::getBackgroundAndWindowDisplay() {
+    return testBit(getLCDControlValue(), 0);
 }

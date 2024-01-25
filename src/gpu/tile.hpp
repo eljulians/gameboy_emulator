@@ -13,6 +13,7 @@ enum class Color {
     BLACK,
 };
 
+
 class TilePixel {
     // Each pixel 2 bits
     public:
