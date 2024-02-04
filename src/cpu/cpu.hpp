@@ -7,6 +7,7 @@
 #include "control_unit.hpp"
 #include "bit.hpp"
 #include "rotates.hpp"
+#include "misc_control.hpp"
 
 #define CONDITION_NZ 0
 #define CONDITION_Z 1
@@ -37,6 +38,7 @@ class CPU {
         Jumps *jumps;
         Bit *bit;
         Rotates *rotates;
+        MiscControl *miscControl;
 
         uint8_t fetchByte();
         int8_t fetchSignedByte();

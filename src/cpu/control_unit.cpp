@@ -34,6 +34,7 @@ uint8_t ControlUnit::execute()
     switch (opcode)
     {
     case 0x00:
+        cycles = cpu.miscControl->nop();
         break;
     case 0x01:
         cycles = cpu.loads8bit->ld_r16_n16(*cpu.BC);
@@ -82,7 +83,7 @@ uint8_t ControlUnit::execute()
         break;
 
     case 0x10:
-        std::cout << "Operation STOP (0x10) not implemented\n";
+        cycles = cpu.miscControl->stop();
         break;
     case 0x11:
         cycles = cpu.loads8bit->ld_r16_n16(*cpu.DE);
@@ -402,8 +403,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_hl_r8(cpu.L);
         break;
     case 0x76:
-        std::cout << "Instruction HALT (0x76) not implemented\n";
-        cycles = 4;
+        cycles = cpu.miscControl->halt();
         break;
     case 0x77:
         cycles = cpu.loads8bit->load_hl_r8(cpu.A);
@@ -757,8 +757,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->ld_a_c();
         break;
     case 0xF3:
-        // throw std::runtime_error("Operation DI (0xF3) not implemented");
-        std::cout << "Operation DI (0xF3) not implemented\n";
+        cycles = cpu.miscControl->di();
         break;
     case 0xF5:
         cycles = cpu.loads8bit->push_r16(*cpu.AF);
@@ -779,8 +778,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_a_address();
         break;
     case 0xFB:
-        // throw std::runtime_error("Operation EI (0xFB) not implemented");
-        std::cout << "Operation EI (0xFB) not implemented\n";
+        cycles = cpu.miscControl->ei();
         break;
     case 0xFE:
         cycles = cpu.alu8bit->cp_a_n8();
