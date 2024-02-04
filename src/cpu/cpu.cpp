@@ -116,13 +116,16 @@ bool CPU::getCondition(Condition condition) {
 }
 
 void CPU::enableInterrupts() {
+    // IME Interrupt Master Flag
     interruptEnabled = true;
 }
 
 void CPU::disableInterrupts() {
+    // IME Interrupt Master Flag
     interruptEnabled = false;
 }
 
 bool CPU::areInterruptsEnabled() {
+    // IME Interrupt Master Flag
     return interruptEnabled;
 }

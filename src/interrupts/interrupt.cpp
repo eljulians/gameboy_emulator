@@ -50,3 +50,7 @@ bool Interrupt::isEnabled() {
 int8_t Interrupt::getAddress() {
     return INTERRUPT_ADDRESS_MAP.at(interruptEnum);
 }
+
+char* Interrupt::toString() {
+    str(interruptEnum);
+}

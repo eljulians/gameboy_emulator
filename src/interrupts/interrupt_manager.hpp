@@ -1,10 +1,14 @@
 #pragma once
 
 #include <stdint.h>
+#include <vector>
+
 #include "interrupt.hpp"
 
 class MMU;
 class CPU;
+
+typedef std::vector<Interrupt> InterruptVector;
 
 class InterruptManager {
     public:
@@ -22,10 +26,12 @@ class InterruptManager {
         Interrupt timer;
         Interrupt serial;
         Interrupt keypad;
-        void handle(int8_t currentCycles);
+        void handle();
 
     private:
         MMU& mmu;
         CPU& cpu;
         int8_t cycles = 0;
+
+        InterruptVector getInterrupts();
 };

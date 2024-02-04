@@ -8,6 +8,8 @@
 // Interrupt enabled flag - individual interrupts (no IME master)
 #define IE_FLAG_ADDRESS 0xFFFF
 
+#define str(name) #name
+
 
 class MMU;
 
@@ -54,6 +56,8 @@ class Interrupt {
         bool isEnabled();
 
         int8_t getAddress(); 
+
+        char* toString();
 
     private:
         MMU& mmu;

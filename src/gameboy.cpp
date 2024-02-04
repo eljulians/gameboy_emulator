@@ -12,6 +12,8 @@ void GameBoy::mainLoop() {
 
     while(true) {
         cycles = cpu.controlUnit.execute();
+        gpu.update(cycles);
+        interruptManager.handle();
     }
 
 }
