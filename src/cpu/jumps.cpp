@@ -86,7 +86,8 @@ int8_t Jumps::ret_cc(Condition condition) {
 }
 
 int8_t Jumps::reti() {
-    throw std::runtime_error("Operation RETI implemented");
+    cpu.PC.set(cpu.pop_address_from_stack());
+    cpu.enableInterrupts();
 
     return 8;
 }
