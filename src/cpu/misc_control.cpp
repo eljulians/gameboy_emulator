@@ -7,7 +7,7 @@ int MiscControl::nop() {
 }
 
 int MiscControl::stop() {
-    // TODO??
+    // 2-byte opcode whose second byte is ignored...
     return 4;
 }
 
@@ -18,8 +18,12 @@ int MiscControl::halt() {
 
 int MiscControl::di() {
     cpu.disableInterrupts();
+
+    return 4;
 }
 
 int MiscControl::ei() {
     cpu.enableInterrupts();
+
+    return 4;
 }

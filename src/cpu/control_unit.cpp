@@ -83,7 +83,9 @@ uint8_t ControlUnit::execute()
         break;
 
     case 0x10:
+        // 2-byte opcode whose second byte is ignored...
         cycles = cpu.miscControl->stop();
+        cpu.PC.increment();
         break;
     case 0x11:
         cycles = cpu.loads8bit->ld_r16_n16(*cpu.DE);
