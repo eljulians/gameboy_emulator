@@ -2,6 +2,7 @@
 #include "cpu/cpu.hpp"
 #include "gpu/gpu.hpp"
 #include "mmu/mmu.hpp"
+#include "interrupts/interrupt_manager.hpp"
 
 
 void GameBoy::mainLoop() {
