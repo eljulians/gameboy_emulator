@@ -11,9 +11,9 @@
 INPUT_CLOCK_HZ TimerControl::getInputClockSelect() {
     int mask = 0b11;
     auto value = mmu.read_8bit(TIMER_CONTROL_ADDRESS) & mask;
-    auto clock = INPUT_CLOCK_SELECT_HZ_MAP.at(value);
+    auto clock = INPUT_CLOCK_SELECT_CYCLES_MAP.at(value);
 
-    spdlog::info("TAC: {} Hz (mode: {})", clock, value);
+    spdlog::info("TAC: {} cycles (mode: {})", clock, value);
 
     return clock;
 }

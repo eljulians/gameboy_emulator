@@ -15,21 +15,21 @@ https://gbdev.io/pandocs/Timer_and_Divider_Registers.html
 #define TIMER_MODULO_ADDRESS 0xFF06   // aka TMA
 #define TIMER_CONTROL_ADDRESS 0xFF07  // aka TAC
 
-#define MODE_0_CLOCK_HZ 4096
-#define MODE_1_CLOCK_HZ 262144
-#define MODE_2_CLOCK_HZ 65536
-#define MODE_3_CLOCK_HZ 16384
+#define MODE_0_CYCLES 1024 // 4096 Hz
+#define MODE_1_CYCLES 16 // 262144 Hz
+#define MODE_2_CYCLES 64 // 65536 Hz
+#define MODE_3_CYCLES 256 // 16384 Hz
 
 class MMU;
 class CPU;
 
 typedef int INPUT_CLOCK_HZ;
 
-const std::map<int, INPUT_CLOCK_HZ> INPUT_CLOCK_SELECT_HZ_MAP {
-    {0b00, MODE_0_CLOCK_HZ},
-    {0b01, MODE_1_CLOCK_HZ},
-    {0b10, MODE_2_CLOCK_HZ},
-    {0b11, MODE_3_CLOCK_HZ},
+const std::map<int, INPUT_CLOCK_HZ> INPUT_CLOCK_SELECT_CYCLES_MAP {
+    {0b00, MODE_0_CYCLES},
+    {0b01, MODE_1_CYCLES},
+    {0b10, MODE_2_CYCLES},
+    {0b11, MODE_3_CYCLES},
 };
 
 
@@ -74,6 +74,7 @@ class TimerCounter {
         int currentCycles;
 };
 
+class Divider {};
 
 class TimerManager {
     public:

@@ -22,14 +22,14 @@ TEST_CASE("TimerControl::getInputClockSelect") {
     TimerControl timerControl = TimerControl(mmu);
 
     std::map<int, INPUT_CLOCK_HZ> valueExpectedMap {
-        {0xF0, INPUT_CLOCK_SELECT_HZ_MAP.at(0b00)},
-        {0xF1, INPUT_CLOCK_SELECT_HZ_MAP.at(0b01)},
-        {0xF2, INPUT_CLOCK_SELECT_HZ_MAP.at(0b10)},
-        {0xF3, INPUT_CLOCK_SELECT_HZ_MAP.at(0b11)},
-        {0xF4, INPUT_CLOCK_SELECT_HZ_MAP.at(0b00)},
-        {0xF5, INPUT_CLOCK_SELECT_HZ_MAP.at(0b01)},
-        {0xF6, INPUT_CLOCK_SELECT_HZ_MAP.at(0b10)},
-        {0xF7, INPUT_CLOCK_SELECT_HZ_MAP.at(0b11)},
+        {0xF0, INPUT_CLOCK_SELECT_CYCLES_MAP.at(0b00)},
+        {0xF1, INPUT_CLOCK_SELECT_CYCLES_MAP.at(0b01)},
+        {0xF2, INPUT_CLOCK_SELECT_CYCLES_MAP.at(0b10)},
+        {0xF3, INPUT_CLOCK_SELECT_CYCLES_MAP.at(0b11)},
+        {0xF4, INPUT_CLOCK_SELECT_CYCLES_MAP.at(0b00)},
+        {0xF5, INPUT_CLOCK_SELECT_CYCLES_MAP.at(0b01)},
+        {0xF6, INPUT_CLOCK_SELECT_CYCLES_MAP.at(0b10)},
+        {0xF7, INPUT_CLOCK_SELECT_CYCLES_MAP.at(0b11)},
     };
 
     for (const auto &[timerControlValue, expected]: valueExpectedMap) {
@@ -73,7 +73,7 @@ TEST_CASE("TimerCounter::tick") {
     // Initialize to almost overflow
     mmu.write_8bit(TIMER_COUNTER_ADDRESS, 0xFF);
 
-    timerCounter.tick(4094);
+    timerCounter.tick(1022);
     REQUIRE(mmu.read_8bit(TIMER_COUNTER_ADDRESS) == 0xFF);
     REQUIRE(!timerInterrupt.isFlagged());
 
