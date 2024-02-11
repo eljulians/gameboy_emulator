@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <iostream>
 #include "../gameboy.hpp"
+#include "../cpu/timer/timer.hpp"
 
 
 MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
@@ -41,7 +42,11 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
 
     if (IS_IO(address)) {
-        io.at(address - IO_START) = value;
+        if (address == DIVIDER_ADDRESS) {
+            io.at(address - IO_START) = 0x00;
+        } else {
+            io.at(address - IO_START) = value;
+        }
     }
 
     if (IS_HIGH_RAM(address)) {

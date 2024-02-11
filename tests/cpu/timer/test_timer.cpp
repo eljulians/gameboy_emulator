@@ -16,9 +16,7 @@
 
 TEST_CASE("TimerControl::getInputClockSelect") {
     GameBoy gameBoy = GameBoy();
-    CPU cpu = gameBoy.cpu;
     MMU mmu = gameBoy.mmu;
-    //InterruptManager interruptManager = InterruptManager(mmu, cpu);
     TimerControl timerControl = TimerControl(mmu);
 
     std::map<int, INPUT_CLOCK_HZ> valueExpectedMap {
@@ -40,9 +38,7 @@ TEST_CASE("TimerControl::getInputClockSelect") {
 
 TEST_CASE("TimerControl::isEnabled") {
     GameBoy gameBoy = GameBoy();
-    CPU cpu = gameBoy.cpu;
     MMU mmu = gameBoy.mmu;
-    //InterruptManager interruptManager = InterruptManager(mmu, cpu);
     TimerControl timerControl = TimerControl(mmu);
 
     mmu.write_8bit(TIMER_CONTROL_ADDRESS, 0b100);
@@ -84,4 +80,25 @@ TEST_CASE("TimerCounter::tick") {
     timerCounter.tick(1);
     REQUIRE(mmu.read_8bit(TIMER_COUNTER_ADDRESS) == timerModulo.getValue());
     REQUIRE(timerInterrupt.isFlagged());
+}
+
+
+TEST_CASE("Divider::tick") {
+    GameBoy gameBoy = GameBoy();
+    MMU mmu = gameBoy.mmu;
+    Divider divider = Divider(mmu);
+
+    // Only upper byte is mapped to memory
+    divider.tick(255);
+    REQUIRE(mmu.read_8bit(DIVIDER_ADDRESS) == 0x00);
+
+    divider.tick(1);
+    REQUIRE(mmu.read_8bit(DIVIDER_ADDRESS) == 0x01);
+
+    // Including previous ticks, 0xFFFF
+    divider.tick(256*255-1);
+    REQUIRE(mmu.read_8bit(DIVIDER_ADDRESS) == 0xFF);
+
+    divider.tick(2);
+    REQUIRE(mmu.read_8bit(DIVIDER_ADDRESS) == 0x00);
 }

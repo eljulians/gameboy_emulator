@@ -2,6 +2,8 @@
 #include <stdint.h>
 #include <vector>
 
+#include "../cpu/timer/timer.hpp"
+
 #define ROM_BANK_0_START 0x0000
 #define ROM_BANK_0_END 0x3FFF
 #define IS_ROM_BANK_0(a) a <= ROM_BANK_0_END
@@ -47,6 +49,7 @@
 
 
 class GameBoy;
+class Divider;
 
 class MMU {
 private:
@@ -60,6 +63,10 @@ private:
     // TODO: implement switchable RAM banking
     std::vector<uint8_t> switchableRam;
     uint8_t interrupt;
+
+    // Divider needs direct write acecss to io, since writes to DIV are reset
+    // to 0 by hardware
+    friend class Divider;
 
 public:
     MMU(GameBoy& gameBoy);

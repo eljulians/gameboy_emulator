@@ -74,7 +74,19 @@ class TimerCounter {
         int currentCycles;
 };
 
-class Divider {};
+class Divider {
+    // Internal divider is 16 bit, but only upper 8 bits are mapped to memory
+    // On overflow, divider writes directly to the memory address, no MMU mapping,
+    // since hardware resets DIV when writting on it
+    public:
+        Divider(MMU& mmu) : mmu(mmu), internalDivider(0) {};
+        void tick(int cycles);
+        void resetInternalDivider();
+
+    private:
+        MMU& mmu;
+        int internalDivider;
+};
 
 class TimerManager {
     public:
