@@ -35,15 +35,12 @@ int TimerModulo::getValue() {
 }
 
 void TimerCounter::tick(int cycles) {
-    //kif (!timerControl.isEnabled()) {
-    //k    return;
-    //k}
-
+    // TODO: request interrupt on the next tick after overflow?
     auto clockSelect = timerControl.getInputClockSelect();
     auto counterValue = mmu.read_8bit(TIMER_COUNTER_ADDRESS);
 
     spdlog::info("TIMA: current cycles: {}", currentCycles);
-    spdlog::info("TIMA: increasing by {}", cycles);
+    spdlog::info("TIMA: increasing cycles by {}", cycles);
     spdlog::info("TIMA: 0x{0:x}", counterValue);
 
     currentCycles += cycles;
@@ -51,12 +48,12 @@ void TimerCounter::tick(int cycles) {
     if (currentCycles >= clockSelect) {
         spdlog::info("TIMA: incrementing");
 
-        counterValue = (counterValue + 1) & 0xFF;
+        counterValue += 1;
         currentCycles = currentCycles - clockSelect;
-        mmu.write_8bit(TIMER_COUNTER_ADDRESS, currentCycles);
+        mmu.write_8bit(TIMER_COUNTER_ADDRESS, counterValue & 0xFF);
     }
 
-    if (counterValue == 0x00) {
+    if (counterValue > 0xFF) {
         spdlog::info("TIMA: overflow, resetting value to TMA and requesting interrupt");
 
         auto timerModuloValue = timerModulo.getValue();
@@ -66,6 +63,7 @@ void TimerCounter::tick(int cycles) {
 }
 
 void Divider::tick(int cycles) {
+    // TODO: every t-cycle or m-cycle (4 t-cycles)????
     spdlog::info("DIV: internal: 0x{0:x}", internalDivider);
     spdlog::info("DIV: cycles: {}", cycles);
 
@@ -82,4 +80,9 @@ void Divider::tick(int cycles) {
 
     // Direct write; hardware resets DIV to 0 on other writes
     mmu.io.at(DIVIDER_ADDRESS - IO_START) = upperByte;
+}
+
+void TimerManager::tick(int cycles) {
+    divider.tick(cycles);
+    timerCounter.tick(cycles);
 }

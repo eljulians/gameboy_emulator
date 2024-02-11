@@ -92,21 +92,20 @@ class TimerManager {
     public:
         TimerManager(
             MMU& mmu,
-            CPU& cpu,
             Interrupt& interrupt
         ) :
             mmu(mmu),
-            cpu(cpu),
             timerControl(mmu),
             timerModulo(mmu),
-            timerCounter(mmu, timerControl, timerModulo, interrupt)
+            timerCounter(mmu, timerControl, timerModulo, interrupt),
+            divider(mmu)
         {};
-        void update(int cycles);
+        void tick(int cycles);
 
     private:
         MMU& mmu;
-        CPU& cpu;
         TimerControl timerControl;
         TimerModulo timerModulo;
         TimerCounter timerCounter;
+        Divider divider;
 };

@@ -6,6 +6,7 @@
 #include "mmu/mmu.hpp"
 #include "mmu/cartridge.hpp"
 #include "interrupts/interrupt_manager.hpp"
+#include "cpu/timer/timer.hpp"
 
 class GameBoy {
     public:
@@ -15,7 +16,8 @@ class GameBoy {
             cartridge(""),
             interruptManager(this->mmu, this->cpu),
             lcdControl(this->mmu, this->interruptManager),
-            gpu(*this, this->lcdControl)
+            gpu(*this, this->lcdControl),
+            timerManager(this->mmu, this->interruptManager.timer)
         {
         };
         GameBoy(std::string romPath) :
@@ -24,7 +26,8 @@ class GameBoy {
             mmu(*this),
             cartridge(romPath),
             interruptManager(this->mmu, this->cpu),
-            lcdControl(this->mmu, this->interruptManager)
+            lcdControl(this->mmu, this->interruptManager),
+            timerManager(this->mmu, this->interruptManager.timer)
         {
         };
 
@@ -34,5 +37,6 @@ class GameBoy {
         CartridgeROMOnly cartridge;
         InterruptManager interruptManager;
         LCDControl lcdControl;
+        TimerManager timerManager;
         void mainLoop();
 };
