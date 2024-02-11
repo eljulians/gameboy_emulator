@@ -1,5 +1,5 @@
 CC = clang++
-CFLAGS = -std=c++20 -g -Wall -Llibraries/ -lSDL2
+CFLAGS = -std=c++20 -g -Wall -Llibraries/ -lSDL2 -lspdlog -lfmt
 TARGET = gameboy_emulator
 TEST_TARGET = gameboy_emulator_test
 

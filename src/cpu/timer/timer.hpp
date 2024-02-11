@@ -1,13 +1,24 @@
+/*
+https://gbdev.io/pandocs/Timer_and_Divider_Registers.html
+*/
+
 #pragma once
 
 #include <map>
 #include <stdint.h>
 #include "../../interrupts/interrupt.hpp"
 
+#define CLOCK_HZ 4190000  // 4,19 MHz
+
 #define DIVIDER_ADDRESS 0xFF04 
 #define TIMER_COUNTER_ADDRESS 0xFF05  // aka TIMA
 #define TIMER_MODULO_ADDRESS 0xFF06   // aka TMA
 #define TIMER_CONTROL_ADDRESS 0xFF07  // aka TAC
+
+#define MODE_0_CLOCK_HZ 4096
+#define MODE_1_CLOCK_HZ 262144
+#define MODE_2_CLOCK_HZ 65536
+#define MODE_3_CLOCK_HZ 16384
 
 class MMU;
 class CPU;
@@ -15,10 +26,10 @@ class CPU;
 typedef int INPUT_CLOCK_HZ;
 
 const std::map<int, INPUT_CLOCK_HZ> INPUT_CLOCK_SELECT_HZ_MAP {
-    {0b00, 4096},
-    {0b01, 262144},
-    {0b10, 65536},
-    {0b11, 16384},
+    {0b00, MODE_0_CLOCK_HZ},
+    {0b01, MODE_1_CLOCK_HZ},
+    {0b10, MODE_2_CLOCK_HZ},
+    {0b11, MODE_3_CLOCK_HZ},
 };
 
 
@@ -32,19 +43,36 @@ class TimerControl {
         MMU& mmu;
 };
 
-class TimerCounter {
+
+class TimerModulo {
+    // When TimerCounter (TIMA) overflows, this value is loaded
     public:
-        TimerCounter(TimerControl& timerControl, Interrupt& interrupt) :
-            timerControl(timerControl),
-            interrupt(interrupt)
-            {};
-        void update(int cycles);
+        TimerModulo(MMU& mmu) : mmu(mmu) {};
+        int getValue();
 
     private:
-        TimerControl& timerControl;
-        Interrupt& interrupt;
+        MMU& mmu;
 };
 
+class TimerCounter {
+    // On overflow, reset to value specified by TMA and request interrupt
+    public:
+        TimerCounter(MMU& mmu, TimerControl& timerControl, TimerModulo& timerModulo, Interrupt& interrupt) :
+            mmu(mmu),
+            timerControl(timerControl),
+            timerModulo(timerModulo),
+            interrupt(interrupt),
+            currentCycles(0)
+            {};
+        void tick(int cycles);
+
+    private:
+        MMU& mmu;
+        TimerControl& timerControl;
+        Interrupt& interrupt;
+        TimerModulo& timerModulo;
+        int currentCycles;
+};
 
 
 class TimerManager {
@@ -53,15 +81,12 @@ class TimerManager {
             MMU& mmu,
             CPU& cpu,
             Interrupt& interrupt
-            //CPU& cpu,
-            //uint8_t& dividerReference,
-            //uint8_t& counterReference,
-            //uint8_t& moduloReference
         ) :
             mmu(mmu),
             cpu(cpu),
             timerControl(mmu),
-            timerCounter(timerControl, interrupt)
+            timerModulo(mmu),
+            timerCounter(mmu, timerControl, timerModulo, interrupt)
         {};
         void update(int cycles);
 
@@ -69,5 +94,6 @@ class TimerManager {
         MMU& mmu;
         CPU& cpu;
         TimerControl timerControl;
+        TimerModulo timerModulo;
         TimerCounter timerCounter;
 };

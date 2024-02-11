@@ -10,10 +10,11 @@
 #include "../../../src/cpu/timer/timer.hpp"
 #include "../../../src/gameboy.hpp"
 #include "../../../src/interrupts/interrupt_manager.hpp"
+#include "../../../src/interrupts/interrupt.hpp"
 #include <map>
 
 
-TEST_CASE("getInputClockSelect") {
+TEST_CASE("TimerControl::getInputClockSelect") {
     GameBoy gameBoy = GameBoy();
     CPU cpu = gameBoy.cpu;
     MMU mmu = gameBoy.mmu;
@@ -37,7 +38,7 @@ TEST_CASE("getInputClockSelect") {
     }
 }
 
-TEST_CASE("isEnabled") {
+TEST_CASE("TimerControl::isEnabled") {
     GameBoy gameBoy = GameBoy();
     CPU cpu = gameBoy.cpu;
     MMU mmu = gameBoy.mmu;
@@ -49,4 +50,38 @@ TEST_CASE("isEnabled") {
 
     mmu.write_8bit(TIMER_CONTROL_ADDRESS, 0);
     REQUIRE(!timerControl.isEnabled());
+}
+
+
+TEST_CASE("TimerCounter::tick") {
+    GameBoy gameBoy = GameBoy();
+    CPU cpu = gameBoy.cpu;
+    MMU mmu = gameBoy.mmu;
+    InterruptManager interruptManager = InterruptManager(mmu, cpu);
+    Interrupt timerInterrupt = interruptManager.timer;
+    TimerControl timerControl = TimerControl(mmu);
+    TimerModulo timerModulo = TimerModulo(mmu);
+    TimerCounter timerCounter = TimerCounter(mmu, timerControl, timerModulo, timerInterrupt);
+    int timerModuloValue = 0xAA;
+
+    // Set mode 0 and enabled - 4096Hz
+    mmu.write_8bit(TIMER_CONTROL_ADDRESS, 0b100);
+
+    // Set value to TMA that will be set to TIMA on overflow
+    mmu.write_8bit(TIMER_MODULO_ADDRESS, timerModuloValue);
+
+    // Initialize to almost overflow
+    mmu.write_8bit(TIMER_COUNTER_ADDRESS, 0xFF);
+
+    timerCounter.tick(4094);
+    REQUIRE(mmu.read_8bit(TIMER_COUNTER_ADDRESS) == 0xFF);
+    REQUIRE(!timerInterrupt.isFlagged());
+
+    timerCounter.tick(1);
+    REQUIRE(mmu.read_8bit(TIMER_COUNTER_ADDRESS) == 0xFF);
+    REQUIRE(!timerInterrupt.isFlagged());
+    
+    timerCounter.tick(1);
+    REQUIRE(mmu.read_8bit(TIMER_COUNTER_ADDRESS) == timerModulo.getValue());
+    REQUIRE(timerInterrupt.isFlagged());
 }
