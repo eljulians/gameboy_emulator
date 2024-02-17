@@ -3,8 +3,13 @@
 #include <stdint.h>
 #include <vector>
 
+#include "lcd_control.hpp"
+
 #define PIXELS_IN_ROW 8
 #define ROWS_IN_TILE 8
+
+// All the tiles, not only the viewport
+#define TILES_IN_BACKGROUND 384
 
 enum class Color {
     WHITE,
@@ -64,3 +69,4 @@ class Tile {
 };
 
 typedef std::vector<Tile> TileVector;
+typedef std::vector<TileVector> TileMatrix;

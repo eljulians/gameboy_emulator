@@ -30,20 +30,20 @@ enum class LCDMode {
 
 // Bit 6 of 0xFF40
 enum class WindowTileMapDisplaySelect {
-    FIRST,   // $9800-$9BFF, unsiged 0,128
-    SECOND,  // $9C00-$9FFF, signed -128,127
+    FIRST,   // $9800-$9BFF
+    SECOND,  // $9C00-$9FFF
 };
 
 // Bit 4 of 0xFF40
 enum class BackgroundAndWindowTileDataSelect {
-    FIRST,   // $8000-$97FF
-    SECOND,  // $8000-$8FFF, same area as OBJ
+    FIRST_SIGNED,   // $8800-$97FF
+    SECOND_UNSIGNED,  // $8000-$8FFF, same area as OBJ
 };
 
 // Bit 3 of 0xFF40
 enum class BackgroundTileMapDisplaySelect {
-    FIRST_SIGNED,     // $9800-$9BFF, unsiged 0,128
-    SECOND_UNSIGNED,  // $9C00-$9FFF, signed -128,127
+    FIRST,     // $9800-$9BFF
+    SECOND,  // $9C00-$9FFF
 };
 
 // Bit 2 of 0xFF40
