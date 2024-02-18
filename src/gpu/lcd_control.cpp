@@ -126,7 +126,7 @@ BackgroundTileMapDisplaySelect LCDControl::getBackgroundTileMapDisplaySelect() {
     return static_cast<BackgroundTileMapDisplaySelect>(testBit(getLCDControlValue(), 3));
 }
 
-int LCDControl::getBackgroundTileMapDisplaySelectAddress() {
+int LCDControl::getBackgroundLayoutAddress() {
     auto enabled = testBit(getLCDControlValue(), 3);
 
     if (enabled) {

@@ -40,47 +40,56 @@ TEST_CASE("getTileId") {
         mmu.write_8bit(SCROLL_X, 0);
         mmu.write_8bit(SCROLL_Y, 0);
 
-        REQUIRE(backgroundBuffer.getTileId(0, 0) == 0);
-        REQUIRE(backgroundBuffer.getTileId(0, 7) == 0);
+        
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 0) == 0);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 7) == 0);
 
-        REQUIRE(backgroundBuffer.getTileId(0, 8) == 1);
-        REQUIRE(backgroundBuffer.getTileId(0, 15) == 1);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 8) == 1);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 15) == 1);
 
-        REQUIRE(backgroundBuffer.getTileId(7, 7) == 0);
-        REQUIRE(backgroundBuffer.getTileId(7, 8) == 1);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(7, 7) == 0);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(7, 8) == 1);
+        
 
-        // Bottom-leftmost
-        REQUIRE(backgroundBuffer.getTileId(136, 0) == 340);
-        REQUIRE(backgroundBuffer.getTileId(143, 7) == 340);
+        // Bottom-leftmost (viewport)
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(136, 0) == 544);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(143, 7) == 544);
 
-        REQUIRE(backgroundBuffer.getTileId(136, 8) == 341);
-        REQUIRE(backgroundBuffer.getTileId(135, 7) == 320);
 
-        // Bottom-rightmost
-        REQUIRE(backgroundBuffer.getTileId(136, 152) == 359);
-        REQUIRE(backgroundBuffer.getTileId(143, 159) == 359);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(136, 8) == 545);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(135, 7) == 512); 
+
+        // Bottom-rightmost (viewport)
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(136, 152) == 563);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(143, 159) == 563);
+
+        // Bottom-rightmost (full background)
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(255, 255) == 1023);
     }
 
     SECTION("scroll") {
         mmu.write_8bit(SCROLL_X, 7);
         mmu.write_8bit(SCROLL_Y, 7);
 
-        REQUIRE(backgroundBuffer.getTileId(0, 0) == 0);
-        REQUIRE(backgroundBuffer.getTileId(0, 1) == 1);
-        REQUIRE(backgroundBuffer.getTileId(1, 0) == 20);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 0) == 0);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 1) == 1);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(1, 0) == 32);
 
         mmu.write_8bit(SCROLL_X, 8);
         mmu.write_8bit(SCROLL_Y, 8);
 
-        REQUIRE(backgroundBuffer.getTileId(0, 0) == 21);
-        REQUIRE(backgroundBuffer.getTileId(0, 1) == 21);
-        REQUIRE(backgroundBuffer.getTileId(7, 0) == 21);
-        REQUIRE(backgroundBuffer.getTileId(8, 0) == 41);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 0) == 33);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 1) == 33);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(7, 0) == 33);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(8, 0) == 65);
 
         mmu.write_8bit(SCROLL_X, 8);
         mmu.write_8bit(SCROLL_Y, 7);
 
-        REQUIRE(backgroundBuffer.getTileId(0, 0) == 1);
-        REQUIRE(backgroundBuffer.getTileId(1, 0) == 21);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(0, 0) == 1);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(1, 0) == 33);
+
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(8, 0) == 33);
+        REQUIRE(backgroundBuffer.getTileIndexInLayout(9, 0) == 65);
     }
 }
