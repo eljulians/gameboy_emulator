@@ -7,6 +7,7 @@
 
 #define PIXELS_IN_ROW 8
 #define ROWS_IN_TILE 8
+#define TILE_DIMENSION_PIXELS 8
 
 // All the tiles, not only the viewport
 #define TILES_IN_BACKGROUND 384
@@ -35,6 +36,7 @@ class TilePixel {
 };
 
 typedef std::vector<TilePixel> TilePixelVector;
+
 
 class TileRow {
     // 8 pixels; each pixel 2 bits

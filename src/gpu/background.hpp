@@ -10,15 +10,19 @@
 #define SCROLL_Y 0xFF42
 #define SCROLL_X 0xFF43
 
-#define TILE_SIZE 16 // consecutive bytes in memory
+#define TILE_SIZE_BYTES 16 // consecutive in memory
+#define TILE_ROW_SIZE_BYTES 2
+#define TILE_PIXEL_SIZE_BITS 2
 
 #define DATA_SELECT_MODE_0 0x8800  // Signed tile id
 #define DATA_SELECT_MODE_1 0x8000  // Unsigned tile id
 
 #define VIEWPORT_WIDTH_IN_TILES 20
 #define VIEWPORT_HEIGHT_IN_TILES 18
-#define VIEWPORT_DIM_TILES VIEWPORT_WIDTH_IN_TILES * VIEWPORT_HEIGHT_IN_TILES
-#define TILE_BYTES_PER_ROW TILE_SIZE * VIEWPORT_WIDTH_IN_TILES
+
+#define VIEWPORT_SCANLINES 144
+#define VIEWPORT_COLUMNS 160
+
 
 typedef std::vector<TileRow> BackgroundRow;
 typedef std::vector<BackgroundRow> Background;
@@ -32,6 +36,8 @@ class BackgroundBuffer {
         int getTileAddress(int tileId);
         int getTileOffset(int tileId);
         int getTileDataAddress();
+        int getTileId(int row, int column);
+        TileRow getTileRow(int tileId, int row);
 
     private:
         LCDControl& lcdControl;

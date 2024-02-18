@@ -98,7 +98,19 @@ bool LCDControl::isScreenOn() {
 }
 
 WindowTileMapDisplaySelect LCDControl::getWindowTileMapDisplaySelect() {
+    // TODO: remove and supersede with getWindowTileMapDisplaySelectAddress
     return static_cast<WindowTileMapDisplaySelect>(testBit(getLCDControlValue(), 6));
+}
+
+
+int LCDControl::getWindowTileMapDisplaySelectAddress() {
+    auto enabled = testBit(getLCDControlValue(), 6);
+
+    if (enabled) {
+        return 0x9C00; 
+    }
+
+    return 0x9800; 
 }
 
 bool LCDControl::getWindowDisplay() {
@@ -110,7 +122,18 @@ BackgroundAndWindowTileDataSelect LCDControl::getBackgroundAndWindowTileDataSele
 }
 
 BackgroundTileMapDisplaySelect LCDControl::getBackgroundTileMapDisplaySelect() {
+    // TODO remove and supersede with getBackgroundTileMapDisplaySelectAddress
     return static_cast<BackgroundTileMapDisplaySelect>(testBit(getLCDControlValue(), 3));
+}
+
+int LCDControl::getBackgroundTileMapDisplaySelectAddress() {
+    auto enabled = testBit(getLCDControlValue(), 3);
+
+    if (enabled) {
+        return 0x9C00; 
+    }
+
+    return 0x9800;
 }
 
 SpriteSize LCDControl::getSpriteSize() {

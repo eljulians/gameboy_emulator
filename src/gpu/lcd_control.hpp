@@ -34,6 +34,8 @@ enum class WindowTileMapDisplaySelect {
     SECOND,  // $9C00-$9FFF
 };
 
+// TODO bit 5 (window display enable)
+
 // Bit 4 of 0xFF40
 enum class BackgroundAndWindowTileDataSelect {
     FIRST_SIGNED,   // $8800-$97FF
@@ -52,18 +54,23 @@ enum class SpriteSize {
     EIGHT_BY_SIXTEEN,  // width * height
 };
 
+// TODO bits 1 and 0 (sprint and bg displays enable)
+
 class LCDControl {
     public:
         LCDControl(MMU& mmu, InterruptManager& interruptManager) : mmu(mmu), interruptManager(interruptManager) {};
         void update(uint8_t cycles);
         bool isScreenOn(); // bit 7
-        WindowTileMapDisplaySelect getWindowTileMapDisplaySelect();  // bit 6
+        WindowTileMapDisplaySelect getWindowTileMapDisplaySelect();  // bit 6; TODO: remove
+        int getWindowTileMapDisplaySelectAddress(); // bit 6
         bool getWindowDisplay(); // bit 5
         BackgroundAndWindowTileDataSelect getBackgroundAndWindowTileDataSelect(); // bit 4
         BackgroundTileMapDisplaySelect getBackgroundTileMapDisplaySelect(); // bit 3
+        int getBackgroundTileMapDisplaySelectAddress(); // bit 3
         SpriteSize getSpriteSize(); // bit 2
         bool getSpriteDisplay();  // bit 1
         bool getBackgroundAndWindowDisplay();  // bit 0
+        uint8_t getCurrentScanline();
 
         uint8_t getLCDControlValue();
 
@@ -73,7 +80,6 @@ class LCDControl {
         InterruptManager& interruptManager;
         uint8_t currentCycles = 0;
 
-        uint8_t getCurrentScanline();
 
         LCDMode getMode();
         void setMode(LCDMode mode);
