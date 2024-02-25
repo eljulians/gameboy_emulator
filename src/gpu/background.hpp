@@ -32,9 +32,11 @@
 #define VIEWPORT_COLUMNS 160
 
 
-typedef std::vector<TileRow> BackgroundRow;
-typedef std::vector<BackgroundRow> Background;
 
+typedef struct Scroll {
+    int x;
+    int y;
+} Scroll;
 
 class BackgroundBuffer {
     public:
@@ -43,13 +45,16 @@ class BackgroundBuffer {
         int getTileOffset(int tileId);
         int getTileDataAddress();
         int getTileId(int row, int column);
-        TileRow getCurrentScanlineTileRow();
-        BackgroundRow getScanlineViewportRow();
+        void getCurrentScanlineTileRow();
+        void getScanlineViewportRow();
         int getTileIndexInLayout(int row, int column);
+        //TilePixelValue getTilePixel(int row, int column, int tileId);
+
 
     private:
         LCDControl& lcdControl;
         MMU& mmu;
         int getScrollX();
         int getScrollY();
+        Scroll getScroll();
 };

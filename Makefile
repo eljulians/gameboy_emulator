@@ -75,6 +75,12 @@ tile.o:
 background.o:
 	$(CC) $(CFLAGS) -c src/gpu/background.cpp
 
+tile_v2.o:
+	$(CC) $(CFLAGS) -c src/gpu/tile_v2.cpp
+
+color.o:
+	$(CC) $(CFLAGS) -c src/gpu/color.cpp
+
 interrupt.o: gameboy.o
 	$(CC) $(CFLAGS) -c src/interrupts/interrupt.cpp
 
@@ -160,14 +166,26 @@ test-tile.o:
 test-background.o:
 	$(CC) $(CFLAGS) -c tests/gpu/test_background.cpp
 
+test_tile_v2.o:
+	$(CC) $(CFLAGS) -c tests/gpu/test_tile_v2.cpp
+
+test-color.o:
+	$(CC) $(CFLAGS) -c tests/gpu/test_color.cpp
+
 test-tile: clean test-tile.o tile.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) tile.o test_tile.o
 	./$(TEST_TARGET)
 
-
+test-color: clean test-color.o color.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) test_color.o color.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o
+	./$(TEST_TARGET)
 
 test-background: clean test-background.o background.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) background.o test_background.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o  gpu.o timer.o lcd_control.o bit_operations.o
+	./$(TEST_TARGET)
+
+test_tile_v2: clean test_tile_v2.o tile_v2.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) tile_v2.o test_tile_v2.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o  gpu.o timer.o lcd_control.o bit_operations.o
 	./$(TEST_TARGET)
 
 test_bit_operations.o: bit_operations.o

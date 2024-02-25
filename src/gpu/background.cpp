@@ -6,13 +6,11 @@
 #include "../mmu/mmu.hpp"
 
 
-int BackgroundBuffer::getScrollX() {
-    return mmu.read_8bit(SCROLL_X);
-}
-
-
-int BackgroundBuffer::getScrollY() {
-    return mmu.read_8bit(SCROLL_Y);
+Scroll BackgroundBuffer::getScroll() {
+    return Scroll{
+        mmu.read_8bit(SCROLL_X),
+        mmu.read_8bit(SCROLL_Y),
+    };
 }
 
 int BackgroundBuffer::getTileDataAddress() {
@@ -52,11 +50,10 @@ int BackgroundBuffer::getTileIndexInLayout(int row, int column) {
     What's the offset for the layout address ($9800/$9C00, depending on bit 3
     of LCD control) for a given screen coordinate?
     */
-    auto xScroll = getScrollX();
-    auto yScroll = getScrollY();
+    Scroll scroll = getScroll();
 
-    int rowOffset = floor((row + yScroll) / TILE_DIMENSION_PIXELS);
-    int columnOffset = floor((column + xScroll) / TILE_DIMENSION_PIXELS);
+    int rowOffset = floor((row + scroll.y) / TILE_DIMENSION_PIXELS);
+    int columnOffset = floor((column + scroll.x) / TILE_DIMENSION_PIXELS);
 
     return rowOffset * BACKGROUND_WIDTH_TILES + columnOffset;
 }
@@ -72,7 +69,7 @@ int BackgroundBuffer::getTileId(int row, int column) {
     return mmu.read_8bit(layoutAddress + tileIndex);
 }
 
-TileRow BackgroundBuffer::getCurrentScanlineTileRow() {
+void BackgroundBuffer::getCurrentScanlineTileRow() {
     auto currentScanline = lcdControl.getCurrentScanline();
 
     for (int column = 0; column < VIEWPORT_COLUMNS; column++) {
@@ -81,11 +78,24 @@ TileRow BackgroundBuffer::getCurrentScanlineTileRow() {
     }
 }
 
+/*
+TilePixelValue BackgroundBuffer::getTilePixel(int row, int column, int tileId) {
+    int tileAddress = getTileAddress(tileId);
+    int firstByte = mmu.read_8bit(tileAddress);
+    int secondByte = mmu.read_8bit(tileAddress+1);
 
-BackgroundRow BackgroundBuffer::getScanlineViewportRow() {
+    
+}
+*/
+
+
+void BackgroundBuffer::getScanlineViewportRow() {
     // TODO: check if window and background are enabled, deal with window etc
     auto currentScanline = lcdControl.getCurrentScanline();
     for (int column = 0; column < VIEWPORT_COLUMNS; column++) {
         auto tileId = getTileId(currentScanline, column);
+        // get tile relative line: current scanline + scroll y
+        // get tile line relative pixel: current column + scroll x
+        // get actual pixel: tile index + (current scanline + scroll y) + (current column + scroll x)
     }
 }
