@@ -41,4 +41,8 @@ TEST_CASE("getValue") {
         REQUIRE(TileV2(mmu, 0x8010).getValue(0, 4, scroll) == TilePixelV2{0, 1});
         REQUIRE(TileV2(mmu, 0x8010).getValue(0, 5, scroll) == TilePixelV2{1, 1});
     }
+
+    SECTION("scroll") {
+        REQUIRE(0);
+    }
 }

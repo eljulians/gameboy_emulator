@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "../mmu/mmu.hpp"
-#include  "color.hpp"
 #include "background.hpp"
 
 #define ROWS_IN_TILE 8

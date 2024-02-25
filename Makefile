@@ -176,8 +176,8 @@ test-tile: clean test-tile.o tile.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) tile.o test_tile.o
 	./$(TEST_TARGET)
 
-test-color: clean test-color.o color.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o
-	$(CC) $(CFLAGS) -o $(TEST_TARGET) test_color.o color.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o
+test-color: clean test-color.o color.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o tile_v2.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) test_color.o color.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o tile_v2.o
 	./$(TEST_TARGET)
 
 test-background: clean test-background.o background.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o
