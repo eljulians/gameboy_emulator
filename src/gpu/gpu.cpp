@@ -25,8 +25,3 @@ void GPU::init_sdl() {
 
 void GPU::update(uint8_t cycles) {
 }
-
-
-TileVector getTiles() {
-    
-}

@@ -16,13 +16,13 @@ class GameBoy {
             cartridge(""),
             interruptManager(this->mmu, this->cpu),
             lcdControl(this->mmu, this->interruptManager),
-            gpu(*this, this->lcdControl),
+            gpu(this->mmu, this->lcdControl),
             timerManager(this->mmu, this->interruptManager.timer)
         {
         };
         GameBoy(std::string romPath) :
             cpu(*this),
-            gpu(*this, this->lcdControl),
+            gpu(this->mmu, this->lcdControl),
             mmu(*this),
             cartridge(romPath),
             interruptManager(this->mmu, this->cpu),

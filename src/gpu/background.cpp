@@ -4,6 +4,8 @@
 #include "tile.hpp"
 #include "lcd_control.hpp"
 #include "../mmu/mmu.hpp"
+#include "tile_v2.hpp"
+#include "color.hpp"
 
 
 Scroll BackgroundBuffer::getScroll() {
@@ -89,13 +91,27 @@ TilePixelValue BackgroundBuffer::getTilePixel(int row, int column, int tileId) {
 */
 
 
-void BackgroundBuffer::getScanlineViewportRow() {
+PixelColorVector BackgroundBuffer::getScanlineViewportRow() {
     // TODO: check if window and background are enabled, deal with window etc
     auto currentScanline = lcdControl.getCurrentScanline();
+    Scroll scroll = getScroll();
+
+    // TODO: class attribute
+    BackgroundPalette palette = BackgroundPalette(mmu);
+    PixelColorVector pixels;
+    pixels.reserve(VIEWPORT_COLUMNS);
+
     for (int column = 0; column < VIEWPORT_COLUMNS; column++) {
         auto tileId = getTileId(currentScanline, column);
+        auto tileAddress = getTileAddress(tileId);
+        TileV2 tile = TileV2(mmu, tileAddress);
+        TilePixelV2 pixel = tile.getValue(currentScanline, column, scroll);
+        PixelColor pixelColor = palette.getColor(pixel);
+        pixels.push_back(pixelColor);
         // get tile relative line: current scanline + scroll y
         // get tile line relative pixel: current column + scroll x
         // get actual pixel: tile index + (current scanline + scroll y) + (current column + scroll x)
     }
+
+    return pixels;
 }

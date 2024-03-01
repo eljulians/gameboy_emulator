@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <vector>
 
+#include "background.hpp"
 #include "tile_v2.hpp"
 
 

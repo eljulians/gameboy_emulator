@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "../mmu/mmu.hpp"
-#include "background.hpp"
 
 #define ROWS_IN_TILE 8
 #define ROW_SIZE_BYTES 2
@@ -17,6 +16,13 @@ typedef struct TilePixelV2 {
 
     bool operator<=>(const TilePixelV2&) const = default;
 } TilePixelV2;
+
+// TODO: move somewhere else
+typedef struct Scroll {
+    int x;
+    int y;
+} Scroll;
+
 
 
 

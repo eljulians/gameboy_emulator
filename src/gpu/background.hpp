@@ -5,6 +5,8 @@
 #include "tile.hpp"
 #include "lcd_control.hpp"
 #include "../mmu/mmu.hpp"
+#include "tile_v2.hpp"
+#include "color.hpp"
 
 
 #define SCROLL_Y 0xFF42
@@ -32,11 +34,7 @@
 #define VIEWPORT_COLUMNS 160
 
 
-
-typedef struct Scroll {
-    int x;
-    int y;
-} Scroll;
+typedef std::vector<PixelColor> PixelColorVector;
 
 class BackgroundBuffer {
     public:
@@ -46,10 +44,9 @@ class BackgroundBuffer {
         int getTileDataAddress();
         int getTileId(int row, int column);
         void getCurrentScanlineTileRow();
-        void getScanlineViewportRow();
+        PixelColorVector getScanlineViewportRow();
         int getTileIndexInLayout(int row, int column);
         //TilePixelValue getTilePixel(int row, int column, int tileId);
-
 
     private:
         LCDControl& lcdControl;
