@@ -73,19 +73,19 @@ class LCDControl {
         uint8_t getCurrentScanline();
 
         uint8_t getLCDControlValue();
+        uint8_t getStatus();
 
 
     private:
         MMU& mmu;
         InterruptManager& interruptManager;
-        uint8_t currentCycles = 0;
+        int currentCycles = 0;
 
 
         LCDMode getMode();
         void setMode(LCDMode mode);
         bool isModeInterruptEnabled(LCDMode mode);
 
-        uint8_t getStatus();
         void setStatus(uint8_t value);
 
         void nextScanline();

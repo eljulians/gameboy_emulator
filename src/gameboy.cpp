@@ -7,7 +7,7 @@
 
 
 void GameBoy::mainLoop() {
-    uint8_t cycles;
+    int cycles;
 
     gpu.init_sdl();
     cartridge.loadRom();

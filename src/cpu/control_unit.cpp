@@ -1,6 +1,11 @@
+#define FMT_HEADER_ONLY
+
 #include <stdexcept>
 #include <iostream>
 #include <string>
+
+#include "spdlog/spdlog.h"
+
 #include "control_unit.hpp"
 #include "cpu.hpp"
 
@@ -19,10 +24,24 @@ uint16_t ControlUnit::fetch()
 uint8_t ControlUnit::execute()
 {
     uint16_t pc = cpu.PC.get();
-    std::cout << "PC 0x" << std::hex << pc << "\n";
     uint16_t opcode = fetch();
     uint8_t cycles;
 
+    spdlog::info("Opcode 0x{0:x}", opcode);
+    spdlog::info("PC 0x{0:x}", pc);
+    spdlog::info("AF 0x{0:x}", cpu.AF->get());
+    spdlog::info("BC 0x{0:x}", cpu.BC->get());
+    spdlog::info("DE 0x{0:x}", cpu.DE->get());
+    spdlog::info("HL 0x{0:x}", cpu.HL->get());
+    spdlog::info("SP 0x{0:x}", cpu.SP.get());
+    spdlog::info("Z {}", cpu.flags->get_z());
+    spdlog::info("N {}", cpu.flags->get_n());
+    spdlog::info("H {}", cpu.flags->get_h());
+    spdlog::info("C {}", cpu.flags->get_c());
+    spdlog::info("IME {}", cpu.areInterruptsEnabled());
+
+
+    /*
     std::cout << "Fetched opcode 0x" << std::hex << opcode << "\n";
     std::cout << "AF 0x" << std::hex << cpu.AF->get() << "\n";
     std::cout << "BC 0x" << std::hex << cpu.BC->get() << "\n";
@@ -30,6 +49,7 @@ uint8_t ControlUnit::execute()
     std::cout << "HL 0x" << std::hex << cpu.HL->get() << "\n";
     std::cout << "SP 0x" << std::hex << cpu.SP.get() << "\n";
     std::cout << "#########################################\n";
+    */
 
     switch (opcode)
     {

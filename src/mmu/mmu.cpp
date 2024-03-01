@@ -82,8 +82,17 @@ uint8_t MMU::read_8bit(uint16_t address) {
         return internalRam.at(address - INTERNAL_RAM_START);
     }
 
+    if(IS_ECHO(address)) {
+        // TODO - is it necessary to implement this?
+        return internalRam.at(address - ECHO_START);
+    }
+
     if (IS_SPRITE_ATTRIBUTES(address)) {
         return spriteAttributes.at(address - SPRITE_ATTRIBUTES_START);
+    }
+
+    if (IS_NOT_USABLE(address)) {
+        return 0;
     }
 
     if (IS_IO(address)) {

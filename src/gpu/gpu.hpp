@@ -23,6 +23,7 @@ class GPU {
         MMU& mmu;
         LCDControl& lcdControl;
         BackgroundBuffer backgroundBuffer;
-        SDL_Window* window;
-        SDL_Surface* surface;
+        SDL_Renderer *renderer;
+        SDL_Window *window;
+        int lastDrawnScanline = -1;
 };
