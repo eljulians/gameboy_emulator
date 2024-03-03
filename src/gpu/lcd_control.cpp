@@ -30,15 +30,30 @@ void LCDControl::setMode(LCDMode mode) {
     setStatus(status);
 }
 
+void LCDControl::setCoincidence() {
+    int isCoincidence = getCurrentScanline() == mmu.read_8bit(LY_COMPARE_ADDRESS);
+    uint8_t status = getStatus();
+    setStatus(status | (isCoincidence << 2));
+
+    if (isCoincidence &&  isCoincidenceInterruptEnabled()) {
+        interruptManager.lcdc.flag();
+    }
+}
+
 bool LCDControl::isModeInterruptEnabled(LCDMode mode) {
-    uint8_t modeInterrupts = getStatus() >> 2;
+    uint8_t modeInterrupts = getStatus() >> 3;
     uint8_t modeShift = static_cast<uint8_t>(mode);
 
     return (modeInterrupts >> modeShift) & 1;
 }
 
+bool LCDControl::isCoincidenceInterruptEnabled() {
+    return testBit(getStatus(), 6);
+}
+
 void LCDControl::nextScanline() {
-    mmu.write_8bit(CURRENT_SCANLINE_ADDRESS, getCurrentScanline() + 1);
+    // Writing directly since otherwise it's reset to 0
+    mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = getCurrentScanline() + 1;
 }
 
 void LCDControl::resetScanline() {
@@ -46,27 +61,46 @@ void LCDControl::resetScanline() {
 }
 
 void LCDControl::handleModeChange() {
+    if (!isScreenOn()) {
+        setMode(LCDMode::VBlank);
+        currentCycles;
+        resetScanline();
+        return;
+    }
+
     LCDMode previousMode = getMode();
     LCDMode currentMode;
 
-    if (IS_OAM_SEARCH(currentCycles)) {
-        currentMode = LCDMode::OAMSearch;
-    } else if (IS_LCD_TRANSFER(currentCycles)) {
-        currentMode = LCDMode::LCDTransfer;
-    } else if (IS_HBLANK(currentCycles)) {
-        currentMode = LCDMode::HBlank;
+    if (getCurrentScanline() >= VISIBLE_SCANLINES) {
+        currentMode = LCDMode::VBlank;
+    } else {
+        if (IS_OAM_SEARCH(currentCycles)) {
+            currentMode = LCDMode::OAMSearch;
+        } else if (IS_LCD_TRANSFER(currentCycles)) {
+            currentMode = LCDMode::LCDTransfer;
+        } else {
+            currentMode = LCDMode::HBlank;
+        }
     }
 
+    setMode(currentMode);
+
     if (currentMode != previousMode) {
-        // LCD Transfer mode doesn't have interrupt bit, so???
-        if (currentMode == LCDMode::LCDTransfer || isModeInterruptEnabled(currentMode))  {
+        if (currentMode != LCDMode::LCDTransfer && isModeInterruptEnabled(currentMode)) {
             interruptManager.lcdc.flag();
         }
     }
 
+    setCoincidence();
 }
 
-void LCDControl::update(uint8_t cycles) {
+void LCDControl::update(int cycles) {
+    handleModeChange();
+
+    if (!isScreenOn()) {
+        return;
+    }
+
     currentCycles += cycles;
 
     if (currentCycles >= CYCLES_TO_DRAW_SCANLINE) {
@@ -74,16 +108,7 @@ void LCDControl::update(uint8_t cycles) {
         nextScanline();
     }
 
-    if (getCurrentScanline() < VISIBLE_SCANLINES) {
-        handleModeChange();
-    } else if (getCurrentScanline() == VISIBLE_SCANLINES and currentCycles == 0) {
-        setMode(LCDMode::VBlank);
-        if (isModeInterruptEnabled(LCDMode::VBlank)) {
-            interruptManager.vblank.flag();
-        }
-    } else if (VISIBLE_SCANLINES < getCurrentScanline() && getCurrentScanline() <= TOTAL_SCANLINES) {
-
-    } else if (TOTAL_SCANLINES < getCurrentScanline()) {
+    if (getCurrentScanline() > TOTAL_SCANLINES) {
         resetScanline();
         currentCycles = 0;
     }
@@ -96,6 +121,12 @@ uint8_t LCDControl::getLCDControlValue() {
 
 bool LCDControl::isScreenOn() {
     return testBit(getLCDControlValue(), 7);
+}
+
+void LCDControl::setScreenOn() {
+    uint8_t control = getLCDControlValue();
+    control = (1<<7) | control;
+    mmu.write_8bit(LCD_CONTROL_ADDRESS, control);
 }
 
 WindowTileMapDisplaySelect LCDControl::getWindowTileMapDisplaySelect() {

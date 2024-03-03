@@ -5,6 +5,7 @@
 #include <iostream>
 #include "../gameboy.hpp"
 #include "../cpu/timer/timer.hpp"
+#include "../gpu/lcd_control.hpp"
 
 
 MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
@@ -42,7 +43,7 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
 
     if (IS_IO(address)) {
-        if (address == DIVIDER_ADDRESS) {
+        if (address == DIVIDER_ADDRESS or address == CURRENT_SCANLINE_ADDRESS) {
             io.at(address - IO_START) = 0x00;
         } else {
             io.at(address - IO_START) = value;

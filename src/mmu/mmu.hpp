@@ -77,6 +77,8 @@ private:
     // Divider needs direct write acecss to io, since writes to DIV are reset
     // to 0 by hardware
     friend class Divider;
+    // Same for LCD
+    friend class LCDControl;
 
 public:
     MMU(GameBoy& gameBoy);

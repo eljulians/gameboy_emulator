@@ -8,6 +8,7 @@
 #define LCD_CONTROL_ADDRESS 0xFF40
 #define LCD_STATUS_ADDRESS 0xFF41
 #define CURRENT_SCANLINE_ADDRESS 0xFF44
+#define LY_COMPARE_ADDRESS 0xFF45
 
 #define VISIBLE_SCANLINES 144
 #define TOTAL_SCANLINES 153
@@ -15,7 +16,8 @@
 
 #define IS_OAM_SEARCH(cycles) 0 <= cycles &&  cycles < 80
 #define IS_LCD_TRANSFER(cycles) 80 <= cycles && cycles < 252
-#define IS_HBLANK(cycles) 252 <= cycles && cycles < VISIBLE_SCANLINES
+#define IS_HBLANK(cycles) 252 <= cycles && cycles < CYCLES_TO_DRAW_SCANLINE
+
 
 
 class MMU;
@@ -59,8 +61,9 @@ enum class SpriteSize {
 class LCDControl {
     public:
         LCDControl(MMU& mmu, InterruptManager& interruptManager) : mmu(mmu), interruptManager(interruptManager) {};
-        void update(uint8_t cycles);
+        void update(int cycles);
         bool isScreenOn(); // bit 7
+        void setScreenOn();
         WindowTileMapDisplaySelect getWindowTileMapDisplaySelect();  // bit 6; TODO: remove
         int getWindowTileMapDisplaySelectAddress(); // bit 6
         bool getWindowDisplay(); // bit 5
@@ -75,6 +78,11 @@ class LCDControl {
         uint8_t getLCDControlValue();
         uint8_t getStatus();
 
+        void setCoincidence();
+
+        bool isModeInterruptEnabled(LCDMode mode);
+        bool isCoincidenceInterruptEnabled();
+
 
     private:
         MMU& mmu;
@@ -84,7 +92,6 @@ class LCDControl {
 
         LCDMode getMode();
         void setMode(LCDMode mode);
-        bool isModeInterruptEnabled(LCDMode mode);
 
         void setStatus(uint8_t value);
 
