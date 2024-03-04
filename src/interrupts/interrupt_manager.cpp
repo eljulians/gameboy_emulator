@@ -29,6 +29,7 @@ void InterruptManager::handle() {
     }
 
     for (Interrupt interrupt: getInterrupts()) {
+        // TODO didn't make it here
         if (interrupt.isEnabled() && interrupt.isFlagged()) {
             auto address = interrupt.getAddress();
             auto currentPC = cpu.PC.get();

@@ -47,11 +47,11 @@ class BackgroundBuffer {
         PixelColorVector getScanlineViewportRow();
         int getTileIndexInLayout(int row, int column);
         //TilePixelValue getTilePixel(int row, int column, int tileId);
+        Scroll getScroll();
 
     private:
         LCDControl& lcdControl;
         MMU& mmu;
         int getScrollX();
         int getScrollY();
-        Scroll getScroll();
 };

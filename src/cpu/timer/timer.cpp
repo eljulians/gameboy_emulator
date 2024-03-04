@@ -85,4 +85,5 @@ void Divider::tick(int cycles) {
 void TimerManager::tick(int cycles) {
     divider.tick(cycles);
     timerCounter.tick(cycles);
+    
 }

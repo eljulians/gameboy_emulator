@@ -40,6 +40,8 @@ void GPU::update(uint8_t cycles) {
 
     spdlog::info("LCDC: 0x{0:x}", lcdControl.getLCDControlValue());
     spdlog::info("STAT: 0x{0:x}", lcdControl.getStatus());
+    spdlog::info("Scroll X: {}", backgroundBuffer.getScroll().x);
+    spdlog::info("Scroll Y: {}", backgroundBuffer.getScroll().y);
 
     if (currentScanline != lastDrawnScanline) {
         lastDrawnScanline = currentScanline;

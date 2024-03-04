@@ -19,6 +19,10 @@ void GameBoy::mainLoop() {
 
     while(true) {
         spdlog::info("FF42 0x{0:x}", mmu.read_8bit(0xFF42));
+
+        if (mmu.read_8bit(0xFF42) != 0) {
+            spdlog::info("foo");
+        }
         cycles = cpu.controlUnit.execute();
         gpu.update(cycles);
         timerManager.tick(cycles);

@@ -43,6 +43,12 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
 
     if (IS_IO(address)) {
+        /*
+        if (address == 0xFF42) {
+            io.at(address - IO_START) = value;
+        }
+        */
+
         if (address == DIVIDER_ADDRESS or address == CURRENT_SCANLINE_ADDRESS) {
             io.at(address - IO_START) = 0x00;
         } else {
