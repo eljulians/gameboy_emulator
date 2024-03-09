@@ -202,7 +202,12 @@ test_bit_operations: clean bit_operations.o test_bit_operations.o
 	$(CC) $(CFLAGS) -o $(TEST_TARGET) bit_operations.o test_bit_operations.o
 	./$(TEST_TARGET)
 
+test_opcodes.o:
+	$(CC) $(CFLAGS) -c tests/jsmoo/test_opcodes.cpp
 
+test_opcodes: clean test_opcodes.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o background.o color.o tile_v2.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) test_opcodes.o lcd_control.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o bit_operations.o background.o color.o tile_v2.o
+	./$(TEST_TARGET)
 
 test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit test-rotates test-jumps test-interrupt
 

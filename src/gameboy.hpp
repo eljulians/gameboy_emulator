@@ -13,7 +13,7 @@ class GameBoy {
         GameBoy() : 
             cpu(*this),
             mmu(*this),
-            cartridge(""),
+            cartridge(),
             interruptManager(this->mmu, this->cpu),
             lcdControl(this->mmu, this->interruptManager),
             gpu(this->mmu, this->lcdControl),
