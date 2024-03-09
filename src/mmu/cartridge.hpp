@@ -13,6 +13,7 @@ class CartridgeROMOnly {
         std::vector<uint8_t> rom;
 
     public:
+        CartridgeROMOnly() {rom = std::vector<uint8_t>(0x8000);};
         CartridgeROMOnly(std::string romPath) : romPath(romPath) {};
         void loadRom();
         uint8_t read(uint16_t address);

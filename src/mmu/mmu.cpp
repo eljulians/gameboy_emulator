@@ -11,6 +11,7 @@
 MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
     ram = std::vector<uint8_t>(0x8000);
     internalRam = std::vector<uint8_t>(INTERNAL_RAM_SIZE);
+    echo = std::vector<uint8_t>(ECHO_SIZE);
     spriteAttributes = std::vector<uint8_t>(SPRITE_ATTRIBUTES_SIZE);
     io = std::vector<uint8_t>(IO_SIZE);
     highRam = std::vector<uint8_t>(HIGH_RAM_SIZE);
@@ -22,7 +23,7 @@ MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
 
 void MMU::write_8bit(uint16_t address, uint8_t value) {
     if (IS_ROM_BANK_0(address) || IS_ROM_BANK_1(address)) {
-        gameBoy.cartridge.write(address, value);
+        gameBoy.cartridge.write(address - ROM_BANK_0_START, value);
     }
     
     if (IS_VIDEO_RAM(address)) {
@@ -36,6 +37,10 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
 
     if (IS_INTERNAL_RAM(address)) {
         internalRam.at(address - INTERNAL_RAM_START) = value;
+    }
+
+    if(IS_ECHO(address)) {
+        echo.at(address - ECHO_START) = value;
     }
 
     if (IS_SPRITE_ATTRIBUTES(address)) {
@@ -91,7 +96,7 @@ uint8_t MMU::read_8bit(uint16_t address) {
 
     if(IS_ECHO(address)) {
         // TODO - is it necessary to implement this?
-        return internalRam.at(address - ECHO_START);
+        return echo.at(address - ECHO_START);
     }
 
     if (IS_SPRITE_ATTRIBUTES(address)) {

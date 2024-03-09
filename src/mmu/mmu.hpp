@@ -66,6 +66,7 @@ private:
     GameBoy& gameBoy;
     std::vector<uint8_t> ram;
     std::vector<uint8_t> internalRam;
+    std::vector<uint8_t> echo;
     std::vector<uint8_t> spriteAttributes;
     std::vector<uint8_t> io;
     std::vector<uint8_t> highRam;

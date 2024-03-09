@@ -453,3 +453,4 @@ gameboy_emulator_test
 .vscode
 roms/
 *.debug
+tests/jsmoo/test_files/*.json
