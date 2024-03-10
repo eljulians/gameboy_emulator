@@ -39,18 +39,21 @@ int8_t Rotates::rlca() {
 
 int8_t Rotates::rla() {
     cpu.A.set(rotateLeft(cpu.A.get(), cpu.flags->get_c()));
+    cpu.flags->set_z(0);
 
     return 4;
 }
 
 int8_t Rotates::rrca() {
     cpu.A.set(rotateRight(cpu.A.get(), cpu.A.get() & 0x01));
+    cpu.flags->set_z(0);
 
     return 4;
 }
 
 int8_t Rotates::rra() {
     cpu.A.set(rotateRight(cpu.A.get(), cpu.flags->get_c()));
+    cpu.flags->set_z(0);
     
     return 4;
 }
