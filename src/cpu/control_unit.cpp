@@ -207,7 +207,7 @@ uint8_t ControlUnit::execute()
         break;
 
     case 0x30:
-        cycles = cpu.jumps->jr_cc_nn(Condition::NZ);
+        cycles = cpu.jumps->jr_cc_nn(Condition::NC);
         break;
     case 0x31:
         cycles = cpu.loads8bit->ld_sp_n16();

@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <nlohmann/json.hpp>
 #include <fstream>
+#include <vector>
+#include <stdint.h>
 
 #include "spdlog/spdlog.h"
 

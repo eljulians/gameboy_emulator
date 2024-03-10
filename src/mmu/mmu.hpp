@@ -68,7 +68,6 @@ private:
     std::vector<uint8_t> internalRam;
     std::vector<uint8_t> echo;
     std::vector<uint8_t> spriteAttributes;
-    std::vector<uint8_t> io;
     std::vector<uint8_t> highRam;
     std::vector<uint8_t> videoRam;
     // TODO: implement switchable RAM banking
@@ -88,4 +87,6 @@ public:
     uint16_t read_16bit(uint16_t address);
     void write_8bit(uint16_t address, uint8_t value);
     void write_16bit(uint16_t address, uint16_t value);
+
+    std::vector<uint8_t> io;
 };
