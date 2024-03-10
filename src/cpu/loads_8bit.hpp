@@ -28,6 +28,8 @@ class Loads8bit {
         void load_a_c();
         void load_c_a();
 
+        int load_hl_d8();
+
         int8_t ld_hl_a_decrement();
         int8_t ld_a_hl_increment();
         int8_t ld_hl_a_increment();

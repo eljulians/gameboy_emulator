@@ -29,6 +29,12 @@ uint8_t Loads8bit::load_hl_r8(Register_8bit& from) {
     return 8;
 }
 
+int Loads8bit::load_hl_d8() {
+    cpu.HL->setAddressValue(cpu.fetchByte());
+
+    return 12;
+}
+
 
 int8_t Loads8bit::load_a_r16(RegisterPair& register_) {
     cpu.A.set(register_.getAddressValue());

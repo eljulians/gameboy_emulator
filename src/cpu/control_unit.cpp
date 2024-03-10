@@ -225,7 +225,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.alu8bit->dec_hl();
         break;
     case 0x36:
-        cycles = cpu.loads8bit->load_r8_n8(cpu.H);
+        cycles = cpu.loads8bit->load_hl_d8();
         break;
     case 0x37:
         std::cout << "Operation SCF (0x37) not implemented\n";
