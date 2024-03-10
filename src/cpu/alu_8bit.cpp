@@ -7,7 +7,7 @@
 int8_t ALU_8bit::add_a_r8(Register_8bit &register_) {
     uint8_t result = a.get() + register_.get();
 
-    setAdditionFlags(a.get(), register_.get());
+    setAdditionFlags(a.get(), register_.get(), 0);
     a.set(result);
 
     return 4;
@@ -16,7 +16,7 @@ int8_t ALU_8bit::add_a_r8(Register_8bit &register_) {
 int8_t ALU_8bit::add_a_hl() {
     uint8_t result = a.get() + hl.getAddressValue();
 
-    setAdditionFlags(a.get(), hl.getAddressValue());
+    setAdditionFlags(a.get(), hl.getAddressValue(), 0);
     a.set(result);
 
     return 8;
@@ -26,7 +26,7 @@ int8_t ALU_8bit::add_a_n8() {
     uint8_t pcValue = cpu.fetchByte();
     uint8_t result = a.get() + pcValue;
 
-    setAdditionFlags(a.get(), pcValue);
+    setAdditionFlags(a.get(), pcValue, 0);
     a.set(result);
 
     return 8;
@@ -35,7 +35,7 @@ int8_t ALU_8bit::add_a_n8() {
 int8_t ALU_8bit::adc_a_r8(Register_8bit &register_) {
     uint8_t result = a.get() + register_.get() + flags.get_c();
 
-    setAdditionFlags(a.get(), register_.get() + flags.get_c());
+    setAdditionFlags(a.get(), register_.get(), flags.get_c());
     a.set(result);
 
     return 4;
@@ -44,7 +44,7 @@ int8_t ALU_8bit::adc_a_r8(Register_8bit &register_) {
 int8_t ALU_8bit::adc_a_hl() {
     uint8_t result = a.get() + hl.getAddressValue() + flags.get_c();
 
-    setAdditionFlags(a.get(), hl.getAddressValue() + flags.get_c());
+    setAdditionFlags(a.get(), hl.getAddressValue(), flags.get_c());
     a.set(result);
 
     return 8;
@@ -54,17 +54,23 @@ int8_t ALU_8bit::adc_a_n8() {
     uint8_t pcValue = cpu.fetchByte();
     uint8_t result = a.get() + pcValue + flags.get_c();
 
-    setAdditionFlags(a.get(), pcValue + flags.get_c());
+    setAdditionFlags(a.get(), pcValue, flags.get_c());
     a.set(result);
 
     return 8;
 }
 
-void ALU_8bit::setAdditionFlags(uint8_t a, uint8_t b) {
-    flags.set_z(((a + b) & 0xFF) == 0x00);
+void ALU_8bit::setAdditionFlags(uint8_t a, uint8_t b, bool carry) {
+    uint8_t sum = a + b + carry;
+    int noCarrySum = a ^ b;
+    int carryInto = sum ^ noCarrySum;
+
+    // here
+    flags.set_z(sum == 0x00);
     flags.set_n(0);
-    flags.set_h((((a & 0xF) + (b & 0xF)) & 0x10) == 0x10);
-    flags.set_c(b > 0xFF - a);
+    //flags.set_h((((a & 0xF) + (b & 0xF) + carry) & 0x10) == 0x10);
+    flags.set_h(carryInto & 0x10);
+    flags.set_c(b > (0xFF - a - carry));
 }
 
 
@@ -260,7 +266,7 @@ int8_t ALU_8bit::inc_r8(Register_8bit &register_) {
     uint8_t result = register_.get() + 0x01;
     bool original_c = flags.get_c();
 
-    setAdditionFlags(register_.get(), 0x01);
+    setAdditionFlags(register_.get(), 0x01, 0);
     flags.set_c(original_c);
     register_.set(result);
 
@@ -271,7 +277,7 @@ int8_t ALU_8bit::inc_hl() {
     uint8_t result = hl.getAddressValue() + 0x01;
     bool original_c = flags.get_c();
 
-    setAdditionFlags(hl.getAddressValue(), 0x01);
+    setAdditionFlags(hl.getAddressValue(), 0x01, 0);
     flags.set_c(original_c);
     hl.setAddressValue(result);
 

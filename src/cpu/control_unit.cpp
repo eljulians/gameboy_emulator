@@ -253,7 +253,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_r8_n8(cpu.A);
         break;
     case 0x3F:
-        std::cout << "Operation CPL (0x3F) not implemented\n";
+        std::cout << "Operation CCF (0x3F) not implemented\n";
         //cycles = cpu.alu8bit->cp_a_hl()
         cycles = 4;
         break;
