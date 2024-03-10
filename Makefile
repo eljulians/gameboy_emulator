@@ -211,5 +211,6 @@ test_opcodes: clean test_opcodes.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o ro
 
 test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit test-rotates test-jumps test-interrupt
 
+.PHONY=clean
 clean:
 	$(RM) $(TARGET) $(TEST_TARGET) *.o

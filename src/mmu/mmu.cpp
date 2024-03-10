@@ -19,6 +19,7 @@ MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
     interrupt = 0x00;
     // TODO: implement switchable RAM banking
     switchableRam = std::vector<uint8_t>(SWITCHABLE_RAM_SIZE);
+    notUsable = std::vector<uint8_t>(NOT_USABLE_SIZE);
 }
 
 void MMU::write_8bit(uint16_t address, uint8_t value) {
@@ -44,7 +45,7 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
 
     if (IS_SPRITE_ATTRIBUTES(address)) {
-        internalRam.at(address - SPRITE_ATTRIBUTES_START) = value;
+        spriteAttributes.at(address - SPRITE_ATTRIBUTES_START) = value;
     }
 
     if (IS_IO(address)) {
@@ -63,6 +64,10 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
 
     if (IS_HIGH_RAM(address)) {
         highRam.at(address - HIGH_RAM_START) = value;
+    }
+
+    if (IS_NOT_USABLE(address)) {
+        notUsable.at(address - NOT_USABLE_START) = value;
     }
     
     if (IS_INTERRUPT(address)) {
@@ -104,7 +109,7 @@ uint8_t MMU::read_8bit(uint16_t address) {
     }
 
     if (IS_NOT_USABLE(address)) {
-        return 0;
+        return notUsable.at(address - NOT_USABLE_START);
     }
 
     if (IS_IO(address)) {

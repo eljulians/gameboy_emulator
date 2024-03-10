@@ -32,6 +32,7 @@ uint8_t Rotates::rotateRight(uint8_t value, bool carry) {
 
 int8_t Rotates::rlca() {
     cpu.A.set(rotateLeft(cpu.A.get(), cpu.A.get() & 0x80));
+    cpu.flags->set_z(0);
 
     return 4;
 }

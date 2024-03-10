@@ -73,6 +73,7 @@ private:
     std::vector<uint8_t> videoRam;
     // TODO: implement switchable RAM banking
     std::vector<uint8_t> switchableRam;
+    std::vector<uint8_t> notUsable;
     uint8_t interrupt;
 
     // Divider needs direct write acecss to io, since writes to DIV are reset
