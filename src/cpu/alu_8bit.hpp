@@ -12,7 +12,7 @@ class ALU_8bit {
         RegisterPair &hl;
         Flag &flags;
         void setAdditionFlags(uint8_t a, uint8_t b, bool carry);
-        void setSubtractionFlags(uint8_t a, uint8_t b);
+        void setSubtractionFlags(uint8_t a, uint8_t b, bool carry);
 
     public:
         ALU_8bit(CPU& cpu, Register_8bit &aAddress, RegisterPair &hl, Flag &flagsAddress)
