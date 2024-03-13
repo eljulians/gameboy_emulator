@@ -1,3 +1,5 @@
+
+#include "spdlog/spdlog.h"
 #include <iostream>
 #include "mmu.hpp"
 #include <vector>
@@ -49,6 +51,10 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
 
     if (IS_IO(address)) {
+
+        if (address == 0xFF02 && (value == 0x81 || value == 0x80)) {
+            std::cout << read_8bit(0xFF01);
+        }
         /*
         if (address == 0xFF42) {
             io.at(address - IO_START) = value;

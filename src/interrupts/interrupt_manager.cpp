@@ -2,6 +2,8 @@
 #include <iostream>
 #include <vector>
 
+#include "spdlog/spdlog.h"
+
 #include "interrupt.hpp"
 #include "interrupt_manager.hpp"
 #include "../cpu/cpu.hpp"
@@ -24,7 +26,7 @@ void InterruptManager::handle() {
     */
     // TODO?: move attribute to this class instead?
     if (!cpu.areInterruptsEnabled()) {
-        std::cout << "Interrupts are not enabled (IME; Interrupt Master Flag)\n";
+        spdlog::info("Interrupts are not enabled (IME; Interrupt Master Flag)");
         return;
     }
 

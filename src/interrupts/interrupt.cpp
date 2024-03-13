@@ -52,5 +52,5 @@ int8_t Interrupt::getAddress() {
 }
 
 char* Interrupt::toString() {
-    str(interruptEnum);
+    return str(interruptEnum);
 }

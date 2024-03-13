@@ -3,6 +3,8 @@
 #include <string>
 #include <SDL2/SDL_thread.h>
 
+#include "spdlog/spdlog.h"
+
 #include "gameboy.hpp"
 
 
