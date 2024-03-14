@@ -4,7 +4,8 @@
 #include "alu_16bit.hpp"
 
 void ALU_16bit::setAdditionFlags(uint16_t a, uint16_t b) {
-    flags.set_z(((a + b) & 0xFFFF) == 0);
+    uint16_t result = a + b;
+    flags.set_z(result == 0);
     flags.set_n(0);
     flags.set_h((a & 0xFFF) + (b & 0xFFF) > 0xFFF);
     flags.set_c((a + b) > 0xFFFF);
@@ -15,19 +16,23 @@ void ALU_16bit::setSubtractionFlags(uint16_t a, uint16_t b) {
 }
 
 int8_t ALU_16bit::add_hl_r16(RegisterPair register_) {
+    auto z = cpu.flags->get_z();
     uint16_t result = hl.get() + register_.get();
 
     setAdditionFlags(hl.get(), register_.get());
     hl.set(result);
+    cpu.flags->set_z(z);
 
     return 8;
 }
 
 int8_t ALU_16bit::add_hl_sp() {
+    auto z = cpu.flags->get_z();
     uint16_t result = hl.get() + cpu.SP.get();
 
     setAdditionFlags(hl.get(), cpu.SP.get());
     hl.set(result);
+    cpu.flags->set_z(z);
 
     return 8;
 }
