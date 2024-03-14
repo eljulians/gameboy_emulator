@@ -772,7 +772,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->ldh_a_n();
         break;
     case 0xF1:
-        cycles = cpu.loads8bit->pop_r16(*cpu.AF);
+        cycles = cpu.loads8bit->pop_af();
         break;
     case 0xF2:
         cycles = cpu.loads8bit->ld_a_c();

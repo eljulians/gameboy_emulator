@@ -164,6 +164,17 @@ uint8_t Loads8bit::pop_r16(RegisterPair register_) {
     return 12;
 }
 
+int Loads8bit::pop_af() {
+    // Handle AF differently since lower nibble of F must remain 0
+    uint8_t low = cpu.pop_from_stack();
+    uint8_t high = cpu.pop_from_stack();
+
+    cpu.AF->setLow(low & 0xF0);
+    cpu.AF->setHigh(high);
+
+    return 12;
+}
+
 int8_t Loads8bit::ld_a_c() {
     uint16_t address = 0xFF00 + cpu.C.get();
     cpu.A.set(mmu.read_8bit(address));

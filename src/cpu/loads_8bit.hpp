@@ -46,6 +46,7 @@ class Loads8bit {
 
         uint8_t push_r16(RegisterPair register_); 
         uint8_t pop_r16(RegisterPair register_); 
+        int pop_af(); 
 
         int8_t ld_c_a();
         int8_t ld_a_c();
