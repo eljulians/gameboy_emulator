@@ -201,9 +201,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_r8_n8(cpu.L);
         break;
     case 0x2F:
-        std::cout << "Operation CPL (0x2F) not implemented\n";
-        //cycles = cpu.alu8bit->cp_a_hl()
-        cycles = 4;
+        cycles = cpu.alu8bit->cpl();
         break;
 
     case 0x30:
@@ -228,8 +226,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_hl_d8();
         break;
     case 0x37:
-        std::cout << "Operation SCF (0x37) not implemented\n";
-        cycles = 4;
+        cycles = cpu.alu8bit->scf();
         break;
     case 0x38:
         cycles = cpu.jumps->jr_cc_nn(Condition::C);
@@ -253,9 +250,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_r8_n8(cpu.A);
         break;
     case 0x3F:
-        std::cout << "Operation CCF (0x3F) not implemented\n";
-        //cycles = cpu.alu8bit->cp_a_hl()
-        cycles = 4;
+        cycles = cpu.alu8bit->ccf();
         break;
 
     case 0x40:

@@ -54,4 +54,8 @@ class ALU_8bit {
 
         int8_t dec_r8(Register_8bit &register_);
         int8_t dec_hl();
+
+        int cpl();
+        int scf();
+        int ccf();
 };

@@ -255,6 +255,31 @@ int8_t ALU_8bit::cp_a_hl() {
     return 8;
 }
 
+int ALU_8bit::cpl() {
+    cpu.A.set(~cpu.A.get());
+
+    cpu.flags->set_n(1);
+    cpu.flags->set_h(1);
+
+    return 4;
+}
+
+int ALU_8bit::scf() {
+    cpu.flags->set_n(0);
+    cpu.flags->set_h(0);
+    cpu.flags->set_c(1);
+
+    return 4;
+}
+
+int ALU_8bit::ccf() {
+    cpu.flags->set_n(0);
+    cpu.flags->set_h(0);
+    cpu.flags->set_c(!cpu.flags->get_c());
+
+    return 4;
+}
+
 int8_t ALU_8bit::cp_a_n8() {
     uint8_t pcValue = cpu.fetchByte();
     uint8_t result = static_cast<uint8_t>(a.get() - pcValue);
