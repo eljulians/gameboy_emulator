@@ -280,6 +280,40 @@ int ALU_8bit::ccf() {
     return 4;
 }
 
+int ALU_8bit::daa() {
+    auto reg = cpu.A.get();
+
+    auto correction = cpu.flags->get_c()
+        ? 0x60
+        : 0x00;
+
+    if (cpu.flags->get_h() || (!cpu.flags->get_n() && ((reg & 0x0F) > 9))) {
+        correction |= 0x06;
+    }
+
+    if (cpu.flags->get_c() || (!cpu.flags->get_n() && (reg > 0x99))) {
+        correction |= 0x60;
+    }
+
+    if (cpu.flags->get_n()) {
+        reg = static_cast<uint8_t>(reg - correction);
+    } else {
+        reg = static_cast<uint8_t>(reg + correction);
+    }
+
+    if (((correction << 2) & 0x100) != 0) {
+        cpu.flags->set_c(true);
+    }
+
+    cpu.flags->set_h(false);
+    cpu.flags->set_z(reg == 0);
+
+    a.set(static_cast<uint8_t>(reg));
+
+    return 4;
+}
+
+
 int8_t ALU_8bit::cp_a_n8() {
     uint8_t pcValue = cpu.fetchByte();
     uint8_t result = static_cast<uint8_t>(a.get() - pcValue);

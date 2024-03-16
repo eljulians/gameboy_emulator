@@ -58,4 +58,5 @@ class ALU_8bit {
         int cpl();
         int scf();
         int ccf();
+        int daa();
 };

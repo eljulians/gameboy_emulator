@@ -175,9 +175,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.loads8bit->load_r8_n8(cpu.H);
         break;
     case 0x27:
-        std::cout << "Operation DAA (0x27) not implemented\n";
-        cycles = 4;
-        //cycles = cpu.alu8bit.daa();
+        cycles = cpu.alu8bit->daa();
         break;
     case 0x28:
         cycles = cpu.jumps->jr_cc_nn(Condition::Z);
