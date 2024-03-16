@@ -12,7 +12,10 @@ int MiscControl::stop() {
 }
 
 int MiscControl::halt() {
-    // TODO??
+    if (cpu.areInterruptsEnabled()) {
+        cpu.halted = true;
+    }
+
     return 4;
 }
 

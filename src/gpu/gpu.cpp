@@ -38,14 +38,14 @@ void GPU::update(uint8_t cycles) {
     PixelColorVector pixelVector = backgroundBuffer.getScanlineViewportRow();
     int currentScanline = lcdControl.getCurrentScanline();
 
-    spdlog::info("LCDC: 0x{0:x}", lcdControl.getLCDControlValue());
-    spdlog::info("STAT: 0x{0:x}", lcdControl.getStatus());
-    spdlog::info("Scroll X: {}", backgroundBuffer.getScroll().x);
-    spdlog::info("Scroll Y: {}", backgroundBuffer.getScroll().y);
+    spdlog::debug("LCDC: 0x{0:x}", lcdControl.getLCDControlValue());
+    spdlog::debug("STAT: 0x{0:x}", lcdControl.getStatus());
+    spdlog::debug("Scroll X: {}", backgroundBuffer.getScroll().x);
+    spdlog::debug("Scroll Y: {}", backgroundBuffer.getScroll().y);
 
     if (currentScanline != lastDrawnScanline) {
         lastDrawnScanline = currentScanline;
-        spdlog::info("Drawing scanline {}", currentScanline);
+        spdlog::debug("Drawing scanline {}", currentScanline);
 
         for (int i = 0; i < pixelVector.size(); i++) {
             PixelColor pixel = pixelVector.at(i);

@@ -18,10 +18,17 @@ int threadFunction(void* data) {
 }
 
 int main(int argc, char *argv[]) {
-    //std::string romPath = argv[1];
-    std::string romPath = "roms/cpu_instrs.gb";
+
+    spdlog::set_level(spdlog::level::info);
+
+    std::string romPath = argv[1];
+    //std::string romPath = "roms/cpu_instrs.gb";
+    //std::string romPath = "roms/test/02-interrupts.gb";
     //std::string romPath = "roms/tetris.gb";
     GameBoy gameBoy = GameBoy(romPath);
+
+    // Divider, is this correct?
+    gameBoy.mmu.write_8bit(0xFF04, 0x00);
 
     gameBoy.mmu.write_8bit(0xFF05, 0x00);
     gameBoy.mmu.write_8bit(0xFF06, 0x00);
@@ -55,6 +62,8 @@ int main(int argc, char *argv[]) {
     gameBoy.mmu.write_8bit(0xFF4A, 0x00);
     gameBoy.mmu.write_8bit(0xFF4B, 0x00);
     gameBoy.mmu.write_8bit(0xFFFF, 0x00);
+
+    gameBoy.cpu.halted = false;
 
     gameBoy.mainLoop();
 

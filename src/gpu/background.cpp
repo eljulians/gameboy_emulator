@@ -1,5 +1,7 @@
 #include <cmath>
 
+#include <iostream>
+#include <stdio.h>
 #include "background.hpp"
 #include "tile.hpp"
 #include "lcd_control.hpp"
@@ -62,9 +64,9 @@ int BackgroundBuffer::getTileIndexInLayout(int row, int column) {
         scrolledRow = 256 - scrolledRow;
     }
 
-    if (scrolledX >= 256) {
-        scrolledX = 256 - scrolledX;
-    }
+    //if (scrolledX >= 256) {
+    //    scrolledX = 256 - scrolledX;
+    //}
 
     int rowOffset = floor(scrolledRow / TILE_DIMENSION_PIXELS);
     int columnOffset = floor(scrolledX / TILE_DIMENSION_PIXELS);
@@ -115,6 +117,10 @@ PixelColorVector BackgroundBuffer::getScanlineViewportRow() {
 
     for (int column = 0; column < VIEWPORT_COLUMNS; column++) {
         auto tileId = getTileId(currentScanline, column);
+
+        if (tileId == 0x50) {
+
+        }
         auto tileAddress = getTileAddress(tileId);
         TileV2 tile = TileV2(mmu, tileAddress);
         TilePixelV2 pixel = tile.getValue(currentScanline, column, scroll);

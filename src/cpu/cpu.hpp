@@ -39,6 +39,7 @@ class CPU {
         Bit *bit;
         Rotates *rotates;
         MiscControl *miscControl;
+        bool halted;
 
         uint8_t fetchByte();
         int8_t fetchSignedByte();

@@ -23,22 +23,28 @@ uint16_t ControlUnit::fetch()
 
 uint8_t ControlUnit::execute()
 {
+
+    if (cpu.halted) {
+        spdlog::debug("Skipping instruction execution on HALT mode");
+        return 4;
+    }
+
     uint16_t pc = cpu.PC.get();
     uint16_t opcode = fetch();
     uint8_t cycles;
 
-    spdlog::info("Opcode 0x{0:x}", opcode);
-    spdlog::info("PC 0x{0:x}", pc);
-    spdlog::info("AF 0x{0:x}", cpu.AF->get());
-    spdlog::info("BC 0x{0:x}", cpu.BC->get());
-    spdlog::info("DE 0x{0:x}", cpu.DE->get());
-    spdlog::info("HL 0x{0:x}", cpu.HL->get());
-    spdlog::info("SP 0x{0:x}", cpu.SP.get());
-    spdlog::info("Z {}", cpu.flags->get_z());
-    spdlog::info("N {}", cpu.flags->get_n());
-    spdlog::info("H {}", cpu.flags->get_h());
-    spdlog::info("C {}", cpu.flags->get_c());
-    spdlog::info("IME {}", cpu.areInterruptsEnabled());
+    spdlog::debug("Opcode 0x{0:x}", opcode);
+    spdlog::debug("PC 0x{0:x}", pc);
+    spdlog::debug("AF 0x{0:x}", cpu.AF->get());
+    spdlog::debug("BC 0x{0:x}", cpu.BC->get());
+    spdlog::debug("DE 0x{0:x}", cpu.DE->get());
+    spdlog::debug("HL 0x{0:x}", cpu.HL->get());
+    spdlog::debug("SP 0x{0:x}", cpu.SP.get());
+    spdlog::debug("Z {}", cpu.flags->get_z());
+    spdlog::debug("N {}", cpu.flags->get_n());
+    spdlog::debug("H {}", cpu.flags->get_h());
+    spdlog::debug("C {}", cpu.flags->get_c());
+    spdlog::debug("IME {}", cpu.areInterruptsEnabled());
 
 
     /*

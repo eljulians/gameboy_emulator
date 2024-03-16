@@ -32,7 +32,7 @@ CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy), controlUnit(*this) {
     jumps = new Jumps(*this);
     bit = new Bit(*this);
     rotates = new Rotates(*this);
-    miscControl = new MiscControl(*this);
+    miscControl = new MiscControl(*this, gameBoy.mmu);
 }
 
 void CPU::setPC(uint16_t pc) {

@@ -52,5 +52,20 @@ int8_t Interrupt::getAddress() {
 }
 
 char* Interrupt::toString() {
-    return str(interruptEnum);
+    // TODO: figure out how to properly do this shit
+    if (interruptEnum == InterruptEnum::VBlank) {
+        return "vblank";
+    } 
+    else if (interruptEnum == InterruptEnum::LCDC) {
+        return "lcdc";
+    } 
+    if (interruptEnum == InterruptEnum::Timer) {
+        return "timer";
+    } 
+    if (interruptEnum == InterruptEnum::SerialTransfer) {
+        return "serial transfer";
+    } 
+    if (interruptEnum == InterruptEnum::Keypad) {
+        return "keypad";
+    } 
 }

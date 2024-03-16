@@ -26,7 +26,7 @@ class InterruptManager {
         Interrupt timer;
         Interrupt serial;
         Interrupt keypad;
-        void handle();
+        bool handle();
 
     private:
         MMU& mmu;

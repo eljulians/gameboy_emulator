@@ -15,7 +15,7 @@ InterruptVector InterruptManager::getInterrupts() {
     return {vblank, lcdc, timer, serial, keypad};
 }
 
-void InterruptManager::handle() {
+bool InterruptManager::handle() {
     /*
     Conditions for interrupts to occur:
     1. Global IME master interrupt is enabled (currently attribute of CPU)
@@ -26,8 +26,7 @@ void InterruptManager::handle() {
     */
     // TODO?: move attribute to this class instead?
     if (!cpu.areInterruptsEnabled()) {
-        spdlog::info("Interrupts are not enabled (IME; Interrupt Master Flag)");
-        return;
+        return false;
     }
 
     for (Interrupt interrupt: getInterrupts()) {
@@ -35,16 +34,25 @@ void InterruptManager::handle() {
         if (interrupt.isEnabled() && interrupt.isFlagged()) {
             auto address = interrupt.getAddress();
             auto currentPC = cpu.PC.get();
-            std::cout << interrupt.toString() << " enabled and flagged, jumping to  " << std::hex << address;
-            std::cout << " and pushing " << std::hex << currentPC << " onto stack";
+            //std::cout << interrupt.toString() << " enabled and flagged, jumping to  " << std::hex << address;
+            //std::cout << " and pushing " << std::hex << currentPC << " onto stack";
+            std::cout << interrupt.toString();
+            spdlog::info(" enabled and flagged, jumping to 0x{0:X}", address);
+
+            //spdlog::info("AF 0x{0:x}", cpu.AF->get());
+            
 
             // TODO: this is just a CALL, probably should refactor
             cpu.push_address_onto_stack(currentPC);
             cpu.PC.set(address);
 
-            cpu.disableInterrupts();
+            //cpu.disableInterrupts();
             interrupt.unflag();
-            break;
+            interrupt.disable();
+            cpu.halted = false;
+            return true;
         }
     }
+
+    return false;
 }
