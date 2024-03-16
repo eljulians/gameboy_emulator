@@ -727,6 +727,7 @@ uint8_t ControlUnit::execute()
         break;
     case 0xDF:
         cycles = cpu.jumps->rst(0x18);
+        break;
 
     case 0xE0:
         cycles = cpu.loads8bit->ldh_n_a();
@@ -760,6 +761,7 @@ uint8_t ControlUnit::execute()
         break;
     case 0xEF:
         cycles = cpu.jumps->rst(0x28);
+        break;
 
     case 0xF0:
         cycles = cpu.loads8bit->ldh_a_n();

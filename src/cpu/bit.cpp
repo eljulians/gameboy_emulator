@@ -4,7 +4,7 @@
 #include "bit.hpp"
 
 int8_t Bit::bit(Register_8bit register_, uint8_t bit) {
-    cpu.flags->set_z(((register_.get() >> bit) && 0x01) == 0x00);
+    cpu.flags->set_z(((register_.get() >> bit) & 0x01) == 0x00);
     cpu.flags->set_n(0);
     cpu.flags->set_h(1);
 
@@ -12,7 +12,7 @@ int8_t Bit::bit(Register_8bit register_, uint8_t bit) {
 }
 
 int8_t Bit::bit_hl(uint8_t bit) {
-    cpu.flags->set_z(((cpu.HL->getAddressValue() >> bit) && 0x01) == 0x00);
+    cpu.flags->set_z(((cpu.HL->getAddressValue() >> bit) & 0x01) == 0x00);
     cpu.flags->set_n(0);
     cpu.flags->set_h(1);
 
