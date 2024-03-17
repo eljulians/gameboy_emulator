@@ -16,7 +16,7 @@
 #define TILE_ROW_SIZE_BYTES 2
 #define TILE_PIXEL_SIZE_BITS 2
 
-#define DATA_SELECT_MODE_0 0x8800  // Signed tile id
+#define DATA_SELECT_MODE_0 0x9000  // Signed tile id
 #define DATA_SELECT_MODE_1 0x8000  // Unsigned tile id
 
 #define BACKGROUND_TILE_LAYOUT_MODE_0_START 0x9800

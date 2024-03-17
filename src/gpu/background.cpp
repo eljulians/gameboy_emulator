@@ -1,5 +1,7 @@
 #include <cmath>
 
+#include "spdlog/spdlog.h"
+
 #include <iostream>
 #include <stdio.h>
 #include "background.hpp"
@@ -82,16 +84,6 @@ int BackgroundBuffer::getTileId(int row, int column) {
     return mmu.read_8bit(layoutAddress + tileIndex);
 }
 
-/*
-TilePixelValue BackgroundBuffer::getTilePixel(int row, int column, int tileId) {
-    int tileAddress = getTileAddress(tileId);
-    int firstByte = mmu.read_8bit(tileAddress);
-    int secondByte = mmu.read_8bit(tileAddress+1);
-
-    
-}
-*/
-
 
 PixelColorVector BackgroundBuffer::getScanlineViewportRow() {
     // TODO: check if window and background are enabled, deal with window etc
@@ -106,14 +98,15 @@ PixelColorVector BackgroundBuffer::getScanlineViewportRow() {
     for (int column = 0; column < VIEWPORT_COLUMNS; column++) {
         auto tileId = getTileId(currentScanline, column);
 
-        if (tileId == 0x50) {
-
-        }
         auto tileAddress = getTileAddress(tileId);
         TileV2 tile = TileV2(mmu, tileAddress);
         TilePixelV2 pixel = tile.getValue(currentScanline, column, scroll);
         PixelColor pixelColor = palette.getColor(pixel);
         pixels.push_back(pixelColor);
+
+        if (currentScanline == 0 && column == 0) {
+
+        }
     }
 
     return pixels;

@@ -43,8 +43,8 @@ void GPU::update(uint8_t cycles) {
     spdlog::debug("Scroll Y: {}", backgroundBuffer.getScroll().y);
 
     if (currentScanline != lastDrawnScanline) {
-        PixelColorVector pixelVector = backgroundBuffer.getScanlineViewportRow();
         lastDrawnScanline = currentScanline;
+        PixelColorVector pixelVector = backgroundBuffer.getScanlineViewportRow();
         spdlog::debug("Drawing scanline {}", currentScanline);
 
         for (int i = 0; i < pixelVector.size(); i++) {
