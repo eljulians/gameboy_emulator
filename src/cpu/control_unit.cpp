@@ -239,7 +239,7 @@ uint8_t ControlUnit::execute()
         cycles = cpu.alu16bit->add_hl_sp();
         break;
     case 0x3A:
-        cycles = cpu.loads8bit->ld_a_hl_increment();
+        cycles = cpu.loads8bit->ld_a_hl_decrement();
         break;
     case 0x3B:
         cycles = cpu.alu16bit->dec_sp();

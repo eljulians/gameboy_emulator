@@ -87,6 +87,13 @@ int8_t Loads8bit::ld_a_hl_increment() {
     return 8;
 }
 
+int Loads8bit::ld_a_hl_decrement() {
+    cpu.A.set(cpu.HL->getAddressValue());
+    cpu.HL->decrement();
+
+    return 8;
+}
+
 int8_t Loads8bit::ld_hl_a_increment() {
     cpu.HL->setAddressValue(cpu.A.get());
     cpu.HL->increment();

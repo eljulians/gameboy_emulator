@@ -32,6 +32,7 @@ class Loads8bit {
 
         int8_t ld_hl_a_decrement();
         int8_t ld_a_hl_increment();
+        int ld_a_hl_decrement();
         int8_t ld_hl_a_increment();
 
         int8_t ldh_n_a();
