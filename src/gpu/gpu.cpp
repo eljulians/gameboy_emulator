@@ -35,7 +35,6 @@ void GPU::init_sdl() {
 }
 
 void GPU::update(uint8_t cycles) {
-    PixelColorVector pixelVector = backgroundBuffer.getScanlineViewportRow();
     int currentScanline = lcdControl.getCurrentScanline();
 
     spdlog::debug("LCDC: 0x{0:x}", lcdControl.getLCDControlValue());
@@ -44,6 +43,7 @@ void GPU::update(uint8_t cycles) {
     spdlog::debug("Scroll Y: {}", backgroundBuffer.getScroll().y);
 
     if (currentScanline != lastDrawnScanline) {
+        PixelColorVector pixelVector = backgroundBuffer.getScanlineViewportRow();
         lastDrawnScanline = currentScanline;
         spdlog::debug("Drawing scanline {}", currentScanline);
 

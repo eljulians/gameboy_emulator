@@ -104,13 +104,13 @@ void LCDControl::update(int cycles) {
     currentCycles += cycles;
 
     if (currentCycles >= CYCLES_TO_DRAW_SCANLINE) {
-        currentCycles = 0;
+        currentCycles -= CYCLES_TO_DRAW_SCANLINE;
         nextScanline();
     }
 
     if (getCurrentScanline() > TOTAL_SCANLINES) {
         resetScanline();
-        currentCycles = 0;
+        currentCycles -= CYCLES_TO_DRAW_SCANLINE;
     }
 }
 

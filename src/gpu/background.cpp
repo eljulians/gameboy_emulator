@@ -35,15 +35,7 @@ int BackgroundBuffer::getTileOffset(int tileId) {
         return tileId;
     }
 
-    // Signed
-    return (tileId ^ 0x80) - 0x80;
-
-    /*
-    if (tileId >= 128) {
-        return tileId - 128;
-    }
-    return tileId + 128;
-    */
+    return static_cast<int8_t>(tileId);
 }
 
 int BackgroundBuffer::getTileAddress(int tileId) {
@@ -90,15 +82,6 @@ int BackgroundBuffer::getTileId(int row, int column) {
     return mmu.read_8bit(layoutAddress + tileIndex);
 }
 
-void BackgroundBuffer::getCurrentScanlineTileRow() {
-    auto currentScanline = lcdControl.getCurrentScanline();
-
-    for (int column = 0; column < VIEWPORT_COLUMNS; column++) {
-
-        auto tileId = getTileId(currentScanline, column);
-    }
-}
-
 /*
 TilePixelValue BackgroundBuffer::getTilePixel(int row, int column, int tileId) {
     int tileAddress = getTileAddress(tileId);
@@ -131,9 +114,6 @@ PixelColorVector BackgroundBuffer::getScanlineViewportRow() {
         TilePixelV2 pixel = tile.getValue(currentScanline, column, scroll);
         PixelColor pixelColor = palette.getColor(pixel);
         pixels.push_back(pixelColor);
-        // get tile relative line: current scanline + scroll y
-        // get tile line relative pixel: current column + scroll x
-        // get actual pixel: tile index + (current scanline + scroll y) + (current column + scroll x)
     }
 
     return pixels;

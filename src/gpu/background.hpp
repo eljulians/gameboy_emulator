@@ -43,7 +43,6 @@ class BackgroundBuffer {
         int getTileOffset(int tileId);
         int getTileDataAddress();
         int getTileId(int row, int column);
-        void getCurrentScanlineTileRow();
         PixelColorVector getScanlineViewportRow();
         int getTileIndexInLayout(int row, int column);
         //TilePixelValue getTilePixel(int row, int column, int tileId);
