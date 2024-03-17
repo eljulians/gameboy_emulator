@@ -35,10 +35,15 @@ int BackgroundBuffer::getTileOffset(int tileId) {
         return tileId;
     }
 
+    // Signed
+    return (tileId ^ 0x80) - 0x80;
+
+    /*
     if (tileId >= 128) {
         return tileId - 128;
     }
     return tileId + 128;
+    */
 }
 
 int BackgroundBuffer::getTileAddress(int tileId) {
