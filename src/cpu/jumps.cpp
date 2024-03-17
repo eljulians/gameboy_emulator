@@ -8,12 +8,13 @@
 int8_t Jumps::jp_nn() {
     cpu.PC.set(cpu.fetch2bytes());
 
-    return 12;
+    return 16;
 }
 
 int8_t Jumps::jp_cc_nn(Condition condition) {
     if (cpu.getCondition(condition)) {
         jp_nn();
+        return 16;
     } else{
         cpu.fetch2bytes();
     }
@@ -38,11 +39,12 @@ int8_t Jumps::jr_n() {
 int8_t Jumps::jr_cc_nn(Condition condition) {
     if (cpu.getCondition(condition)) {
         jr_n();
+        return 12;
     } else {
         cpu.fetchSignedByte();
     }
 
-    return 12;
+    return 8;
 }
 
 int8_t Jumps::call_nn() {
@@ -57,6 +59,7 @@ int8_t Jumps::call_nn() {
 int8_t Jumps::call_cc_nn(Condition condition) {
     if (cpu.getCondition(condition)) {
         call_nn();
+        return 24;
     } else {
         cpu.fetch2bytes();
     }
@@ -74,12 +77,13 @@ int8_t Jumps::rst(uint8_t n) {
 int8_t Jumps::ret() {
     cpu.PC.set(cpu.pop_address_from_stack());    
 
-    return 8;
+    return 16;
 }
 
 int8_t Jumps::ret_cc(Condition condition) {
     if (cpu.getCondition(condition)) {
         ret();
+        return 20;
     }
 
     return 8;
@@ -89,5 +93,5 @@ int8_t Jumps::reti() {
     cpu.PC.set(cpu.pop_address_from_stack());
     cpu.enableInterrupts();
 
-    return 8;
+    return 16;
 }
