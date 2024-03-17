@@ -64,7 +64,6 @@ class Divider;
 class MMU {
 private:
     GameBoy& gameBoy;
-    std::vector<uint8_t> ram;
     std::vector<uint8_t> internalRam;
     std::vector<uint8_t> echo;
     std::vector<uint8_t> spriteAttributes;

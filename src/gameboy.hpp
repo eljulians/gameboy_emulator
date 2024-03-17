@@ -10,6 +10,7 @@
 
 class GameBoy {
     public:
+    /*
         GameBoy() : 
             mmu(*this),
             cartridge(),
@@ -20,21 +21,23 @@ class GameBoy {
             //timerManager(this->mmu, this->interruptManager.timer)
         {
         };
+        */
         GameBoy(std::string romPath) :
             gpu(this->mmu, this->lcdControl),
             cpu(*this, this->gpu),
             mmu(*this),
-            cartridge(romPath),
+            //cartridge(romPath),
             //interruptManager(this->mmu, this->cpu),
             lcdControl(this->mmu, *this->cpu.interruptManager)
             //timerManager(this->mmu, this->interruptManager.timer)
         {
+            cartridge = createCartridge(romPath);
         };
 
         CPU cpu;
         MMU mmu;
         GPU gpu;
-        CartridgeROMOnly cartridge;
+        AbstractCartridge* cartridge;
         //InterruptManager interruptManager;
         LCDControl lcdControl;
         //TimerManager timerManager;
