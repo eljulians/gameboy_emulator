@@ -6,28 +6,28 @@
 #include "mmu/mmu.hpp"
 #include "mmu/cartridge.hpp"
 #include "interrupts/interrupt_manager.hpp"
-#include "cpu/timer/timer.hpp"
+//#include "cpu/timer/timer.hpp"
 
 class GameBoy {
     public:
         GameBoy() : 
-            cpu(*this),
             mmu(*this),
             cartridge(),
-            interruptManager(this->mmu, this->cpu),
-            lcdControl(this->mmu, this->interruptManager),
+            //interruptManager(this->mmu, this->cpu),
+            lcdControl(this->mmu, *this->cpu.interruptManager),
             gpu(this->mmu, this->lcdControl),
-            timerManager(this->mmu, this->interruptManager.timer)
+            cpu(*this, this->gpu)
+            //timerManager(this->mmu, this->interruptManager.timer)
         {
         };
         GameBoy(std::string romPath) :
-            cpu(*this),
             gpu(this->mmu, this->lcdControl),
+            cpu(*this, this->gpu),
             mmu(*this),
             cartridge(romPath),
-            interruptManager(this->mmu, this->cpu),
-            lcdControl(this->mmu, this->interruptManager),
-            timerManager(this->mmu, this->interruptManager.timer)
+            //interruptManager(this->mmu, this->cpu),
+            lcdControl(this->mmu, *this->cpu.interruptManager)
+            //timerManager(this->mmu, this->interruptManager.timer)
         {
         };
 
@@ -35,8 +35,9 @@ class GameBoy {
         MMU mmu;
         GPU gpu;
         CartridgeROMOnly cartridge;
-        InterruptManager interruptManager;
+        //InterruptManager interruptManager;
         LCDControl lcdControl;
-        TimerManager timerManager;
+        //TimerManager timerManager;
+
         void mainLoop();
 };

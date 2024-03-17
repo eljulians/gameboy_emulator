@@ -8,6 +8,10 @@
 #include "bit.hpp"
 #include "rotates.hpp"
 #include "misc_control.hpp"
+#include "timer/timer.hpp"
+#include "../interrupts/interrupt_manager.hpp"
+#include "../interrupts/interrupt.hpp"
+#include "../gpu/gpu.hpp"
 
 #define CONDITION_NZ 0
 #define CONDITION_Z 1
@@ -26,7 +30,7 @@ enum class Condition {
 
 class CPU {
     public:
-        CPU(GameBoy& gameBoy);
+        CPU(GameBoy& gameBoy, GPU& gpu);
         Register_8bit A, B, C, D, E, F, H, L;
         RegisterPair *AF, *BC, *DE, *HL;
         Register_16bit PC, SP;
@@ -39,6 +43,10 @@ class CPU {
         Bit *bit;
         Rotates *rotates;
         MiscControl *miscControl;
+        InterruptManager* interruptManager;
+        TimerManager* timerManager;
+        GPU& gpu;
+
         bool halted;
 
         uint8_t fetchByte();

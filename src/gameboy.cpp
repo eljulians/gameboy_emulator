@@ -25,15 +25,18 @@ void GameBoy::mainLoop() {
             spdlog::info("foo");
         }
         */
-        bool interrupt = interruptManager.handle();
+        bool interrupt = cpu.interruptManager->handle();
         cycles = cpu.controlUnit.execute();
 
+        /*
         if (interrupt) {
             cycles += 20;
         }
+        */
 
         gpu.update(cycles);
-        timerManager.tick(cycles);
+        cpu.timerManager->tick(cycles);
+        //timerManager.tick(cycles);
     }
 
 }

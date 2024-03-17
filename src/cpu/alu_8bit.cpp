@@ -187,14 +187,19 @@ int8_t ALU_8bit::or_a_r8(Register_8bit &register_) {
 }
 
 int8_t ALU_8bit::or_a_hl() {
-    a.set(a.get() | hl.getAddressValue());
+    auto value = (a.get() | hl.getAddressValue());
 
-    flags.set_z(a.get() == 0x00);
+    cpu.interruptManager->handle();
+    cpu.timerManager->tick(4);
+    cpu.gpu.update(4);
+
+    a.set(value);
+    flags.set_z(value == 0x00);
     flags.set_n(0);
     flags.set_h(0);
     flags.set_c(0);
 
-    return 8;
+    return 4;
 }
 
 int8_t ALU_8bit::or_a_n8() {

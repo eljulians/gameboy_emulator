@@ -4,7 +4,7 @@
 #include "control_unit.hpp"
 #include "../gameboy.hpp"
 
-CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy), controlUnit(*this) {
+CPU::CPU(GameBoy& gameBoy, GPU& gpu) : gameBoy(gameBoy), gpu(gpu), controlUnit(*this) {
     A = Register_8bit();
     B = Register_8bit();
     C = Register_8bit();
@@ -17,6 +17,8 @@ CPU::CPU(GameBoy& gameBoy) : gameBoy(gameBoy), controlUnit(*this) {
     BC = new RegisterPair(gameBoy.mmu,B, C);
     DE = new RegisterPair(gameBoy.mmu,D, E);
     HL = new RegisterPair(gameBoy.mmu,H, L);
+    interruptManager = new InterruptManager(gameBoy.mmu, *this);
+    timerManager = new TimerManager(gameBoy.mmu, interruptManager->timer);
     flags = new Flag(F);
 
     AF->set(0x1180);
