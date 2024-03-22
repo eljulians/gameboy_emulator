@@ -64,6 +64,7 @@ int main(int argc, char *argv[]) {
     gameBoy.mmu.write_8bit(0xFFFF, 0x00);
 
     gameBoy.cpu.halted = false;
+    gameBoy.cpu.disableInterrupts();
 
     gameBoy.mainLoop();
 

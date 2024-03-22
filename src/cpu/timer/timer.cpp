@@ -1,5 +1,6 @@
 #define FMT_HEADER_ONLY
 
+#include <iostream>
 #include "spdlog/spdlog.h"
 
 #include "timer.hpp"
@@ -37,13 +38,16 @@ int TimerModulo::getValue() {
 void TimerCounter::tick(int cycles) {
     // TODO: request interrupt on the next tick after overflow?
     if (!timerControl.isEnabled()) {
+        spdlog::debug("Timer is disabled");
         return;
     }
+    
+
 
     auto clockSelect = timerControl.getInputClockSelect();
-    auto counterValue = mmu.read_8bit(TIMER_COUNTER_ADDRESS);
-    auto previous = counterValue;
 
+    uint8_t counterValue = mmu.read_8bit(TIMER_COUNTER_ADDRESS);
+    uint8_t previous = counterValue;
 
     spdlog::debug("TIMA: current cycles: {}", currentCycles);
     spdlog::debug("TIMA: increasing cycles by {}", cycles);
@@ -52,14 +56,16 @@ void TimerCounter::tick(int cycles) {
     currentCycles += cycles;
 
     if (currentCycles >= clockSelect) {
-        spdlog::debug("TIMA: incrementing");
-
         counterValue += 1;
+        spdlog::debug("TIMA: incremented to {}", counterValue);
+
         currentCycles = currentCycles - clockSelect;
         mmu.write_8bit(TIMER_COUNTER_ADDRESS, counterValue & 0xFF);
     }
 
-    if (counterValue == 0 && previous != 0) {
+    bool overflow = (counterValue == 0 && previous != 0);
+
+    if (overflow) {
         spdlog::debug("TIMA: overflow, resetting value to TMA and requesting interrupt");
 
         auto timerModuloValue = timerModulo.getValue();
@@ -76,13 +82,9 @@ void Divider::tick(int cycles) {
     uint8_t divider = mmu.read_8bit(DIVIDER_ADDRESS);
     elapsedCycles += cycles;
 
-    if (elapsedCycles >= 16384) {
+    if (elapsedCycles >= (int)(16384/4)) {
         elapsedCycles = elapsedCycles - 16384;
         divider += 1;
-
-        if (divider > 0xFF) {
-            divider = 0;
-        }
 
         // Direct write; hardware resets DIV to 0 on other writes
         mmu.io.at(DIVIDER_ADDRESS - IO_START) = divider;

@@ -15,10 +15,24 @@ https://gbdev.io/pandocs/Timer_and_Divider_Registers.html
 #define TIMER_MODULO_ADDRESS 0xFF06   // aka TMA
 #define TIMER_CONTROL_ADDRESS 0xFF07  // aka TAC
 
+/*
 #define MODE_0_CYCLES 1024 // 4096 Hz
 #define MODE_1_CYCLES 16 // 262144 Hz
 #define MODE_2_CYCLES 64 // 65536 Hz
 #define MODE_3_CYCLES 256 // 16384 Hz
+*/
+
+/*
+#define MODE_0_CYCLES 4096 // 4096 Hz
+#define MODE_1_CYCLES 262144 // 262144 Hz
+#define MODE_2_CYCLES 65536 // 65536 Hz
+#define MODE_3_CYCLES 16384 // 16384 Hz
+*/
+
+#define MODE_0_CYCLES 256
+#define MODE_1_CYCLES 4
+#define MODE_2_CYCLES 16
+#define MODE_3_CYCLES 64
 
 class MMU;
 class CPU;

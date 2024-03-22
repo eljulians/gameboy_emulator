@@ -10,7 +10,7 @@
 
 class GameBoy {
     public:
-    /*
+ 
         GameBoy() : 
             mmu(*this),
             cartridge(),
@@ -20,8 +20,9 @@ class GameBoy {
             cpu(*this, this->gpu)
             //timerManager(this->mmu, this->interruptManager.timer)
         {
+            cartridge = createCartridge("roms/tetris.gb");
         };
-        */
+
         GameBoy(std::string romPath) :
             gpu(this->mmu, this->lcdControl),
             cpu(*this, this->gpu),

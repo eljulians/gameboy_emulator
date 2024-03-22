@@ -37,6 +37,7 @@ AbstractCartridge* createCartridge(std::string romPath) {
             cartridge = new CartridgeROMOnly(data, romSize, ramSize);
 
         case 0x01:
+        case 0x02:  // TODO fix
             spdlog::info("MBC1 cartridge");
             cartridge = new CartridgeMBC1(data, romSize, ramSize);
     }

@@ -12,9 +12,7 @@ int MiscControl::stop() {
 }
 
 int MiscControl::halt() {
-    if (cpu.areInterruptsEnabled()) {
-        cpu.halted = true;
-    }
+    cpu.halted = true;
 
     return 4;
 }

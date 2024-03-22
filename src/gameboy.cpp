@@ -17,25 +17,34 @@ void GameBoy::mainLoop() {
     gpu.init_sdl();
 
     while(true) {
-        /*
-        spdlog::info("FF42 0x{0:x}", mmu.read_8bit(0xFF42));
 
-        if (mmu.read_8bit(0xFF42) != 0) {
-            spdlog::info("foo");
-        }
-        */
         bool interrupt = cpu.interruptManager->handle();
-        cycles = cpu.controlUnit.execute();
 
-        /*
-        if (interrupt) {
-            cycles += 20;
+        if (cpu.halted) {
+            // TODO: refactor this crap for the mf halt bug
+            for (Interrupt interrupt: cpu.interruptManager->getInterrupts()) {
+                if (interrupt.isEnabled() && interrupt.isFlagged()) {
+                    cpu.halted = false;
+                    break;
+                }
+
+            }
         }
-        */
+        
+        if (!cpu.halted) {
+            cycles = (int)cpu.controlUnit.execute() / 4;
+        } else {
+            //std::cout << cpu.interruptManager->timer.isEnabled() << std::endl;
+            
+            cycles = 1;
+        }
+
+        if (interrupt) {
+            cycles = 5;
+        }
 
         gpu.update(cycles);
         cpu.timerManager->tick(cycles);
-        //timerManager.tick(cycles);
     }
 
 }

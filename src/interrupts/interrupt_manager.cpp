@@ -36,8 +36,8 @@ bool InterruptManager::handle() {
             auto currentPC = cpu.PC.get();
             //std::cout << interrupt.toString() << " enabled and flagged, jumping to  " << std::hex << address;
             //std::cout << " and pushing " << std::hex << currentPC << " onto stack";
-            std::cout << interrupt.toString();
-            spdlog::info(" enabled and flagged, jumping to 0x{0:X}", address);
+            //std::cout << interrupt.toString();
+            spdlog::debug(" enabled and flagged, jumping to 0x{0:X}", address);
 
             //spdlog::info("AF 0x{0:x}", cpu.AF->get());
             
@@ -46,10 +46,9 @@ bool InterruptManager::handle() {
             cpu.push_address_onto_stack(currentPC);
             cpu.PC.set(address);
 
-            //cpu.disableInterrupts();
+            cpu.disableInterrupts();
             interrupt.unflag();
-            interrupt.disable();
-            cpu.halted = false;
+            //interrupt.disable();
             return true;
         }
     }

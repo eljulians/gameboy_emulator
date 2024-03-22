@@ -26,12 +26,11 @@ class InterruptManager {
         Interrupt timer;
         Interrupt serial;
         Interrupt keypad;
+        InterruptVector getInterrupts();
         bool handle();
 
     private:
         MMU& mmu;
         CPU& cpu;
         int8_t cycles = 0;
-
-        InterruptVector getInterrupts();
 };
