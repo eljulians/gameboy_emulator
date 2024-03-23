@@ -2,7 +2,7 @@
 
 #include "lcd_control.hpp"
 #include "../mmu/mmu.hpp"
-#include "../interrupts/interrupt_manager.hpp"
+#include "../cpu/interrupts/interrupt_manager.hpp"
 #include "../common/bit_operations.hpp"
 
 

@@ -5,7 +5,7 @@
 #include "gpu/lcd_control.hpp"
 #include "mmu/mmu.hpp"
 #include "mmu/cartridge.hpp"
-#include "interrupts/interrupt_manager.hpp"
+#include "cpu/interrupts/interrupt_manager.hpp"
 //#include "cpu/timer/timer.hpp"
 
 class GameBoy {

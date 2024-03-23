@@ -6,8 +6,8 @@
 
 #include "interrupt.hpp"
 #include "interrupt_manager.hpp"
-#include "../cpu/cpu.hpp"
-#include "../mmu/mmu.hpp"
+#include "../cpu.hpp"
+#include "../../mmu/mmu.hpp"
 
 
 InterruptVector InterruptManager::getInterrupts() {

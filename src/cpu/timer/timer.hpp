@@ -6,7 +6,7 @@ https://gbdev.io/pandocs/Timer_and_Divider_Registers.html
 
 #include <map>
 #include <stdint.h>
-#include "../../interrupts/interrupt.hpp"
+#include "../interrupts/interrupt.hpp"
 
 #define CLOCK_HZ 4190000  // 4,19 MHz
 

@@ -9,8 +9,8 @@
 #include "instructions/rotates.hpp"
 #include "instructions/misc_control.hpp"
 #include "timer/timer.hpp"
-#include "../interrupts/interrupt_manager.hpp"
-#include "../interrupts/interrupt.hpp"
+#include "interrupts/interrupt_manager.hpp"
+#include "interrupts/interrupt.hpp"
 #include "../gpu/gpu.hpp"
 
 #define CONDITION_NZ 0

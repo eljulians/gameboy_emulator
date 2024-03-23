@@ -82,10 +82,10 @@ color.o:
 	$(CC) $(CFLAGS) -c src/gpu/color.cpp
 
 interrupt.o: gameboy.o
-	$(CC) $(CFLAGS) -c src/interrupts/interrupt.cpp
+	$(CC) $(CFLAGS) -c src/cpu/interrupts/interrupt.cpp
 
 interrupt_manager.o: interrupt.o
-	$(CC) $(CFLAGS) -c src/interrupts/interrupt_manager.cpp
+	$(CC) $(CFLAGS) -c src/cpu/interrupts/interrupt_manager.cpp
 
 #gameboy: clean gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o
 	#$(CC) $(CFLAGS) -o $(TARGET) gameboy.o cpu.o gpu.o mmu.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o

@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include "interrupt.hpp"
-#include "../mmu/mmu.hpp"
+#include "../../mmu/mmu.hpp"
 
 
 uint8_t getInterruptMask(InterruptEnum interrupt) {
