@@ -11,7 +11,7 @@
 #include "../../lib/catch.hpp"
 #include "../../src/gameboy.hpp"
 
-std::string testFilesPath = "./tests/jsmoo/test_files/";
+std::string testFilesPath = "./tests/integration_jsmoo/test_files/";
 
 using json = nlohmann::json;
 
