@@ -89,22 +89,6 @@ void Divider::tick(int cycles) {
         // Direct write; hardware resets DIV to 0 on other writes
         mmu.io.at(DIVIDER_ADDRESS - IO_START) = divider;
     }
-
-    /*
-    internalDivider += cycles;
-
-    if (internalDivider > 0xFFFF) {
-        internalDivider -= 0xFFFF;
-        spdlog::debug("DIV: overflow");
-    }
-
-    spdlog::debug("DIV: new value: 0x{0:X}", internalDivider);
-
-    int upperByte = internalDivider >> 8;
-
-    // Direct write; hardware resets DIV to 0 on other writes
-    mmu.io.at(DIVIDER_ADDRESS - IO_START) = upperByte;
-    */
 }
 
 void TimerManager::tick(int cycles) {

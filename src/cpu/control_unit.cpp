@@ -24,10 +24,12 @@ uint16_t ControlUnit::fetch()
 uint8_t ControlUnit::execute()
 {
 
+    /*
     if (cpu.halted) {
         spdlog::debug("Skipping instruction execution on HALT mode");
         return 4;
     }
+    */
 
     uint16_t pc = cpu.PC.get();
     uint16_t opcode = fetch();
