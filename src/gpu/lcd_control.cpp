@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#include "spdlog/spdlog.h"
+
 #include "lcd_control.hpp"
 #include "../mmu/mmu.hpp"
 #include "../cpu/interrupts/interrupt_manager.hpp"
@@ -61,22 +63,15 @@ void LCDControl::resetScanline() {
 }
 
 void LCDControl::handleModeChange() {
-    if (!isScreenOn()) {
-        setMode(LCDMode::VBlank);
-        currentCycles;
-        resetScanline();
-        return;
-    }
-
     LCDMode previousMode = getMode();
     LCDMode currentMode;
 
     if (getCurrentScanline() >= VISIBLE_SCANLINES) {
         currentMode = LCDMode::VBlank;
     } else {
-        if (IS_OAM_SEARCH(currentCycles)) {
+        if (IS_OAM_SEARCH(currentCycles*4)) {
             currentMode = LCDMode::OAMSearch;
-        } else if (IS_LCD_TRANSFER(currentCycles)) {
+        } else if (IS_LCD_TRANSFER(currentCycles*4)) {
             currentMode = LCDMode::LCDTransfer;
         } else {
             currentMode = LCDMode::HBlank;
@@ -86,6 +81,21 @@ void LCDControl::handleModeChange() {
     setMode(currentMode);
 
     if (currentMode != previousMode) {
+        /*
+        if (currentMode == LCDMode::VBlank) {
+            spdlog::info("vblank");
+        }
+        else if (currentMode == LCDMode::HBlank) {
+            spdlog::info("hblank");
+        }
+        if (currentMode == LCDMode::OAMSearch) {
+            spdlog::info("oam search");
+        }
+        if (currentMode == LCDMode::LCDTransfer) {
+            spdlog::info("lcd trasnfer");
+        }
+        */
+
         if (currentMode != LCDMode::LCDTransfer && isModeInterruptEnabled(currentMode)) {
             interruptManager.lcdc.flag();
         }
@@ -95,13 +105,14 @@ void LCDControl::handleModeChange() {
 }
 
 void LCDControl::update(int cycles) {
-    handleModeChange();
+    currentCycles += cycles;
 
     if (!isScreenOn()) {
         return;
     }
 
-    currentCycles += cycles;
+    handleModeChange();
+
 
     if (currentCycles >= CYCLES_TO_DRAW_SCANLINE) {
         currentCycles -= CYCLES_TO_DRAW_SCANLINE;
