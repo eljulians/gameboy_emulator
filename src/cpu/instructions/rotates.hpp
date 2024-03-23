@@ -1,9 +1,9 @@
 #pragma once
 
 #include <stdint.h>
-#include "../registers.hpp"
 
 class CPU;
+class Register_8bit;
 
 class Rotates {
     private:

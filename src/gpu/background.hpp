@@ -2,12 +2,6 @@
 
 #include <vector>
 
-#include "tile.hpp"
-#include "lcd_control.hpp"
-#include "../mmu/mmu.hpp"
-#include "tile_v2.hpp"
-#include "color.hpp"
-
 
 #define SCROLL_Y 0xFF42
 #define SCROLL_X 0xFF43
@@ -33,6 +27,10 @@
 #define VIEWPORT_SCANLINES 144
 #define VIEWPORT_COLUMNS 160
 
+class MMU;
+class PixelColor;
+class LCDControl;
+class Scroll;
 
 typedef std::vector<PixelColor> PixelColorVector;
 

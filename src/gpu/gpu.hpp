@@ -1,13 +1,13 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include <vector>
-#include "lcd_control.hpp"
-#include "tile.hpp"
 #include "background.hpp"
-#include "../mmu/mmu.hpp"
 
 class GameBoy;
+class LCDControl;
+//class BackgroundBuffer;
+class MMU;
+class SDL_Renderer;
+class SDL_Window;
 
 class GPU {
     public:

@@ -3,7 +3,6 @@
 #include <stdint.h>
 #include <map>
 
-#include "../common/bit_operations.hpp"
 
 #define LCD_CONTROL_ADDRESS 0xFF40
 #define LCD_STATUS_ADDRESS 0xFF41

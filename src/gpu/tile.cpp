@@ -1,34 +1,26 @@
+#include <stdint.h>
+#include <vector>
+
+#include "background.hpp"
 #include "tile.hpp"
+#include "../mmu/mmu.hpp"
 
 
-int TilePixel::getValue() {
-    return firstBit << 1 | secondBit;
-}
+TilePixelV2 TileV2::getValue(int row, int column, Scroll scroll) {
+    /*
+    Row and column are absolute wrt the screen rather than relative wrt the tile,
+    i.e. ranges are [0, 160], [0, 144].
+    */
+    //int rowOffset = ((row + scroll.y) % 8) * ROW_SIZE_BYTES;
+    //int columnOffset = 7 - ((column + scroll.x) % 8);
+    int rowOffset = (row  % 8) * ROW_SIZE_BYTES;
+    int columnOffset = 7 - (column % 8);
 
-TilePixelVector TileRow::createPixels() {
-    uint8_t mask = 0x80;
-    bool firstBit, secondBit;
+    uint8_t firstByte = mmu.read_8bit(address + rowOffset);
+    uint8_t secondByte = mmu.read_8bit(address + rowOffset + 1);
 
-    for (int i = 0; i < PIXELS_IN_ROW; i++) {
-        firstBit = firstByte & mask;
-        secondBit = secondByte & mask;
-        mask >>= 1;
+    bool firstBit = (firstByte >> columnOffset) & 1;
+    bool secondBit = (secondByte >> columnOffset) & 1;
 
-        pixels.push_back(TilePixel(firstBit, secondBit));
-    }
-
-    return pixels;
-}
-
-TileRowVector Tile::createRows() {
-    for (int i = 0; i < bytes.size(); i+=2) {
-        auto firstByte = bytes[i];
-        auto secondByte = bytes[i+1];
-
-        TileRow tileRow(firstByte, secondByte);
-        tileRow.createPixels();
-        rows.push_back(tileRow);
-    }
-        
-    return rows;
+    return TilePixelV2{firstBit, secondBit};
 }

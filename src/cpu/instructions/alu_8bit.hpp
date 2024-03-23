@@ -1,9 +1,12 @@
 #pragma once
 
 #include <stdint.h>
-#include "../registers.hpp"
 
 class CPU;
+class Register_8bit;
+class RegisterPair;
+class Flag;
+
 
 class ALU_8bit {
     private:

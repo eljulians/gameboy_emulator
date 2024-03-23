@@ -8,7 +8,7 @@
 #include "tile.hpp"
 #include "lcd_control.hpp"
 #include "../mmu/mmu.hpp"
-#include "tile_v2.hpp"
+#include "tile.hpp"
 #include "color.hpp"
 
 

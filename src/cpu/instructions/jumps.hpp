@@ -4,6 +4,7 @@
 #include "../registers.hpp"
 
 class CPU;
+class Register_8bit;
 enum class Condition;
 
 class Jumps {

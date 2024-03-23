@@ -1,10 +1,11 @@
 #pragma once
 
 #include <stdint.h>
-#include "../registers.hpp"
-#include "../../mmu/mmu.hpp"
 
 class CPU;
+class Register_8bit;
+class RegisterPair;
+class MMU;
 
 class Loads8bit {
     private:

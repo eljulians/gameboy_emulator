@@ -7,6 +7,7 @@
 
 class MMU;
 class CPU;
+class Interrupt;
 
 typedef std::vector<Interrupt> InterruptVector;
 

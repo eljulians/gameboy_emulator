@@ -2,8 +2,6 @@
 #include <stdint.h>
 #include <vector>
 
-#include "../cpu/timer/timer.hpp"
-
 #define ROM_BANK_0_START 0x0000
 #define ROM_BANK_0_END 0x3FFF
 #define IS_ROM_BANK_0(a) a <= ROM_BANK_0_END

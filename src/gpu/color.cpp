@@ -2,7 +2,8 @@
 #include <vector>
 
 #include "color.hpp"
-#include "tile_v2.hpp"
+#include "tile.hpp"
+#include "../mmu/mmu.hpp"
 
 PixelColor BackgroundPalette::getColor(TilePixelV2 pixel) {
     uint8_t pattern = mmu.read_8bit(TILE_WINDOW_PALETTE_ADDRESS);

@@ -3,72 +3,36 @@
 #include <stdint.h>
 #include <vector>
 
-#include "lcd_control.hpp"
 
-#define PIXELS_IN_ROW 8
-#define ROWS_IN_TILE 8
 #define TILE_DIMENSION_PIXELS 8
+#define ROWS_IN_TILE 8
+#define ROW_SIZE_BYTES 2
+#define TILE_SIZE_BYTES ROWS_IN_TILE * ROW_SIZE_BYTES
 
-// All the tiles, not only the viewport
-#define TILES_IN_BACKGROUND 384
+class MMU;
 
-enum class Color {
-    WHITE,
-    LIGHT_GRAY,
-    DARK_GRAY,
-    BLACK,
-};
+typedef struct TilePixelV2 {
+    bool firstBit;
+    bool secondBit;
+
+    bool operator<=>(const TilePixelV2&) const = default;
+} TilePixelV2;
+
+// TODO: move somewhere else
+typedef struct Scroll {
+    int x;
+    int y;
+} Scroll;
 
 
-class TilePixel {
-    // Each pixel 2 bits
+
+
+class TileV2 {
     public:
-        bool firstBit;
-        bool secondBit;
+        TileV2(MMU& mmu, int address) : mmu(mmu), address(address) {};
+        TilePixelV2 getValue(int row, int column, Scroll scroll);
 
-        TilePixel(bool firstBit, bool secondBit) : firstBit(firstBit), secondBit(secondBit) {};
-
-        bool operator==(const TilePixel &other) const {
-            return firstBit == other.firstBit && secondBit == other.secondBit;
-        }
-
-        int getValue();
+    private:
+        MMU& mmu;
+        int address;
 };
-
-typedef std::vector<TilePixel> TilePixelVector;
-
-
-class TileRow {
-    // 8 pixels; each pixel 2 bits
-    public:
-        uint8_t firstByte;
-        uint8_t secondByte;
-        TilePixelVector pixels;
-
-        TileRow(uint8_t firstByte, uint8_t secondByte) : firstByte(firstByte), secondByte(secondByte) {
-            pixels.reserve(PIXELS_IN_ROW);
-        };
-
-        bool operator==(const TileRow &other) const {
-            return firstByte == other.firstByte && secondByte == other.secondByte;
-        }
-
-        TilePixelVector createPixels();
-};
-
-typedef std::vector<TileRow> TileRowVector;
-
-class Tile {
-    // 8x8 pixels; each pixel 2 bits; 16 bytes in total
-    public:
-        std::vector<uint8_t> bytes;
-        TileRowVector rows;
-
-        Tile(std::vector<uint8_t> bytes) : bytes(bytes) {
-            rows.reserve(ROWS_IN_TILE);
-        };
-        TileRowVector createRows();
-};
-
-typedef std::vector<Tile> TileVector;
-typedef std::vector<TileVector> TileMatrix;

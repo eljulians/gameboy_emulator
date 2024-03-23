@@ -5,10 +5,10 @@
 #include <vector>
 #include <map>
 
-#include "tile_v2.hpp"
-#include "../mmu/mmu.hpp"
-
 #define TILE_WINDOW_PALETTE_ADDRESS 0xFF47
+
+class TilePixelV2;
+class MMU;
 
 
 typedef struct PixelColor {

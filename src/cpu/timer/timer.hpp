@@ -36,6 +36,7 @@ https://gbdev.io/pandocs/Timer_and_Divider_Registers.html
 
 class MMU;
 class CPU;
+class Interrupt;
 
 typedef int INPUT_CLOCK_HZ;
 
