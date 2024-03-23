@@ -17,25 +17,25 @@ test_registers.o:
 	$(CC) $(CFLAGS) -c tests/test_registers.cpp
 
 alu_8bit.o:
-	$(CC) $(CFLAGS) -c src/cpu/alu_8bit.cpp
+	$(CC) $(CFLAGS) -c src/cpu/instructions/alu_8bit.cpp
 
 alu_16bit.o:
-	$(CC) $(CFLAGS) -c src/cpu/alu_16bit.cpp
+	$(CC) $(CFLAGS) -c src/cpu/instructions/alu_16bit.cpp
 
 rotates.o:
-	$(CC) $(CFLAGS) -c src/cpu/rotates.cpp
+	$(CC) $(CFLAGS) -c src/cpu/instructions/rotates.cpp
 
 bit.o:
-	$(CC) $(CFLAGS) -c src/cpu/bit.cpp
+	$(CC) $(CFLAGS) -c src/cpu/instructions/bit.cpp
 
 jumps.o:
-	$(CC) $(CFLAGS) -c src/cpu/jumps.cpp
+	$(CC) $(CFLAGS) -c src/cpu/instructions/jumps.cpp
 
 lcd_control.o:
 	$(CC) $(CFLAGS) -c src/gpu/lcd_control.cpp
 
 loads_8bit.o:
-	$(CC) $(CFLAGS) -c src/cpu/loads_8bit.cpp
+	$(CC) $(CFLAGS) -c src/cpu/instructions/loads_8bit.cpp
 
 cpu.o: registers.o
 	$(CC) $(CFLAGS) -c src/cpu/cpu.cpp
@@ -61,7 +61,7 @@ control_unit.o:
 	$(CC) $(CFLAGS) -c src/cpu/control_unit.cpp
 
 misc_control.o:
-	$(CC) $(CFLAGS) -c src/cpu/misc_control.cpp
+	$(CC) $(CFLAGS) -c src/cpu/instructions/misc_control.cpp
 
 gameboy.o: cpu.o gpu.o mmu.o cartridge.o control_unit.o
 	$(CC) $(CFLAGS) -c src/gameboy.cpp

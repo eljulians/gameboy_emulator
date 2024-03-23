@@ -1,6 +1,6 @@
 #include <stdint.h>
-#include "registers.hpp"
-#include "cpu.hpp"
+#include "../registers.hpp"
+#include "../cpu.hpp"
 #include "bit.hpp"
 
 int8_t Bit::bit(Register_8bit register_, uint8_t bit) {

@@ -34,7 +34,8 @@ CPU::CPU(GameBoy& gameBoy, GPU& gpu) : gameBoy(gameBoy), gpu(gpu), controlUnit(*
     jumps = new Jumps(*this);
     bit = new Bit(*this);
     rotates = new Rotates(*this);
-    miscControl = new MiscControl(*this, gameBoy.mmu);
+    //miscControl = new MiscControl(*this, gameBoy.mmu);
+    miscControl = new MiscControl(*this);
 }
 
 void CPU::setPC(uint16_t pc) {

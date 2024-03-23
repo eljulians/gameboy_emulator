@@ -1,7 +1,7 @@
 #include <iostream>
 #include "alu_8bit.hpp"
-#include "registers.hpp"
-#include "cpu.hpp"
+#include "../registers.hpp"
+#include "../cpu.hpp"
 
 
 int8_t ALU_8bit::add_a_r8(Register_8bit &register_) {

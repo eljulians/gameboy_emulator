@@ -1,8 +1,8 @@
 #pragma once
 
 #include <stdint.h>
-#include "registers.hpp"
-#include "../mmu/mmu.hpp"
+#include "../registers.hpp"
+#include "../../mmu/mmu.hpp"
 
 class CPU;
 

@@ -1,6 +1,6 @@
 #include <stdint.h>
-#include "registers.hpp"
-#include "cpu.hpp"
+#include "../registers.hpp"
+#include "../cpu.hpp"
 #include "rotates.hpp"
 
 

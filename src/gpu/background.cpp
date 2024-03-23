@@ -104,7 +104,11 @@ PixelColorVector BackgroundBuffer::getScanlineViewportRow() {
         PixelColor pixelColor = palette.getColor(pixel);
         pixels.push_back(pixelColor);
 
-        if (currentScanline == 0 && column == 0) {
+        if (
+            tileId != 0 && tileId != 0x20 && tileId != 0x30 && tileId != 0x31 && tileId != 0x2d
+            && tileId != 0x73 && tileId != 0x70 && tileId != 0x65 && tileId != 0x63 && tileId != 0x69
+            && tileId != 0x63 && tileId == 0x61 && tileId == 0x6c
+        ) {
 
         }
     }

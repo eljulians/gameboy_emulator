@@ -1,17 +1,14 @@
 #pragma once
 
-#include "../mmu/mmu.hpp"
-
 
 class CPU;
 
 class MiscControl {
     private:
         CPU& cpu;
-        MMU& mmu;
 
     public:
-        MiscControl(CPU& cpu, MMU& mmu) : cpu(cpu), mmu(mmu) {};
+        MiscControl(CPU& cpu) : cpu(cpu) {};
 
         int nop();
         int stop();

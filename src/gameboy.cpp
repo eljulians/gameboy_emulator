@@ -30,18 +30,19 @@ void GameBoy::mainLoop() {
 
             }
         }
-        
+
         if (!cpu.halted) {
+            // TODO return m-states already instead
             cycles = (int)cpu.controlUnit.execute() / 4;
         } else {
-            //std::cout << cpu.interruptManager->timer.isEnabled() << std::endl;
-            
             cycles = 1;
         }
 
+        /*
         if (interrupt) {
             cycles = 5;
         }
+        */
 
         gpu.update(cycles);
         cpu.timerManager->tick(cycles);

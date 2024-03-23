@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "loads_8bit.hpp"
-#include "registers.hpp"
-#include "cpu.hpp"
+#include "../registers.hpp"
+#include "../cpu.hpp"
 
 
 uint8_t Loads8bit::load_r8_n8(Register_8bit& register_) {

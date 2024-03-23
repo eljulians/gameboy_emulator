@@ -1,6 +1,6 @@
 #include <stdint.h>
-#include "registers.hpp"
-#include "cpu.hpp"
+#include "../registers.hpp"
+#include "../cpu.hpp"
 #include "alu_16bit.hpp"
 
 void ALU_16bit::setAdditionFlags(uint16_t a, uint16_t b) {

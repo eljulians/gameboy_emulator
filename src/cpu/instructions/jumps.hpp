@@ -1,7 +1,7 @@
 #pragma once
 
 #include <stdint.h>
-#include "registers.hpp"
+#include "../registers.hpp"
 
 class CPU;
 enum class Condition;
