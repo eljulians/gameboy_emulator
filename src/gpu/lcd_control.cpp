@@ -69,50 +69,40 @@ void LCDControl::handleModeChange() {
     if (getCurrentScanline() >= VISIBLE_SCANLINES) {
         currentMode = LCDMode::VBlank;
     } else {
-        if (IS_OAM_SEARCH(currentCycles*4)) {
+        if (IS_OAM_SEARCH(currentCycles)) {
             currentMode = LCDMode::OAMSearch;
-        } else if (IS_LCD_TRANSFER(currentCycles*4)) {
+        } else if (IS_LCD_TRANSFER(currentCycles)) {
             currentMode = LCDMode::LCDTransfer;
-        } else {
+        } else if (IS_HBLANK(currentCycles)) {
             currentMode = LCDMode::HBlank;
+        } else {
+            // We went past 456, so we start over
+            currentMode = LCDMode::OAMSearch;
         }
     }
 
     setMode(currentMode);
 
     if (currentMode != previousMode) {
-        /*
-        if (currentMode == LCDMode::VBlank) {
-            spdlog::info("vblank");
-        }
-        else if (currentMode == LCDMode::HBlank) {
-            spdlog::info("hblank");
-        }
-        if (currentMode == LCDMode::OAMSearch) {
-            spdlog::info("oam search");
-        }
-        if (currentMode == LCDMode::LCDTransfer) {
-            spdlog::info("lcd trasnfer");
-        }
-        */
-
         if (currentMode != LCDMode::LCDTransfer && isModeInterruptEnabled(currentMode)) {
             interruptManager.lcdc.flag();
         }
     }
 
-    setCoincidence();
 }
 
 void LCDControl::update(int cycles) {
     currentCycles += cycles;
 
     if (!isScreenOn()) {
+        // Apparently mode must be set to 1 when disabled
+        resetScanline();
+        setMode(LCDMode::VBlank);
         return;
     }
 
     handleModeChange();
-
+    setCoincidence();
 
     if (currentCycles >= CYCLES_TO_DRAW_SCANLINE) {
         currentCycles -= CYCLES_TO_DRAW_SCANLINE;
