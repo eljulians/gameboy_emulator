@@ -123,6 +123,11 @@ uint8_t MMU::read_8bit(uint16_t address) {
     }
 
     if (IS_IO(address)) {
+        if (address == 0xFF00) {
+            // TODO joypad
+            return 0xFF;
+        }
+
         return io.at(address - IO_START);
     }
 
