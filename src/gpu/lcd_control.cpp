@@ -92,14 +92,22 @@ void LCDControl::handleModeChange() {
 
     if (currentMode != previousMode) {
         if (currentMode != LCDMode::LCDTransfer && isModeInterruptEnabled(currentMode)) {
-            interruptManager.lcdc.flag();
+            if (currentMode == LCDMode::VBlank) {
+                interruptManager.vblank.flag();
+            } else {
+                interruptManager.lcdc.flag();
+            }
         }
     }
 
 }
 
 void LCDControl::update(int cycles) {
-    currentCycles += cycles;
+    currentCycles += cycles * 4;
+
+    spdlog::debug("STAT 0x{0:X}", mmu.read_8bit(0xFF41));
+    spdlog::debug("LCDC 0x{0:X}", mmu.read_8bit(0xFF40));
+    spdlog::debug("LY 0x{0:X}", mmu.read_8bit(0xFF44));
 
     if (!isScreenOn()) {
         // Apparently mode must be set to 1 when disabled
