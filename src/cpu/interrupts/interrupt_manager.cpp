@@ -48,7 +48,7 @@ bool InterruptManager::handle() {
 
             cpu.disableInterrupts();
             interrupt.unflag();
-            //interrupt.disable();
+
             return true;
         }
     }

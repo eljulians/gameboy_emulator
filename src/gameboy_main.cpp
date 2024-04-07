@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
     gameBoy.mmu.write_8bit(0xFF25, 0xF3);
     gameBoy.mmu.write_8bit(0xFF26, 0xF1);
     gameBoy.mmu.write_8bit(0xFF40, 0x91);
-    //gameBoy.mmu.write_8bit(0xFF41, 0x81);
+    gameBoy.mmu.write_8bit(0xFF41, 0x85);
     gameBoy.mmu.write_8bit(0xFF42, 0x00);
     gameBoy.mmu.write_8bit(0xFF43, 0x00);
     gameBoy.mmu.write_8bit(0xFF45, 0x00);

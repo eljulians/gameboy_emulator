@@ -22,9 +22,9 @@ CPU::CPU(GameBoy& gameBoy, GPU& gpu) : gameBoy(gameBoy), gpu(gpu), controlUnit(*
     flags = new Flag(F);
 
     AF->set(0x1180);
-    BC->set(0x0000);
-    DE->set(0xFF56);
-    HL->set(0x000D);
+    BC->set(0x0013);
+    DE->set(0x00D8);
+    HL->set(0x014D);
     PC.set(0x0100);
     SP.set(0xFFFE);
     
