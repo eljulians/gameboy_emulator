@@ -71,7 +71,7 @@ int8_t Jumps::rst(uint8_t n) {
     cpu.push_address_onto_stack(cpu.PC.get());
     cpu.PC.set(n);
 
-    return 32;
+    return 16;
 }
 
 int8_t Jumps::ret() {
