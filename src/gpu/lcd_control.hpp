@@ -18,9 +18,9 @@
 #define HBLANK_CYCLES CYCLES_TO_DRAW_SCANLINE
 
 // The elapsed cycles for each scanline
-#define IS_OAM_SEARCH(cycles) 0 <= cycles % OAM_SEARCH_CYCLES &&  cycles % OAM_SEARCH_CYCLES < 80
-#define IS_LCD_TRANSFER(cycles) 80 <= cycles % LCD_TRANSFER_CYCLES && cycles % LCD_TRANSFER_CYCLES < 252
-#define IS_HBLANK(cycles) 252 <= cycles % HBLANK_CYCLES && cycles % HBLANK_CYCLES < CYCLES_TO_DRAW_SCANLINE
+#define IS_OAM_SEARCH(cycles) 0 <= cycles && cycles < 80
+#define IS_LCD_TRANSFER(cycles) 80 <= cycles && cycles < 252
+#define IS_HBLANK(cycles) 252 <= cycles && cycles < CYCLES_TO_DRAW_SCANLINE
 
 
 

@@ -29,6 +29,13 @@ LCDMode LCDControl::getMode() {
 void LCDControl::setMode(LCDMode mode) {
     uint8_t status = (getStatus() & 0xFC) | static_cast<uint8_t>(mode);
 
+    // No bit 7 on STAT, so will be an open bus that will be 1; making sure that it's set
+    // to that just in case it was overriden
+    // TODO: make this check directly on the MMU and make writes from here directly into
+    // the address, also to ensure that the lower 2 bits are not overwritten since they're
+    // read only
+    status |= 1 << 7;
+
     setStatus(status);
 }
 
