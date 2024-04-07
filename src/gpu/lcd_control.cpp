@@ -91,12 +91,11 @@ void LCDControl::handleModeChange() {
     setMode(currentMode);
 
     if (currentMode != previousMode) {
+        if (currentMode == LCDMode::VBlank) {
+            interruptManager.vblank.flag();
+        }
         if (currentMode != LCDMode::LCDTransfer && isModeInterruptEnabled(currentMode)) {
-            if (currentMode == LCDMode::VBlank) {
-                interruptManager.vblank.flag();
-            } else {
-                interruptManager.lcdc.flag();
-            }
+            interruptManager.lcdc.flag();
         }
     }
 

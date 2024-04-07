@@ -37,7 +37,7 @@ bool InterruptManager::handle() {
             //std::cout << interrupt.toString() << " enabled and flagged, jumping to  " << std::hex << address;
             //std::cout << " and pushing " << std::hex << currentPC << " onto stack";
             //std::cout << interrupt.toString();
-            spdlog::info("Interrupt enabled and flagged, jumping to 0x{0:X}", address);
+            spdlog::debug("Interrupt enabled and flagged, jumping to 0x{0:X}", address);
 
             //spdlog::info("AF 0x{0:x}", cpu.AF->get());
             
