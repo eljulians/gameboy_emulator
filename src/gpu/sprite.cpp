@@ -24,22 +24,24 @@ uint16_t SpriteAttributes::getPaletteAddress() {
     return address;
 }
 
-/*
-void SpriteClient::fetchSprites() {
-    uint8_t attributesAddress = ATTRIBUTE_TABLE_ADDRESS_START;
-
-    for (int i = 0; i < TOTAL_SPRITE_COUNT; i++) { 
-        uint8_t y = mmu.read_8bit(attributesAddress);
-        uint8_t x = mmu.read_8bit(attributesAddress+1);
-        uint8_t patternNumber = mmu.read_8bit(attributesAddress+2);
-        uint8_t attributes = mmu.read_8bit(attributesAddress+3);
-
-        Sprite sprite = Sprite(y, x, patternNumber, attributes);
-
-        attributesAddress += ATTRIBUTE_SIZE_BYTES;
-    }
+uint16_t Sprite::getPatternAddress(int relativeY) {
+    return SPRITE_TILE_PATTERN_ADDRESS + patternNumber * SPRITE_TILE_SIZE_BYTES + relativeY * SPRITE_LINE_SIZE_BYTES;
 }
-*/
+
+PixelColor Sprite::getPixel(int relativeX, int relativeY) {
+    // TODO: handle X and Y flips
+    auto patternAddress = getPatternAddress(relativeY);
+    auto first = mmu.read_8bit(patternAddress);
+    auto second = mmu.read_8bit(patternAddress+1);
+    auto paletteAddress = attributes.getPaletteAddress();
+    auto palette = mmu.read_8bit(paletteAddress);
+
+    auto firstBit = (first >> relativeX) & 1;
+    auto secondBit = (second >> relativeX) & 1;
+    auto colorCode = (firstBit << 1) + secondBit;
+
+    return ID_COLOR_MAP.at(colorCode);
+}
 
 SpriteVector SpriteClient::getSprites(uint8_t y) {
     uint16_t attributesAddress = ATTRIBUTE_TABLE_ADDRESS_START;
@@ -54,24 +56,8 @@ SpriteVector SpriteClient::getSprites(uint8_t y) {
         uint8_t attributes = mmu.read_8bit(attributesAddress+3);
         attributesAddress += ATTRIBUTE_SIZE_BYTES;
 
-        if (i == 0) {
-            spdlog::debug(y);
-            spdlog::debug(x);
-            spdlog::debug(patternNumber);
-            spdlog::debug(attributes);
-            spdlog::debug("=========");
-        }
-
-        Sprite sprite = Sprite(y-16, x-8, patternNumber, attributes);
-
-        if (y == 0x80){
-
-        }
-
-
-        //if (sprite.y == y) {
-            sprites.push_back(sprite);
-       // }
+        Sprite sprite = Sprite(mmu, y-16, x-8, patternNumber, attributes);
+        sprites.push_back(sprite);
     }
 
     return sprites;

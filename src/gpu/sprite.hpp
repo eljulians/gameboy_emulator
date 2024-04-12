@@ -8,6 +8,10 @@
 #define ATTRIBUTE_SIZE_BYTES 4
 #define TOTAL_SPRITE_COUNT 40
 
+#define SPRITE_TILE_PATTERN_ADDRESS 0x8000
+#define SPRITE_TILE_SIZE_BYTES 16
+#define SPRITE_LINE_SIZE_BYTES 2
+
 class LCDControl;
 class MMU;
 class PixelColor;
@@ -30,18 +34,22 @@ class SpriteAttributes {
 
 class Sprite {
     public:
-        Sprite(uint8_t y_, uint8_t x_, uint8_t patternNumber_, uint8_t attributes_) {
+        Sprite(MMU& mmu, uint8_t y_, uint8_t x_, uint8_t patternNumber_, uint8_t attributes_) : mmu(mmu) {
             y = y_;
             x = x_;
             patternNumber = patternNumber_;
             attributes = SpriteAttributes(attributes_);
         };
-        PixelColor getPixel(int x, int y);
+        uint16_t getPatternAddress(int relativeY);
+        PixelColor getPixel(int relativeX, int relativeY);
 
         uint8_t x;
         uint8_t y;
         uint8_t patternNumber;
         SpriteAttributes attributes;
+
+    private:
+        MMU& mmu;
 };
 
 typedef std::vector<Sprite> SpriteVector;
