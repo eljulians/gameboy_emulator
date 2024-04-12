@@ -12,3 +12,4 @@ PixelColor BackgroundPalette::getColor(TilePixelV2 pixel) {
 
     return ID_COLOR_MAP.at((pattern >> shift) & 0b11);
 }
+

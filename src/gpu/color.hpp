@@ -32,6 +32,27 @@ const std::map<int, PixelColor> ID_COLOR_MAP {
 };
 
 
+class Palette {
+    public:
+        Palette(MMU& mmu) : mmu(mmu) {};
+        PixelColor getPixel(uint8_t address, bool first, bool second);
+
+    private:
+        MMU& mmu;
+};
+
+
+// TODO: adapt palette implementations to interface 
+class BackgroundPalette {
+    public:
+        BackgroundPalette(MMU& mmu): mmu(mmu) {};
+        PixelColor getColor(TilePixelV2 pixel);
+
+    private:
+        MMU& mmu;
+};
+
+/*
 class Pixel {
     public:
         Pixel(bool firstBit, bool secondBit) : firstBit(firstBit), secondBit(secondBit) {};
@@ -43,6 +64,8 @@ class Pixel {
         bool firstBit;
         bool secondBit;
 };
+*/
+
 
 /*
 class PaletteInterface {
@@ -50,16 +73,6 @@ class PaletteInterface {
         virtual PixelColor getColor(Pixel pixel) {};
 };
 */
-
-// TODO: adapt palette implementations to interface 
-class BackgroundPalette {
-    public:
-        BackgroundPalette(MMU& mmu): mmu(mmu) {};
-        PixelColor getColor(TilePixelV2 pixel);
-
-    private:
-        MMU& mmu;
-};
 
 
 /*

@@ -83,6 +83,16 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     if (IS_INTERRUPT(address)) {
         interrupt = value;
     }
+
+    // OAM DMA transfer
+    // TODO refactor somewhere
+    if (address == 0xFF46) {
+        uint16_t oamAddress = value << 8;
+        for (int i = 0; i < 0xA0; i++) {
+            write_8bit(0xFE00+i, read_8bit(oamAddress +i));
+        }
+
+    }
 }
 
 void MMU::write_16bit(uint16_t address, uint16_t value) {
