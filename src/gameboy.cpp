@@ -52,52 +52,31 @@ void GameBoy::mainLoop() {
         cpu.timerManager->tick(cycles);
 
         while (SDL_PollEvent(&event)) {
-            //auto joypad = mmu.read_8bit(0xFF00);
-            uint8_t joypad = 0xFF;
+            // TODO select button
             switch (event.type) {
                 case SDL_KEYDOWN:
                     switch (event.key.keysym.sym) {
                         case SDLK_LEFT:
-                            spdlog::info("left");
-                            joypad = resetBit(joypad, 4);
-                            joypad = resetBit(joypad, 1);
-                            mmu.io.at(0) = joypad;
+                            joypad.left.press();
                             break;
                         case SDLK_RIGHT:
-                            spdlog::info("right");
-                            joypad = resetBit(joypad, 4);
-                            joypad = resetBit(joypad, 0);
-                            mmu.io.at(0) = joypad;
+                            joypad.right.press();
                             break;
                         case SDLK_UP:
-                            joypad = resetBit(joypad, 4);
-                            joypad = resetBit(joypad, 2);
-                            mmu.io.at(0) = joypad;
+                            joypad.up.press();
                             break;
                         case SDLK_DOWN:
-                            spdlog::info("down");
-                            joypad = resetBit(joypad, 4);
-                            joypad = resetBit(joypad, 3);
-                            mmu.io.at(0) = joypad;
+                            joypad.down.press();
                             break;
                         case SDLK_RETURN:
                         case SDLK_KP_ENTER:
-                            spdlog::info("press return/enter");
-                            joypad = resetBit(joypad, 5);
-                            joypad = resetBit(joypad, 3);
-                            mmu.io.at(0) = joypad;
+                            joypad.start.press();
                             break;
                         case SDLK_a:
-                            spdlog::info("press a");
-                            joypad = resetBit(joypad, 5);
-                            joypad = resetBit(joypad, 1);
-                            mmu.io.at(0) = joypad;
+                            joypad.b.press();
                             break;
                         case SDLK_s:
-                            spdlog::info("press s");
-                            joypad = resetBit(joypad, 5);
-                            joypad = resetBit(joypad, 0);
-                            mmu.io.at(0) = joypad;
+                            joypad.a.press();
                             break;
                     }
                     break;
@@ -105,49 +84,27 @@ void GameBoy::mainLoop() {
                 case SDL_KEYUP:
                     switch (event.key.keysym.sym) {
                         case SDLK_LEFT:
-                            spdlog::info("left");
-                            joypad = setBit(joypad, 4);
-                            joypad = setBit(joypad, 1);
-                            mmu.io.at(0) = joypad;
+                            joypad.left.release();
                             break;
                         case SDLK_RIGHT:
-                            spdlog::info("right");
-                            joypad = setBit(joypad, 4);
-                            joypad = setBit(joypad, 0);
-                            mmu.io.at(0) = joypad;
+                            joypad.right.release();
                             break;
                         case SDLK_UP:
-                            spdlog::info("up");
-                            joypad = setBit(joypad, 4);
-                            joypad = setBit(joypad, 2);
-                            mmu.io.at(0) = joypad;
+                            joypad.up.release();
                             break;
                         case SDLK_DOWN:
-                            spdlog::info("down");
-                            joypad = resetBit(joypad, 4);
-                            joypad = resetBit(joypad, 3);
-                            mmu.io.at(0) = joypad;
+                            joypad.down.release();
                             break;
                         case SDLK_RETURN:
                         case SDLK_KP_ENTER:
-                            spdlog::info("release return/enter");
-                            joypad = setBit(joypad, 5);
-                            joypad = setBit(joypad, 3);
-                            mmu.io.at(0) = joypad;
+                            joypad.start.release();
                             break;
                         case SDLK_a:
-                            spdlog::info("release a (mapped to b)");
-                            joypad = setBit(joypad, 5);
-                            joypad = setBit(joypad, 1);
-                            mmu.io.at(0) = joypad;
+                            joypad.b.release();
                             break;
                         case SDLK_s:
-                            spdlog::info("release s (mapped to a)");
-                            joypad = setBit(joypad, 5);
-                            joypad = setBit(joypad, 0);
-                            mmu.io.at(0) = joypad;
+                            joypad.a.release();
                             break;
-                        //mmu.write_8bit(0xFF00, joypad);
                     }
                     break;
 

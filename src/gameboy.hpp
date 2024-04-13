@@ -1,4 +1,5 @@
 #pragma once
+
 #include <string>
 #include "cpu/cpu.hpp"
 #include "gpu/gpu.hpp"
@@ -6,13 +7,15 @@
 #include "mmu/mmu.hpp"
 #include "mmu/cartridge.hpp"
 #include "cpu/interrupts/interrupt_manager.hpp"
+#include "joypad/joypad.hpp"
 //#include "cpu/timer/timer.hpp"
 
 class GameBoy {
     public:
  
         GameBoy() : 
-            mmu(*this),
+            joypad(),
+            mmu(*this, joypad),
             cartridge(),
             //interruptManager(this->mmu, this->cpu),
             lcdControl(this->mmu, *this->cpu.interruptManager),
@@ -26,7 +29,7 @@ class GameBoy {
         GameBoy(std::string romPath) :
             gpu(this->mmu, this->lcdControl),
             cpu(*this, this->gpu),
-            mmu(*this),
+            mmu(*this, joypad),
             //cartridge(romPath),
             //interruptManager(this->mmu, this->cpu),
             lcdControl(this->mmu, *this->cpu.interruptManager)
@@ -38,6 +41,7 @@ class GameBoy {
         CPU cpu;
         MMU mmu;
         GPU gpu;
+        Joypad joypad;
         AbstractCartridge* cartridge;
         //InterruptManager interruptManager;
         LCDControl lcdControl;

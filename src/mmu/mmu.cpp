@@ -10,7 +10,7 @@
 #include "../gpu/lcd_control.hpp"
 
 
-MMU::MMU(GameBoy& gameBoy) : gameBoy(gameBoy) {
+MMU::MMU(GameBoy& gameBoy, Joypad& joypad) : gameBoy(gameBoy), joypad(joypad) {
     internalRam = std::vector<uint8_t>(INTERNAL_RAM_SIZE);
     echo = std::vector<uint8_t>(ECHO_SIZE);
     spriteAttributes = std::vector<uint8_t>(SPRITE_ATTRIBUTES_SIZE);
@@ -52,8 +52,14 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     if (IS_IO(address)) {
 
         if (address == 0xFF00) {
-            spdlog::debug("Trying to write to $FF00; it's readonly");
-            return;
+            joypad.setSelection(value);
+            /*
+            spdlog::debug("Only upper nibble of $FF00 is writtable");
+            uint8_t joypad = read_8bit(0xFF00);
+
+            joypad |= ((value & 0xF0) | 0x0F);
+            io.at(address - IO_START) = joypad;
+            */
         }
 
         if (address == 0xFF02 && (value == 0x81 || value == 0x80)) {
@@ -137,6 +143,11 @@ uint8_t MMU::read_8bit(uint16_t address) {
     }
 
     if (IS_IO(address)) {
+        if (address == 0xFF00) {
+            spdlog::info("0x{:0X}", joypad.getState());
+            return joypad.getState();
+        }
+
         return io.at(address - IO_START);
     }
 
