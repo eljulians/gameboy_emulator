@@ -60,6 +60,9 @@ int main(int argc, char *argv[]) {
     gameBoy.mmu.write_8bit(0xFF4B, 0x00);
     gameBoy.mmu.write_8bit(0xFFFF, 0x00);
 
+    // Manually stub joypad other e.g. Tetris can get mad
+    gameBoy.mmu.io.at(0) = 0xFF;
+
     gameBoy.cpu.halted = false;
     gameBoy.cpu.disableInterrupts();
 
