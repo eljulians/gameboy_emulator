@@ -40,8 +40,8 @@ void LCDControl::setMode(LCDMode mode) {
 }
 
 void LCDControl::setCoincidence() {
-    //int isCoincidence = _cachedCurrentScanline == mmu.read_8bit(LY_COMPARE_ADDRESS);
-    int isCoincidence = getCurrentScanlineFromMemory() == mmu.read_8bit(LY_COMPARE_ADDRESS);
+    int isCoincidence = _cachedCurrentScanline == mmu.read_8bit(LY_COMPARE_ADDRESS);
+    //int isCoincidence = getCurrentScanlineFromMemory() == mmu.read_8bit(LY_COMPARE_ADDRESS);
     uint8_t status = getStatus();
     setStatus(status | (isCoincidence << 2));
 
@@ -64,8 +64,8 @@ bool LCDControl::isCoincidenceInterruptEnabled() {
 void LCDControl::nextScanline() {
     // Writing directly since otherwise it's reset to 0
     _cachedCurrentScanline++;
-   // mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = _cachedCurrentScanline + 1;
-    mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = getCurrentScanlineFromMemory() + 1;
+    mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = _cachedCurrentScanline + 1;
+    //mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = getCurrentScanlineFromMemory() + 1;
 }
 
 void LCDControl::resetScanline() {
@@ -76,8 +76,8 @@ void LCDControl::resetScanline() {
 void LCDControl::handleModeChange() {
     LCDMode currentMode;
 
-    //if (_cachedCurrentScanline >= VISIBLE_SCANLINES) {
-    if (getCurrentScanlineFromMemory() >= VISIBLE_SCANLINES) {
+    if (_cachedCurrentScanline >= VISIBLE_SCANLINES) {
+    //if (getCurrentScanlineFromMemory() >= VISIBLE_SCANLINES) {
         currentMode = LCDMode::VBlank;
     } else {
         if (IS_OAM_SEARCH(currentCycles)) {
@@ -131,8 +131,8 @@ void LCDControl::update(int cycles) {
         nextScanline();
     }
 
-    //if (_cachedCurrentScanline > TOTAL_SCANLINES) {
-    if (getCurrentScanlineFromMemory() > TOTAL_SCANLINES) {
+    if (_cachedCurrentScanline > TOTAL_SCANLINES) {
+    //if (getCurrentScanlineFromMemory() > TOTAL_SCANLINES) {
         resetScanline();
         currentCycles -= CYCLES_TO_DRAW_SCANLINE;
     }
