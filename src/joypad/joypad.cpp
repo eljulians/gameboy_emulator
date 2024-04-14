@@ -58,10 +58,10 @@ uint8_t Joypad::getState() {
 
 
 void Joypad::handlePressed() {
+    // TODO a mapping would be prettier
     SDL_Event event;
 
     if (SDL_PollEvent(&event)) {
-        // TODO select button
         switch (event.type) {
             case SDL_KEYDOWN:
                 switch (event.key.keysym.sym) {
@@ -80,6 +80,10 @@ void Joypad::handlePressed() {
                     case SDLK_RETURN:
                     case SDLK_KP_ENTER:
                         start.press();
+                        break;
+                    case SDLK_LSHIFT:
+                    case SDLK_RSHIFT:
+                        select.press();
                         break;
                     case SDLK_a:
                         b.press();
@@ -107,6 +111,10 @@ void Joypad::handlePressed() {
                     case SDLK_RETURN:
                     case SDLK_KP_ENTER:
                         start.release();
+                        break;
+                    case SDLK_LSHIFT:
+                    case SDLK_RSHIFT:
+                        select.press();
                         break;
                     case SDLK_a:
                         b.release();
