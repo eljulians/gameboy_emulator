@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <iostream>
 #include <string>
+#include <chrono>
 
 #include "spdlog/spdlog.h"
 
@@ -33,9 +34,11 @@ uint8_t ControlUnit::execute()
 
     uint16_t pc = cpu.PC.get();
     uint16_t opcode = fetch();
+
     uint8_t cycles;
 
-    spdlog::debug("Opcode 0x{0:x}", opcode);
+    /*
+    spdlog::info("Opcode 0x{0:x}", opcode);
     spdlog::debug("PC 0x{0:x}", pc);
     spdlog::debug("AF 0x{0:x}", cpu.AF->get());
     spdlog::debug("BC 0x{0:x}", cpu.BC->get());
@@ -49,6 +52,7 @@ uint8_t ControlUnit::execute()
     spdlog::debug("IME {}", cpu.areInterruptsEnabled());
     spdlog::debug("vblank {}", cpu.interruptManager->vblank.isEnabled());
     spdlog::debug("====================");
+    */
 
 
     /*
@@ -63,18 +67,45 @@ uint8_t ControlUnit::execute()
 
     switch (opcode)
     {
-    case 0x00:
+    case 0x00: {
+        auto switchStart = std::chrono::system_clock::now();
+
         cycles = cpu.miscControl->nop();
+
+        auto switchEnd = std::chrono::system_clock::now();
+        auto switchTime = (switchEnd - switchStart).count();
+        //spdlog::info("Switch time: {}", switchTime);
+
         break;
-    case 0x01:
+    }
+    case 0x01: {
+        auto switchStart = std::chrono::system_clock::now();
         cycles = cpu.loads8bit->ld_r16_n16(*cpu.BC);
+        auto switchEnd = std::chrono::system_clock::now();
+        auto switchTime = (switchEnd - switchStart).count();
+        //spdlog::info("Switch time: {}", switchTime);
         break;
-    case 0x02:
+    }
+    case 0x02: {
+        auto switchStart = std::chrono::system_clock::now();
+
         cycles = cpu.loads8bit->load_r16_a(*cpu.BC);
+
+        auto switchEnd = std::chrono::system_clock::now();
+        auto switchTime = (switchEnd - switchStart).count();
+        //spdlog::info("Switch time: {}", switchTime);
         break;
-    case 0x03:
+    }
+    case 0x03: {
+        auto switchStart = std::chrono::system_clock::now();
+
         cycles = cpu.alu16bit->inc_r16(*cpu.BC);
+
+        auto switchEnd = std::chrono::system_clock::now();
+        auto switchTime = (switchEnd - switchStart).count();
+        //spdlog::info("Switch time: {}", switchTime);
         break;
+    }
     case 0x04:
         cycles = cpu.alu8bit->inc_r8(cpu.B);
         break;

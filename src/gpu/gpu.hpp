@@ -20,7 +20,7 @@ class GPU {
             spriteClient(lcdControl, mmu)
         {};
         void init_sdl();
-        void update(uint8_t cycles);
+        void update(uint8_t cycles, int time);
     
     private:
         MMU& mmu;
@@ -30,4 +30,6 @@ class GPU {
         SDL_Renderer *renderer;
         SDL_Window *window;
         int lastDrawnScanline = -1;
+        int elapsedFrames = -1;
+        int elapsedTime = 0;
 };

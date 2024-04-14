@@ -8,7 +8,7 @@
 #include "../common/bit_operations.hpp"
 
 
-uint8_t LCDControl::getCurrentScanline() {
+uint8_t LCDControl::getCurrentScanlineFromMemory() {
     return mmu.read_8bit(CURRENT_SCANLINE_ADDRESS);
 }
 
@@ -20,7 +20,7 @@ void LCDControl::setStatus(uint8_t value) {
     mmu.write_8bit(LCD_STATUS_ADDRESS, value); 
 }
 
-LCDMode LCDControl::getMode() {
+LCDMode LCDControl::getModeFromMemory() {
     uint8_t mode = getStatus() & 0x3;
 
     return static_cast<LCDMode>(mode);
@@ -40,7 +40,8 @@ void LCDControl::setMode(LCDMode mode) {
 }
 
 void LCDControl::setCoincidence() {
-    int isCoincidence = getCurrentScanline() == mmu.read_8bit(LY_COMPARE_ADDRESS);
+    //int isCoincidence = _cachedCurrentScanline == mmu.read_8bit(LY_COMPARE_ADDRESS);
+    int isCoincidence = getCurrentScanlineFromMemory() == mmu.read_8bit(LY_COMPARE_ADDRESS);
     uint8_t status = getStatus();
     setStatus(status | (isCoincidence << 2));
 
@@ -62,18 +63,21 @@ bool LCDControl::isCoincidenceInterruptEnabled() {
 
 void LCDControl::nextScanline() {
     // Writing directly since otherwise it's reset to 0
-    mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = getCurrentScanline() + 1;
+    _cachedCurrentScanline++;
+   // mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = _cachedCurrentScanline + 1;
+    mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = getCurrentScanlineFromMemory() + 1;
 }
 
 void LCDControl::resetScanline() {
+    _cachedCurrentScanline = 0;
     mmu.write_8bit(CURRENT_SCANLINE_ADDRESS, 0);
 }
 
 void LCDControl::handleModeChange() {
-    LCDMode previousMode = getMode();
     LCDMode currentMode;
 
-    if (getCurrentScanline() >= VISIBLE_SCANLINES) {
+    //if (_cachedCurrentScanline >= VISIBLE_SCANLINES) {
+    if (getCurrentScanlineFromMemory() >= VISIBLE_SCANLINES) {
         currentMode = LCDMode::VBlank;
     } else {
         if (IS_OAM_SEARCH(currentCycles)) {
@@ -88,9 +92,10 @@ void LCDControl::handleModeChange() {
         }
     }
 
-    setMode(currentMode);
+    if (currentMode != _cachedMode) {
+        setMode(currentMode);
+        _cachedMode = currentMode;
 
-    if (currentMode != previousMode) {
         if (currentMode == LCDMode::VBlank) {
             interruptManager.vblank.flag();
         }
@@ -98,7 +103,6 @@ void LCDControl::handleModeChange() {
             interruptManager.lcdc.flag();
         }
     }
-
 }
 
 void LCDControl::update(int cycles) {
@@ -127,7 +131,8 @@ void LCDControl::update(int cycles) {
         nextScanline();
     }
 
-    if (getCurrentScanline() > TOTAL_SCANLINES) {
+    //if (_cachedCurrentScanline > TOTAL_SCANLINES) {
+    if (getCurrentScanlineFromMemory() > TOTAL_SCANLINES) {
         resetScanline();
         currentCycles -= CYCLES_TO_DRAW_SCANLINE;
     }
@@ -142,6 +147,7 @@ bool LCDControl::isScreenOn() {
     return testBit(getLCDControlValue(), 7);
 }
 
+// TODO: remove, unused
 void LCDControl::setScreenOn() {
     uint8_t control = getLCDControlValue();
     control = (1<<7) | control;

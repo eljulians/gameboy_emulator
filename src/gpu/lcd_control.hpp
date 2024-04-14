@@ -77,7 +77,7 @@ class LCDControl {
         SpriteSize getSpriteSize(); // bit 2
         bool getSpriteDisplay();  // bit 1
         bool getBackgroundAndWindowDisplay();  // bit 0
-        uint8_t getCurrentScanline();
+        uint8_t getCurrentScanlineFromMemory();
 
         uint8_t getLCDControlValue();
         uint8_t getStatus();
@@ -87,14 +87,16 @@ class LCDControl {
         bool isModeInterruptEnabled(LCDMode mode);
         bool isCoincidenceInterruptEnabled();
 
+        int _cachedCurrentScanline = 0;
+
 
     private:
         MMU& mmu;
         InterruptManager& interruptManager;
         int currentCycles = 0;
 
-
-        LCDMode getMode();
+        LCDMode _cachedMode = LCDMode::VBlank;
+        LCDMode getModeFromMemory();
         void setMode(LCDMode mode);
 
         void setStatus(uint8_t value);

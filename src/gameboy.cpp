@@ -24,6 +24,10 @@ void GameBoy::mainLoop() {
 
     int screenNumber = 0;
 
+    using Clock = std::chrono::system_clock;
+    using Duration = Clock::duration;
+    std::cout << Duration::period::num << " , " << Duration::period::den << '\n';
+
     while(true) {
         auto start = std::chrono::system_clock::now();
 
@@ -35,7 +39,9 @@ void GameBoy::mainLoop() {
 
         auto interruptStart = std::chrono::system_clock::now();
         if (cpu.halted) {
-            // TODO: refactor this crap for the mf halt bug
+            // If CPU is halted, but some interrupt should be triggered, we un-halt, otherwise we'll
+            // be stuck
+            // TODO: refactor this crap for the mf halt bug, also because it's umperformant af
             for (Interrupt interrupt: cpu.interruptManager->getInterrupts()) {
                 if (interrupt.isEnabled() && interrupt.isFlagged()) {
                     cpu.halted = false;
@@ -66,7 +72,10 @@ void GameBoy::mainLoop() {
 
 
         auto gpuStart = std::chrono::system_clock::now();
-        gpu.update(cycles);
+        auto end = std::chrono::system_clock::now();
+        auto time = (end - start).count();
+
+        gpu.update(cycles, time);
         auto gpuEnd = std::chrono::system_clock::now();
         auto gpuTime = (gpuEnd - gpuStart).count();
 
@@ -81,17 +90,15 @@ void GameBoy::mainLoop() {
         auto joypadEnd = std::chrono::system_clock::now();
         auto joypadTime = (joypadEnd - joypadStart).count();
 
-        auto end = std::chrono::system_clock::now();
-        auto time = (end - start).count();
-
-        spdlog::info("Halted: {}", cpu.halted);
+        /*
         spdlog::info("Whole cycle time: {}", time);
         spdlog::info("Interrupt time: {}", interruptTime);
         spdlog::info("Control unit time: {}", controlUnit);
-        spdlog::info("GPU time: {}", gpuTime);
         spdlog::info("Timer time: {}", timerTime);
         spdlog::info("Joypad time: {}", joypadTime);
+        spdlog::info("GPU time: {}", gpuTime);
         spdlog::info("======================");
+        */
     }
 
 }

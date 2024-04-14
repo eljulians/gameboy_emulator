@@ -189,9 +189,11 @@ int8_t ALU_8bit::or_a_r8(Register_8bit &register_) {
 int8_t ALU_8bit::or_a_hl() {
     auto value = (a.get() | hl.getAddressValue());
 
+    /*
     cpu.interruptManager->handle();
     cpu.timerManager->tick(4);
     cpu.gpu.update(4);
+    */
 
     a.set(value);
     flags.set_z(value == 0x00);

@@ -87,7 +87,7 @@ int BackgroundBuffer::getTileId(int row, int column) {
 
 PixelColorVector BackgroundBuffer::getScanlineViewportRow() {
     // TODO: check if window and background are enabled, deal with window etc
-    auto currentScanline = lcdControl.getCurrentScanline();
+    auto currentScanline = lcdControl.getCurrentScanlineFromMemory();
     Scroll scroll = getScroll();
 
     // TODO: class attribute
