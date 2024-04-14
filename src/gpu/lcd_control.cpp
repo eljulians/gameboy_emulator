@@ -104,15 +104,19 @@ void LCDControl::handleModeChange() {
 void LCDControl::update(int cycles) {
     currentCycles += cycles * 4;
 
+    /*
     spdlog::debug("STAT 0x{0:X}", mmu.read_8bit(0xFF41));
     spdlog::debug("LCDC 0x{0:X}", mmu.read_8bit(0xFF40));
     spdlog::debug("LY 0x{0:X}", mmu.read_8bit(0xFF44));
+    */
 
+    // FIgure out what to do here damn, definitely not just return
     if (!isScreenOn()) {
         // Apparently mode must be set to 1 when disabled
+        //spdlog::info("off");
         resetScanline();
         setMode(LCDMode::VBlank);
-        return;
+        //return;
     }
 
     handleModeChange();

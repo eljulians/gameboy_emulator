@@ -51,7 +51,7 @@ void GameBoy::mainLoop() {
         gpu.update(cycles);
         cpu.timerManager->tick(cycles);
 
-        while (SDL_PollEvent(&event)) {
+        if (SDL_PollEvent(&event)) {
             // TODO select button
             switch (event.type) {
                 case SDL_KEYDOWN:
