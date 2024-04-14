@@ -1,52 +1,76 @@
 #pragma once
 
 #include <stdint.h>
+#include <map>
 
 /*
 Joypad is mapped to $FF00
 */
 
+#define BUTTON_SELECTED_BIT 5
+#define DIRECTION_BUTTON_SELECTED_BIT 4
 
+enum class ButtonBitEnum {
+    A_Right,
+    B_Left,
+    Select_Up,
+    Start_Down,
+};
 
-class Button {
+class _Button {
     public:
-        Button(int selectionBit, int bit) : selectionBit(selectionBit), bit(bit) {};
+        _Button(int selectionBit, ButtonBitEnum bit) : selectionBit(selectionBit), bit(bit) {};
         void press();
         void release();
         bool isPressed();
+        int getBitPosition();
+        void updateJoypadState(uint8_t& joypadState);
     
-    private:
+    protected:
         bool pressed = false;
         int selectionBit;
-        int bit;
+        ButtonBitEnum bit;
+};
+
+class DirectionButton : public _Button {
+    public:
+        DirectionButton(ButtonBitEnum mappedBit) : _Button(DIRECTION_BUTTON_SELECTED_BIT, mappedBit) {}
+};
+
+
+// "Letter button" awuful name yeah
+class LetterButton : public _Button {
+    public:
+        LetterButton(ButtonBitEnum mappedBit) : _Button(BUTTON_SELECTED_BIT, mappedBit) {}
 };
 
 class Joypad {
     public:
         Joypad()
-            : up(Button(4, 2)),
-            down(Button(4, 3)),
-            left(Button(4, 1)),
-            right(Button(4, 0)),
-            a(Button(5, 0)),
-            b(Button(5, 1)),
-            start(Button(5, 3)),
-            select(Button(5, 2))
+            : up(DirectionButton(ButtonBitEnum::Select_Up)),
+            down(DirectionButton(ButtonBitEnum::Start_Down)),
+            left(DirectionButton(ButtonBitEnum::B_Left)),
+            right(DirectionButton(ButtonBitEnum::A_Right)),
+
+            a(LetterButton(ButtonBitEnum::A_Right)),
+            b(LetterButton(ButtonBitEnum::B_Left)),
+            start(LetterButton(ButtonBitEnum::Start_Down)),
+            select(LetterButton(ButtonBitEnum::Select_Up))
         {};
 
         void setSelection(uint8_t ff00);
         uint8_t getState();
         void handlePressed();
 
-        Button a;
-        Button b;
-        Button start;
-        Button select;
+        LetterButton a;
+        LetterButton b;
+        LetterButton start;
+        LetterButton select;
 
-        Button up;
-        Button down;
-        Button left;
-        Button right;
+        DirectionButton up;
+        DirectionButton down;
+        DirectionButton left;
+        DirectionButton right;
 
     private:
         bool buttonsSelected = false;

@@ -4,75 +4,53 @@
 #include "../common/bit_operations.hpp"
 
 
-void Button::press() {
+void _Button::press() {
     pressed = true;
 }
 
-void Button::release() {
+void _Button::release() {
     pressed = false;
 }
 
-bool Button::isPressed() {
+bool _Button::isPressed() {
     return pressed;
+}
+
+int _Button::getBitPosition() {
+    return static_cast<int>(bit);
+}
+
+void _Button::updateJoypadState(uint8_t& joypadState) {
+    if (isPressed()) {
+        joypadState = resetBit(joypadState, getBitPosition());
+    } else {
+        joypadState = setBit(joypadState, getBitPosition());
+    }
 }
 
 
 void Joypad::setSelection(uint8_t ff00) {
-    buttonsSelected = !testBit(ff00, 5);
-    dpadSelected = !testBit(ff00, 4);
+    buttonsSelected = !testBit(ff00, BUTTON_SELECTED_BIT);
+    dpadSelected = !testBit(ff00, DIRECTION_BUTTON_SELECTED_BIT);
 }
 
 uint8_t Joypad::getState() {
     uint8_t state = 0xFF;
 
-
     if (dpadSelected) {
-        state = resetBit(state, 4);
-
-        if (up.isPressed()) {
-            state = resetBit(state, 2);
-        } else {
-            state = setBit(state, 2);
-        }
-        if (down.isPressed()) {
-            state  = resetBit(state, 3);
-        } else {
-            state  = setBit(state, 3);
-        }
-        if (left.isPressed()) {
-            state = resetBit(state, 1);
-        } else {
-            state = setBit(state, 1);
-        }
-        if (right.isPressed()) {
-            state = resetBit(state, 0);
-        } else {
-            state = setBit(state, 0);
-        }
+        state = resetBit(state, DIRECTION_BUTTON_SELECTED_BIT);
+        up.updateJoypadState(state);
+        down.updateJoypadState(state);
+        left.updateJoypadState(state);
+        right.updateJoypadState(state);
     }
 
     if (buttonsSelected) {
-        state = resetBit(state, 5);
-        if (a.isPressed()) {
-            state = resetBit(state, 0);
-        } else {
-            state = setBit(state, 0);
-        }
-        if (b.isPressed()) {
-            state = resetBit(state, 1);
-        } else {
-            state = setBit(state, 1);
-        }
-        if (start.isPressed()) {
-            state = resetBit(state, 3);
-        } else {
-            state = setBit(state, 3);
-        }
-        if (select.isPressed()) {
-            state = resetBit(state, 2);
-        } else {
-            state = setBit(state, 2);
-        }
+        state = resetBit(state, BUTTON_SELECTED_BIT);
+        a.updateJoypadState(state);
+        b.updateJoypadState(state);
+        start.updateJoypadState(state);
+        select.updateJoypadState(state);
     }
 
     return state;
