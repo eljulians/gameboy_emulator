@@ -18,9 +18,14 @@ void GameBoy::mainLoop() {
     int cycles;
 
     gpu.init_sdl();
-    SDL_Event event;
+
+    int screenNumber = 0;
 
     while(true) {
+
+        if (screenNumber == 3) {
+            //spdlog::set_level(spdlog::level::debug);
+        }
 
         bool interrupt = cpu.interruptManager->handle();
 
@@ -34,6 +39,9 @@ void GameBoy::mainLoop() {
 
             }
         }
+
+
+        spdlog::debug("LY {}", mmu.read_8bit(0xFF44));
 
         if (!cpu.halted) {
             // TODO return m-states already instead
@@ -50,69 +58,7 @@ void GameBoy::mainLoop() {
 
         gpu.update(cycles);
         cpu.timerManager->tick(cycles);
-
-        if (SDL_PollEvent(&event)) {
-            // TODO select button
-            switch (event.type) {
-                case SDL_KEYDOWN:
-                    switch (event.key.keysym.sym) {
-                        case SDLK_LEFT:
-                            joypad.left.press();
-                            break;
-                        case SDLK_RIGHT:
-                            joypad.right.press();
-                            break;
-                        case SDLK_UP:
-                            joypad.up.press();
-                            break;
-                        case SDLK_DOWN:
-                            joypad.down.press();
-                            break;
-                        case SDLK_RETURN:
-                        case SDLK_KP_ENTER:
-                            joypad.start.press();
-                            break;
-                        case SDLK_a:
-                            joypad.b.press();
-                            break;
-                        case SDLK_s:
-                            joypad.a.press();
-                            break;
-                    }
-                    break;
-
-                case SDL_KEYUP:
-                    switch (event.key.keysym.sym) {
-                        case SDLK_LEFT:
-                            joypad.left.release();
-                            break;
-                        case SDLK_RIGHT:
-                            joypad.right.release();
-                            break;
-                        case SDLK_UP:
-                            joypad.up.release();
-                            break;
-                        case SDLK_DOWN:
-                            joypad.down.release();
-                            break;
-                        case SDLK_RETURN:
-                        case SDLK_KP_ENTER:
-                            joypad.start.release();
-                            break;
-                        case SDLK_a:
-                            joypad.b.release();
-                            break;
-                        case SDLK_s:
-                            joypad.a.release();
-                            break;
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
+        joypad.handlePressed();
     }
 
 }

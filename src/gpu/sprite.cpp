@@ -46,7 +46,8 @@ PixelColor Sprite::getPixel(int relativeX, int relativeY) {
 SpriteVector SpriteClient::getSprites(uint8_t y) {
     uint16_t attributesAddress = ATTRIBUTE_TABLE_ADDRESS_START;
     SpriteVector sprites;
-    sprites.reserve(TOTAL_SPRITE_COUNT);
+
+    int enabledSpriteCount = 0;
 
 
     for (int i = 0; i < TOTAL_SPRITE_COUNT; i++) { 

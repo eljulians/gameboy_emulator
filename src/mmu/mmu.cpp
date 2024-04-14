@@ -107,10 +107,12 @@ void MMU::write_16bit(uint16_t address, uint16_t value) {
 }
 
 uint8_t MMU::read_8bit(uint16_t address) {
+    /*
     if (address == 0xFF01) {
         // Stub serial?
         return 0xFF;
     }
+    */
 
     if (IS_ROM_BANK_0(address) || IS_ROM_BANK_1(address)) {
         return gameBoy.cartridge->read(address);
@@ -144,7 +146,6 @@ uint8_t MMU::read_8bit(uint16_t address) {
 
     if (IS_IO(address)) {
         if (address == 0xFF00) {
-            spdlog::info("0x{:0X}", joypad.getState());
             return joypad.getState();
         }
 

@@ -47,6 +47,8 @@ uint8_t ControlUnit::execute()
     spdlog::debug("H {}", cpu.flags->get_h());
     spdlog::debug("C {}", cpu.flags->get_c());
     spdlog::debug("IME {}", cpu.areInterruptsEnabled());
+    spdlog::debug("vblank {}", cpu.interruptManager->vblank.isEnabled());
+    spdlog::debug("====================");
 
 
     /*

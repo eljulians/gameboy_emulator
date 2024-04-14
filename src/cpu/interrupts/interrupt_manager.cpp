@@ -32,6 +32,7 @@ bool InterruptManager::handle() {
     for (Interrupt interrupt: getInterrupts()) {
         // TODO didn't make it here
         if (interrupt.isEnabled() && interrupt.isFlagged()) {
+            //spdlog::info("interrupt");
             auto address = interrupt.getAddress();
             auto currentPC = cpu.PC.get();
             //std::cout << interrupt.toString() << " enabled and flagged, jumping to  " << std::hex << address;

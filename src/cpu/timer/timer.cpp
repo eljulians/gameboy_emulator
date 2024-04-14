@@ -14,7 +14,7 @@ INPUT_CLOCK_HZ TimerControl::getInputClockSelect() {
     auto value = mmu.read_8bit(TIMER_CONTROL_ADDRESS) & mask;
     auto clock = INPUT_CLOCK_SELECT_CYCLES_MAP.at(value);
 
-    spdlog::debug("TAC: {} cycles (mode: {})", clock, value);
+    //spdlog::debug("TAC: {} cycles (mode: {})", clock, value);
 
     return clock;
 }
@@ -23,14 +23,14 @@ bool TimerControl::isEnabled() {
     int mask = 0b100;
 
     auto isEnabled = mmu.read_8bit(TIMER_CONTROL_ADDRESS) && mask;
-    spdlog::debug("TAC enabled: {}", isEnabled);
+    //spdlog::debug("TAC enabled: {}", isEnabled);
 
     return isEnabled;
 }
 
 int TimerModulo::getValue() {
     auto value = mmu.read_8bit(TIMER_MODULO_ADDRESS);
-    spdlog::debug("TMA: 0x{0:x}", value);
+    //spdlog::debug("TMA: 0x{0:x}", value);
 
     return value;
 }
@@ -38,7 +38,7 @@ int TimerModulo::getValue() {
 void TimerCounter::tick(int cycles) {
     // TODO: request interrupt on the next tick after overflow?
     if (!timerControl.isEnabled()) {
-        spdlog::debug("Timer is disabled");
+        //spdlog::debug("Timer is disabled");
         return;
     }
     
@@ -49,15 +49,17 @@ void TimerCounter::tick(int cycles) {
     uint8_t counterValue = mmu.read_8bit(TIMER_COUNTER_ADDRESS);
     uint8_t previous = counterValue;
 
+    /*
     spdlog::debug("TIMA: current cycles: {}", currentCycles);
     spdlog::debug("TIMA: increasing cycles by {}", cycles);
     spdlog::debug("TIMA: 0x{0:x}", counterValue);
+    */
 
     currentCycles += cycles;
 
     if (currentCycles >= clockSelect) {
         counterValue += 1;
-        spdlog::debug("TIMA: incremented to {}", counterValue);
+        //spdlog::debug("TIMA: incremented to {}", counterValue);
 
         currentCycles = currentCycles - clockSelect;
         mmu.write_8bit(TIMER_COUNTER_ADDRESS, counterValue & 0xFF);
@@ -66,7 +68,7 @@ void TimerCounter::tick(int cycles) {
     bool overflow = (counterValue == 0 && previous != 0);
 
     if (overflow) {
-        spdlog::debug("TIMA: overflow, resetting value to TMA and requesting interrupt");
+        //spdlog::debug("TIMA: overflow, resetting value to TMA and requesting interrupt");
 
         auto timerModuloValue = timerModulo.getValue();
         mmu.write_8bit(TIMER_COUNTER_ADDRESS, timerModuloValue);

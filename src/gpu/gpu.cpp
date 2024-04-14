@@ -28,8 +28,8 @@ void GPU::init_sdl() {
 void GPU::update(uint8_t cycles) {
     int currentScanline = lcdControl.getCurrentScanline();
 
-    spdlog::debug("LCDC: 0x{0:x}", lcdControl.getLCDControlValue());
-    spdlog::debug("STAT: 0x{0:x}", lcdControl.getStatus());
+    //spdlog::debug("LCDC: 0x{0:x}", lcdControl.getLCDControlValue());
+    //spdlog::debug("STAT: 0x{0:x}", lcdControl.getStatus());
     SpriteVector sprites;
 
     if (currentScanline != lastDrawnScanline) {

@@ -1,3 +1,5 @@
+#include <SDL2/SDL.h>
+
 #include "joypad.hpp"
 #include "../common/bit_operations.hpp"
 
@@ -74,4 +76,71 @@ uint8_t Joypad::getState() {
     }
 
     return state;
+}
+
+
+void Joypad::handlePressed() {
+    SDL_Event event;
+
+    if (SDL_PollEvent(&event)) {
+        // TODO select button
+        switch (event.type) {
+            case SDL_KEYDOWN:
+                switch (event.key.keysym.sym) {
+                    case SDLK_LEFT:
+                        left.press();
+                        break;
+                    case SDLK_RIGHT:
+                        right.press();
+                        break;
+                    case SDLK_UP:
+                        up.press();
+                        break;
+                    case SDLK_DOWN:
+                        down.press();
+                        break;
+                    case SDLK_RETURN:
+                    case SDLK_KP_ENTER:
+                        start.press();
+                        break;
+                    case SDLK_a:
+                        b.press();
+                        break;
+                    case SDLK_s:
+                        a.press();
+                        break;
+                }
+                break;
+
+            case SDL_KEYUP:
+                switch (event.key.keysym.sym) {
+                    case SDLK_LEFT:
+                        left.release();
+                        break;
+                    case SDLK_RIGHT:
+                        right.release();
+                        break;
+                    case SDLK_UP:
+                        up.release();
+                        break;
+                    case SDLK_DOWN:
+                        down.release();
+                        break;
+                    case SDLK_RETURN:
+                    case SDLK_KP_ENTER:
+                        start.release();
+                        break;
+                    case SDLK_a:
+                        b.release();
+                        break;
+                    case SDLK_s:
+                        a.release();
+                        break;
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
 }
