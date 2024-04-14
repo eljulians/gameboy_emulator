@@ -57,10 +57,21 @@ uint8_t Joypad::getState() {
 }
 
 
-void Joypad::handlePressed() {
-    // TODO a mapping would be prettier
+void Joypad::tick(int cycles) {
+    /*
+    Joypad is not "ticked" in reality; this is just a way of throttling the SDL polls for doing it
+    every POLL_SDL_INPUT_EVERY_CYCLES, rather than every m-cycle.
+    */
+    elapsedCycles += cycles;
+
+    if (elapsedCycles < POLL_SDL_INPUT_EVERY_CYCLES) {
+        return;
+    }
+
+    elapsedCycles = 0;
     SDL_Event event;
 
+    // TODO a mapping would be prettier
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_KEYDOWN:
