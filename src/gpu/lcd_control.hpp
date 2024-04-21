@@ -80,6 +80,8 @@ class LCDControl {
         uint8_t getCurrentScanlineFromMemory();
 
         uint8_t getLCDControlValue();
+        uint8_t getLCDControlValueFromMemory();
+        void updateCachedControl();
         uint8_t getStatus();
 
         void setCoincidence();
@@ -95,6 +97,7 @@ class LCDControl {
         InterruptManager& interruptManager;
         int currentCycles = 0;
 
+        int _cachedControl;
         LCDMode _cachedMode = LCDMode::VBlank;
         LCDMode getModeFromMemory();
         void setMode(LCDMode mode);

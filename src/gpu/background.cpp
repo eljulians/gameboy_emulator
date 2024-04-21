@@ -63,10 +63,6 @@ int BackgroundBuffer::getTileIndexInLayout(int row, int column) {
         scrolledRow = 256 - scrolledRow;
     }
 
-    //if (scrolledX >= 256) {
-    //    scrolledX = 256 - scrolledX;
-    //}
-
     int rowOffset = floor(scrolledRow / TILE_DIMENSION_PIXELS);
     int columnOffset = floor(scrolledX / TILE_DIMENSION_PIXELS);
 

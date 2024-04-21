@@ -93,10 +93,10 @@ void GameBoy::mainLoop() {
         /*
         spdlog::info("Whole cycle time: {}", time);
         spdlog::info("Interrupt time: {}", interruptTime);
+        spdlog::info("Control unit time: {}", controlUnit);
         spdlog::info("Timer time: {}", timerTime);
         spdlog::info("Joypad time: {}", joypadTime);
         spdlog::info("GPU time: {}", gpuTime);
-        spdlog::info("Control unit time: {}", controlUnit);
         spdlog::info("======================");
         */
     }

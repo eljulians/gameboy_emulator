@@ -140,7 +140,15 @@ void LCDControl::update(int cycles) {
 
 
 uint8_t LCDControl::getLCDControlValue() {
+    return _cachedControl;
+}
+
+uint8_t LCDControl::getLCDControlValueFromMemory() {
     return mmu.read_8bit(LCD_CONTROL_ADDRESS);
+}
+
+void LCDControl::updateCachedControl() {
+    _cachedControl = getLCDControlValueFromMemory();
 }
 
 bool LCDControl::isScreenOn() {

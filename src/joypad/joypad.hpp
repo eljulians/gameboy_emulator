@@ -9,7 +9,7 @@ Joypad is mapped to $FF00
 
 #define BUTTON_SELECTED_BIT 5
 #define DIRECTION_BUTTON_SELECTED_BIT 4
-#define POLL_SDL_INPUT_EVERY_CYCLES 1000
+#define POLL_SDL_INPUT_EVERY_CYCLES 5000
 
 enum class ButtonBitEnum {
     A_Right,
