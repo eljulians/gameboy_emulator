@@ -1,5 +1,7 @@
 CC = clang++
-CFLAGS = -std=c++20 -Wall -Llibraries/ -lSDL2 -lspdlog -lfmt
+CFLAGS = -std=c++20 -Wall -Llibraries/ -lSDL2 -lspdlog -lfmt -O3
+CFLAGS = -std=c++20 -Wall -Llibraries/ -lSDL2 -lspdlog -lfmt -g
+# check -flto option
 TARGET = gameboy_emulator
 TEST_TARGET = gameboy_emulator_test
 
@@ -205,8 +207,8 @@ test_bit_operations: clean bit_operations.o test_bit_operations.o
 test_instructions_jsmoo.o:
 	$(CC) $(CFLAGS) -c tests/integration_jsmoo/test_instructions.cpp -o test_instructions_jsmoo.o
 
-test_instructions_jsmoo: clean test_instructions_jsmoo.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o background.o color.o tile.o
-	$(CC) $(CFLAGS) -o $(TEST_TARGET) test_instructions_jsmoo.o lcd_control.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o bit_operations.o background.o color.o tile.o
+test_instructions_jsmoo: clean test_instructions_jsmoo.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o lcd_control.o bit_operations.o background.o color.o tile.o sprite.o joypad.o
+	$(CC) $(CFLAGS) -o $(TEST_TARGET) test_instructions_jsmoo.o lcd_control.o mmu.o gameboy.o loads_8bit.o jumps.o bit.o rotates.o alu_16bit.o alu_8bit.o registers.o cartridge.o control_unit.o misc_control.o interrupt_manager.o interrupt.o cpu.o gpu.o timer.o bit_operations.o background.o color.o tile.o sprite.o joypad.o
 	./$(TEST_TARGET)
 
 test-all: clean test-registers test_alu_8bit test_loads_8bit test_alu_16bit test-rotates test-jumps test-interrupt

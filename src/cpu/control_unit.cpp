@@ -37,8 +37,7 @@ uint8_t ControlUnit::execute()
 
     uint8_t cycles;
 
-    /*
-    spdlog::info("Opcode 0x{0:x}", opcode);
+    spdlog::debug("Opcode 0x{0:x}", opcode);
     spdlog::debug("PC 0x{0:x}", pc);
     spdlog::debug("AF 0x{0:x}", cpu.AF->get());
     spdlog::debug("BC 0x{0:x}", cpu.BC->get());
@@ -49,10 +48,7 @@ uint8_t ControlUnit::execute()
     spdlog::debug("N {}", cpu.flags->get_n());
     spdlog::debug("H {}", cpu.flags->get_h());
     spdlog::debug("C {}", cpu.flags->get_c());
-    spdlog::debug("IME {}", cpu.areInterruptsEnabled());
-    spdlog::debug("vblank {}", cpu.interruptManager->vblank.isEnabled());
     spdlog::debug("====================");
-    */
 
 
     /*

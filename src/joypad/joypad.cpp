@@ -57,15 +57,17 @@ uint8_t Joypad::getState() {
 }
 
 
-void Joypad::tick(int cycles) {
+bool Joypad::tick(int cycles) {
     /*
     Joypad is not "ticked" in reality; this is just a way of throttling the SDL polls for doing it
     every POLL_SDL_INPUT_EVERY_CYCLES, rather than every m-cycle.
     */
+
+    bool pressed = false;
     elapsedCycles += cycles;
 
     if (elapsedCycles < POLL_SDL_INPUT_EVERY_CYCLES) {
-        return;
+        return false;
     }
 
     elapsedCycles = 0;
@@ -103,6 +105,7 @@ void Joypad::tick(int cycles) {
                         a.press();
                         break;
                 }
+                pressed = true;
                 break;
 
             case SDL_KEYUP:
@@ -140,4 +143,6 @@ void Joypad::tick(int cycles) {
                 break;
         }
     }
+
+    return pressed;
 }

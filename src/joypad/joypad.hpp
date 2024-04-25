@@ -9,7 +9,7 @@ Joypad is mapped to $FF00
 
 #define BUTTON_SELECTED_BIT 5
 #define DIRECTION_BUTTON_SELECTED_BIT 4
-#define POLL_SDL_INPUT_EVERY_CYCLES 5000
+#define POLL_SDL_INPUT_EVERY_CYCLES -1
 
 enum class ButtonBitEnum {
     A_Right,
@@ -59,7 +59,7 @@ class Joypad {
             select(LetterButton(ButtonBitEnum::Select_Up))
         {};
 
-        void tick(int cycles);
+        bool tick(int cycles);
         void setSelection(uint8_t ff00);
         uint8_t getState();
 

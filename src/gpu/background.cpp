@@ -23,8 +23,11 @@ int BackgroundBuffer::getTileDataAddress() {
     BackgroundAndWindowTileDataSelect select = lcdControl.getBackgroundAndWindowTileDataSelect();
 
     if (select == BackgroundAndWindowTileDataSelect::FIRST_SIGNED) {
+        // Failure on this mode for Tetris
+        //spdlog::info("{:0X}", DATA_SELECT_MODE_0);
         return DATA_SELECT_MODE_0;
     } else {
+        //spdlog::info("{:0X}", DATA_SELECT_MODE_1);
         return DATA_SELECT_MODE_1;
     }
 }
@@ -90,11 +93,24 @@ PixelColorVector BackgroundBuffer::getScanlineViewportRow() {
     BackgroundPalette palette = BackgroundPalette(mmu);
     PixelColorVector pixels;
     pixels.reserve(VIEWPORT_COLUMNS);
+    lcdControl.updateCachedControl();
+    int baseAddress = getTileDataAddress();
 
     for (int column = 0; column < VIEWPORT_COLUMNS; column++) {
         auto tileId = getTileId(currentScanline, column);
+        bool debug = tileId != 0 && tileId != 47;
+
+        if (baseAddress == 0x9000 && debug) {
+
+        }
+
+        if (baseAddress == 0x9000) {
+            //spdlog::info("Scroll X {:0X}", scroll.x);
+            //spdlog::info("Scroll Y {:0X}", scroll.y);
+        }
 
         auto tileAddress = getTileAddress(tileId);
+
         TileV2 tile = TileV2(mmu, tileAddress);
         TilePixelV2 pixel = tile.getValue(currentScanline, column, scroll);
         PixelColor pixelColor = palette.getColor(pixel);

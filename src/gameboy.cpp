@@ -32,7 +32,7 @@ void GameBoy::mainLoop() {
         auto start = std::chrono::system_clock::now();
 
         if (screenNumber == 3) {
-            //spdlog::set_level(spdlog::level::debug);
+            spdlog::set_level(spdlog::level::debug);
         }
 
         bool interrupt = cpu.interruptManager->handle();
@@ -64,11 +64,16 @@ void GameBoy::mainLoop() {
         auto controlUnitEnd = std::chrono::system_clock::now();
         auto controlUnit = (controlUnitEnd  - controlUnitStart).count();
 
+        auto joypadValue = mmu.read_8bit(0xFF00);
+        //spdlog::info("FF00 (joypad): {:0X}", joypadValue);
+
         /*
         if (interrupt) {
             cycles = 5;
         }
         */
+
+        spdlog::debug("IE ($FFFF): {:0X}", mmu.read_8bit(0xFFFF));
 
 
         auto gpuStart = std::chrono::system_clock::now();
@@ -86,9 +91,20 @@ void GameBoy::mainLoop() {
 
 
         auto joypadStart = std::chrono::system_clock::now();
-        joypad.tick(cycles);
+        bool pressed = joypad.tick(cycles);
         auto joypadEnd = std::chrono::system_clock::now();
         auto joypadTime = (joypadEnd - joypadStart).count();
+
+        if (pressed) {
+            screenNumber++;
+        }
+
+        if (screenNumber==2) {
+           // spdlog::set_level(spdlog::level::info);
+        }
+
+        auto ffe1 = mmu.read_8bit(0xffe1);
+        //spdlog::critical("$FFE1: {:0X}", ffe1);
 
         /*
         spdlog::info("Whole cycle time: {}", time);
@@ -100,5 +116,4 @@ void GameBoy::mainLoop() {
         spdlog::info("======================");
         */
     }
-
 }

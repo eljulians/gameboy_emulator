@@ -51,6 +51,13 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
 
     if (IS_IO(address)) {
 
+        if (address == 0xFF43 && value != 0) {
+
+        }
+        if (address == 0xFF42 && value != 0) {
+
+        }
+
         if (address == 0xFF00) {
             joypad.setSelection(value);
             /*
@@ -79,6 +86,9 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
 
     if (IS_HIGH_RAM(address)) {
+        if (address == 0xFFE1) {
+
+        }
         highRam.at(address - HIGH_RAM_START) = value;
     }
 
@@ -87,6 +97,9 @@ void MMU::write_8bit(uint16_t address, uint8_t value) {
     }
     
     if (IS_INTERRUPT(address)) {
+        if (value != 0x9 && value != 0 && value != 1 && value !=0x8) {
+
+        }
         interrupt = value;
     }
 
@@ -107,12 +120,10 @@ void MMU::write_16bit(uint16_t address, uint16_t value) {
 }
 
 uint8_t MMU::read_8bit(uint16_t address) {
-    /*
     if (address == 0xFF01) {
         // Stub serial?
-        return 0xFF;
+        //return 0xFF;
     }
-    */
 
     if (IS_ROM_BANK_0(address) || IS_ROM_BANK_1(address)) {
         return gameBoy.cartridge->read(address);
