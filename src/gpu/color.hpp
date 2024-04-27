@@ -21,7 +21,7 @@ typedef struct PixelColor {
 
 static const PixelColor WHITE = {255, 255, 255};
 static const PixelColor LIGHT_GRAY = {211, 211, 211};
-static const PixelColor DARK_GRAY = {169, 169, 16};
+static const PixelColor DARK_GRAY = {169, 169, 169};
 static const PixelColor BLACK = {0, 0, 0};
 
 const std::map<int, PixelColor> ID_COLOR_MAP {
