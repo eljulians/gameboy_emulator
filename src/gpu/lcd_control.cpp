@@ -64,7 +64,7 @@ bool LCDControl::isCoincidenceInterruptEnabled() {
 void LCDControl::nextScanline() {
     // Writing directly since otherwise it's reset to 0
     _cachedCurrentScanline++;
-    mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = _cachedCurrentScanline + 1;
+    mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = _cachedCurrentScanline;
     //mmu.io.at(CURRENT_SCANLINE_ADDRESS - IO_START) = getCurrentScanlineFromMemory() + 1;
 }
 
