@@ -38,17 +38,37 @@ uint8_t ControlUnit::execute()
     uint8_t cycles;
 
     spdlog::debug("Opcode 0x{0:x}", opcode);
-    spdlog::debug("PC 0x{0:x}", pc);
-    spdlog::debug("AF 0x{0:x}", cpu.AF->get());
-    spdlog::debug("BC 0x{0:x}", cpu.BC->get());
-    spdlog::debug("DE 0x{0:x}", cpu.DE->get());
-    spdlog::debug("HL 0x{0:x}", cpu.HL->get());
-    spdlog::debug("SP 0x{0:x}", cpu.SP.get());
-    spdlog::debug("Z {}", cpu.flags->get_z());
-    spdlog::debug("N {}", cpu.flags->get_n());
-    spdlog::debug("H {}", cpu.flags->get_h());
-    spdlog::debug("C {}", cpu.flags->get_c());
-    spdlog::debug("====================");
+
+    auto lcdc = int(mmu.read_8bit(0xFF40));
+    auto stat = int(mmu.read_8bit(0xFF41));
+    auto ly = int(mmu.read_8bit(0xFF44));
+    auto lyc = int(mmu.read_8bit(0xFF45));
+
+    if (pc == 0x237) {
+
+    }
+
+    std::cout << "Opcode: 0x" << std::hex << opcode;
+    std::cout << " PC: 0x" << std::hex << pc;
+    std::cout << " LY: 0x" << std::hex << ly;
+    std::cout << " A: 0x" << std::hex << int(cpu.A.get());
+    std::cout << " F: 0x" << std::hex << int(cpu.F.get());
+    /*
+    std::cout << " SP: 0x" << std::hex << int(cpu.SP.get());
+    std::cout << " B: 0x" << std::hex << int(cpu.B.get());
+    std::cout << " C: 0x" << std::hex << int(cpu.C.get());
+    std::cout << " D: 0x" << std::hex << int(cpu.D.get());
+    std::cout << " E: 0x" << std::hex << int(cpu.E.get());
+    std::cout << " H: 0x" << std::hex << int(cpu.H.get());
+    std::cout << " L: 0x" << std::hex << int(cpu.L.get());
+    */
+    std::cout << std::endl;
+    /*
+    std::cout << " LCDC: 0x" << std::hex << lcdc;
+    std::cout << " STAT: 0x" << std::hex << stat;
+    std::cout << " LYC: 0x" << std::hex << lyc;
+    std::cout << std::endl;
+    */
 
 
     /*
@@ -1642,7 +1662,7 @@ uint8_t ControlUnit::execute()
 
     default:
         std::cout << "Illegal opcode " << std::hex << opcode << "\n";
-        // throw std::runtime_error("");
+        throw std::runtime_error("");
         break;
     }
 

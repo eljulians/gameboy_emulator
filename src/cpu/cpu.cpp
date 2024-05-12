@@ -4,7 +4,7 @@
 #include "control_unit.hpp"
 #include "../gameboy.hpp"
 
-CPU::CPU(GameBoy& gameBoy, GPU& gpu) : gameBoy(gameBoy), gpu(gpu), controlUnit(*this) {
+CPU::CPU(GameBoy& gameBoy, GPU& gpu) : gameBoy(gameBoy), gpu(gpu), controlUnit(*this, gameBoy.mmu)  {
     A = Register_8bit();
     B = Register_8bit();
     C = Register_8bit();
@@ -27,6 +27,11 @@ CPU::CPU(GameBoy& gameBoy, GPU& gpu) : gameBoy(gameBoy), gpu(gpu), controlUnit(*
     HL->set(0x014D);
     PC.set(0x0100);
     SP.set(0xFFFE);
+
+    AF->set(0);
+    BC->set(0);
+    DE->set(0);
+    HL->set(0);
     
     loads8bit = new Loads8bit(*this, gameBoy.mmu, (*HL));
     alu8bit = new ALU_8bit(*this, A, *HL, *flags);

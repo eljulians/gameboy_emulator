@@ -118,7 +118,7 @@ void LCDControl::update(int cycles) {
     if (!isScreenOn()) {
         // Apparently mode must be set to 1 when disabled
         //spdlog::info("off");
-        resetScanline();
+        //resetScanline();
         setMode(LCDMode::VBlank);
         //return;
     }
@@ -201,8 +201,14 @@ int LCDControl::getBackgroundLayoutAddress() {
     return 0x9800;
 }
 
-SpriteSize LCDControl::getSpriteSize() {
-    return static_cast<SpriteSize>(testBit(getLCDControlValue(), 2));
+int LCDControl::getSpriteSize() {
+    SpriteSize size =  static_cast<SpriteSize>(testBit(getLCDControlValue(), 2));
+
+    if (size == SpriteSize::EIGHT_BY_EIGHT) {
+        return 8;
+    }
+
+    return 16;
 }
 
 bool LCDControl::getSpriteDisplay() {

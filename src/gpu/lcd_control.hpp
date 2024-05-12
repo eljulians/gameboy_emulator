@@ -74,7 +74,7 @@ class LCDControl {
         BackgroundAndWindowTileDataSelect getBackgroundAndWindowTileDataSelect(); // bit 4
         BackgroundTileMapDisplaySelect getBackgroundTileMapDisplaySelect(); // bit 3
         int getBackgroundLayoutAddress(); // bit 3
-        SpriteSize getSpriteSize(); // bit 2
+        int getSpriteSize(); // bit 2
         bool getSpriteDisplay();  // bit 1
         bool getBackgroundAndWindowDisplay();  // bit 0
         uint8_t getCurrentScanlineFromMemory();

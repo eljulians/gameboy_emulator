@@ -34,7 +34,14 @@ class SpriteAttributes {
 
 class Sprite {
     public:
-        Sprite(MMU& mmu, uint8_t y_, uint8_t x_, uint8_t patternNumber_, uint8_t attributes_) : mmu(mmu) {
+        Sprite(
+            MMU& mmu,
+            LCDControl& lcdControl,
+            uint8_t y_,
+            uint8_t x_,
+            uint8_t patternNumber_,
+            uint8_t attributes_
+        ) : mmu(mmu), lcdControl(lcdControl) {
             y = y_;
             x = x_;
             patternNumber = patternNumber_;
@@ -50,6 +57,7 @@ class Sprite {
 
     private:
         MMU& mmu;
+        LCDControl& lcdControl;
 };
 
 typedef std::vector<Sprite> SpriteVector;

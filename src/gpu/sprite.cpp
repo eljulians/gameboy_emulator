@@ -29,7 +29,17 @@ uint16_t Sprite::getPatternAddress(int relativeY) {
 }
 
 PixelColor Sprite::getPixel(int relativeX, int relativeY) {
-    // TODO: handle X and Y flips
+    if (attributes.xFlip()) {
+        // Read sprite data backwards; e.g. 7 -> 0, 6 -> 1, etc
+        relativeX -= 7;
+        relativeX *= -1;
+    }
+    if (attributes.yFlip()) {
+        relativeY -= 7;
+        relativeY *= -1;
+    }
+
+
     auto patternAddress = getPatternAddress(relativeY);
     auto first = mmu.read_8bit(patternAddress);
     auto second = mmu.read_8bit(patternAddress+1);
@@ -40,7 +50,26 @@ PixelColor Sprite::getPixel(int relativeX, int relativeY) {
     auto secondBit = (second >> relativeX) & 1;
     auto colorCode = (firstBit << 1) + secondBit;
 
-    return ID_COLOR_MAP.at(colorCode);
+    int shift = colorCode * 2;  // 2 bits
+
+    if (patternNumber == 4 && relativeX == 0) {
+        // nose pattern number is 4
+        // it's being drawn with the same color
+        //spdlog::error("0x{:0X}", paletteAddress);
+    }
+
+
+    return ID_COLOR_MAP.at((palette >> shift) & 0b11);
+
+    /*
+    uint8_t pattern = mmu.read_8bit(TILE_WINDOW_PALETTE_ADDRESS);
+    int code = (pixel.firstBit << 1) + pixel.secondBit;
+    int shift = code * 2;
+
+    return ID_COLOR_MAP.at((pattern >> shift) & 0b11);
+    */
+
+    //return ID_COLOR_MAP.at(colorCode);
 }
 
 SpriteVector SpriteClient::getSprites(uint8_t y) {
@@ -57,7 +86,7 @@ SpriteVector SpriteClient::getSprites(uint8_t y) {
         uint8_t attributes = mmu.read_8bit(attributesAddress+3);
         attributesAddress += ATTRIBUTE_SIZE_BYTES;
 
-        Sprite sprite = Sprite(mmu, y-16, x-8, patternNumber, attributes);
+        Sprite sprite = Sprite(mmu, lcdControl, y-16, x-8, patternNumber, attributes);
         sprites.push_back(sprite);
     }
 

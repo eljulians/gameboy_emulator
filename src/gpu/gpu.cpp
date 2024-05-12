@@ -27,6 +27,8 @@ void GPU::init_sdl() {
 }
 
 void GPU::update(uint8_t cycles, int time) {
+    // TODO: when to lcdControl.updateCachedControl() ???
+
     int currentScanline = lcdControl._cachedCurrentScanline;
 
     //spdlog::debug("LCDC: 0x{0:x}", lcdControl.getLCDControlValue());
@@ -61,8 +63,8 @@ void GPU::update(uint8_t cycles, int time) {
             auto spriteFetchTime = (spriteFetchEnd  - spriteFetchStart   ).count();
             //spdlog::info("Sprite fetch time: {}", spriteFetchTime);
             for (auto& sprite : sprites) {
-
-                if (currentScanline - sprite.y >= 0 && currentScanline - sprite.y <= 8) {
+                auto spriteSize = lcdControl.getSpriteSize();
+                if (currentScanline - sprite.y >= 0 && currentScanline - sprite.y <= spriteSize) {
                     auto spriteLine = currentScanline - sprite.y;
 
                     // TODO refactor this shit
@@ -70,15 +72,20 @@ void GPU::update(uint8_t cycles, int time) {
                     auto spriteDrawStart = std::chrono::system_clock::now();
                     for (int j = 7; j >= 0; j--) {
                         auto pixel = sprite.getPixel(j, spriteLine);
-                        SDL_SetRenderDrawColor(
-                            renderer,
-                            pixel.red,
-                            pixel.green,
-                            pixel.blue,
-                            SDL_ALPHA_OPAQUE
-                        );
+                        int opacity = SDL_ALPHA_OPAQUE;
 
-                        SDL_RenderDrawPoint(renderer, sprite.x+k, currentScanline);
+                        if (pixel.red != 255) {
+                            // Sprite white pixels are transparent
+                            SDL_SetRenderDrawColor(
+                                renderer,
+                                pixel.red,
+                                pixel.green,
+                                pixel.blue,
+                                SDL_ALPHA_OPAQUE
+                            );
+
+                            SDL_RenderDrawPoint(renderer, sprite.x+k, currentScanline);
+                        }
                         k++;
                     }
                     auto spriteDrawEnd = std::chrono::system_clock::now();

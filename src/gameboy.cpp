@@ -18,7 +18,8 @@
 void GameBoy::mainLoop() {
     int cycles;
 
-    //spdlog::set_level(spdlog::level::critical);
+    spdlog::set_level(spdlog::level::debug);
+    spdlog::set_level(spdlog::level::err);
 
     gpu.init_sdl();
 
@@ -32,7 +33,7 @@ void GameBoy::mainLoop() {
         auto start = std::chrono::system_clock::now();
 
         if (screenNumber == 3) {
-            spdlog::set_level(spdlog::level::debug);
+            //spdlog::set_level(spdlog::level::debug);
         }
 
         bool interrupt = cpu.interruptManager->handle();
@@ -61,10 +62,11 @@ void GameBoy::mainLoop() {
         } else {
             cycles = 1;
         }
+        cycles *= 4;
         auto controlUnitEnd = std::chrono::system_clock::now();
         auto controlUnit = (controlUnitEnd  - controlUnitStart).count();
 
-        auto joypadValue = mmu.read_8bit(0xFF00);
+        int joypadValue = mmu.read_8bit(0xFF00);
         //spdlog::info("FF00 (joypad): {:0X}", joypadValue);
 
         /*
@@ -73,7 +75,7 @@ void GameBoy::mainLoop() {
         }
         */
 
-        spdlog::debug("IE ($FFFF): {:0X}", mmu.read_8bit(0xFFFF));
+        //spdlog::debug("IE ($FFFF): {:0X}", mmu.read_8bit(0xFFFF));
 
 
         auto gpuStart = std::chrono::system_clock::now();
@@ -97,11 +99,38 @@ void GameBoy::mainLoop() {
 
         if (pressed) {
             screenNumber++;
+            std::cout << "pressed" << std::endl;
         }
 
         if (screenNumber==2) {
            // spdlog::set_level(spdlog::level::info);
         }
+
+        //std::cout << std::hex << joypadValue << std::endl;
+
+
+        auto lcdc = mmu.read_8bit(0xff40);
+        auto stat = mmu.read_8bit(0xff41);
+        auto ly = mmu.read_8bit(0xff44);
+        auto lyc = mmu.read_8bit(0xff45);
+
+        spdlog::debug("AF 0x{0:x}", cpu.AF->get());
+        spdlog::debug("BC 0x{0:x}", cpu.BC->get());
+        spdlog::debug("DE 0x{0:x}", cpu.DE->get());
+        spdlog::debug("HL 0x{0:x}", cpu.HL->get());
+        spdlog::debug("PC 0x{0:x}", cpu.PC.get());
+        spdlog::debug("SP 0x{0:x}", cpu.SP.get());
+        spdlog::debug("Z {}", cpu.flags->get_z());
+        spdlog::debug("N {}", cpu.flags->get_n());
+        spdlog::debug("H {}", cpu.flags->get_h());
+        spdlog::debug("C {}", cpu.flags->get_c());
+
+        spdlog::debug("LCDC: 0x{0:X}", lcdc);
+        spdlog::debug("STAT: 0x{0:X}", stat );
+        spdlog::debug("LY: 0x{0:X}", ly );
+        spdlog::debug("LYC: 0x{0:X}", lyc );
+
+        spdlog::debug("====================");
 
         auto ffe1 = mmu.read_8bit(0xffe1);
         //spdlog::critical("$FFE1: {:0X}", ffe1);
